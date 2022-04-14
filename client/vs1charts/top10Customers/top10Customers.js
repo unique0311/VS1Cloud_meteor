@@ -94,7 +94,7 @@ Template.top10Customers.onRendered(function () {
             FlowRouter.go("/salesreport?contact=" + activePoints);
           }
         },
-        maintainAspectRatio: true,
+        maintainAspectRatio: false,
         responsive: true,
         tooltips: {
           callbacks: {

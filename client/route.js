@@ -1535,6 +1535,15 @@ authenticatedRoutes.route('/smssettings', {
     }
 });
 
+authenticatedRoutes.route('/fxupdatesetting', {
+    name: 'fixUpdates',
+    action() {
+        BlazeLayout.render('layout', {
+            yield: 'fixUpdates'
+        });
+    }
+});
+
 authenticatedRoutes.route('/templatesettings', {
     name: 'templatesettings',
     action() {

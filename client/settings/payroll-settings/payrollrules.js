@@ -4,11 +4,16 @@ import {CountryService} from '../../js/country-service';
 import {SideBarService} from '../../js/sidebar-service';
 import { UtilityService } from "../../utility-service";
 import { AccountService } from "../../accounts/account-service";
+import { RateTypeService } from '../../js/ratetype_service';
 import '../../lib/global/indexdbstorage.js';
 import 'jquery-editable-select';
 import { Random } from 'meteor/random';
+import { Session } from 'meteor/session';
+import f from "jspdf";
+
 let sideBarService = new SideBarService();
 let utilityService = new UtilityService();
+
 Template.payrollrules.onCreated(function() {
     const templateObject = Template.instance();
     templateObject.datatablerecords = new ReactiveVar([]);
@@ -16,12 +21,12 @@ Template.payrollrules.onCreated(function() {
     templateObject.tableheaderrecords = new ReactiveVar([]);
     templateObject.countryData = new ReactiveVar();
     templateObject.Ratetypes = new ReactiveVar([]);
-   // templateObject.Accounts = new ReactiveVar([]);
-    
-   
+    templateObject.imageFileData=new ReactiveVar();
+   // templateObject.Accounts = new ReactiveVar([]);   
 });
 
 Template.payrollrules.onRendered(function() {
+   
     $('.fullScreenSpin').css('display', 'inline-block');
     let templateObject = Template.instance();
     let taxRateService = new TaxRateService();
@@ -29,6 +34,13 @@ Template.payrollrules.onRendered(function() {
     const tableHeaderList = [];
     var splashArrayAllowanceList = new Array();
     var splashArrayDeductionList = new Array();
+    var splashArrayLeaveList = new Array();
+    var splashArrayUnLeaveList = new Array();
+    var splashArrayCalenderList = new Array();
+    var splashArrayReisument = new Array();
+    var splashArraySuperannuationList = new Array();
+    var splashArrayHolidayList = new Array();
+    var splashArrayEarningList = new Array();
 
     var countryService = new CountryService();
     let countries = [];
@@ -55,71 +67,7 @@ Template.payrollrules.onRendered(function() {
     templateObject.resetData = function (dataVal) {
         location.reload();
     }
-
-    templateObject.Ratetypes = function() {
-        getVS1Data('TPayRateType').then(function(dataObject) {
-            
-            if (dataObject.length == 0) {
-                sideBarService.getRateListVS1().then(function(data) {
-                    let records = [];
-                    let inventoryData = [];
-                   
-                    addVS1Data('TPayRateType',JSON.stringify(data));
-                    for (let i = 0; i < data.tpayratetype.length; i++) {
-                       
-                         $('#edtRateTypeOvertime').editableSelect('add',data.tpayratetype[i].fields.Description);
-                         $('#edtRateTypeTermnination').editableSelect('add',data.tpayratetype[i].fields.Description);
-                         $('#edtRateTypeLumpSumE').editableSelect('add',data.tpayratetype[i].fields.Description);
-                         $('#edtRateTypeBonusesCommissions').editableSelect('add',data.tpayratetype[i].fields.Description);
-                         $('#edtRateTypeLumpSumW').editableSelect('add',data.tpayratetype[i].fields.Description);
-                         $('#edtRateTypeDirectorsFees').editableSelect('add',data.tpayratetype[i].fields.Description);
-                         $('#edtRateType').editableSelect('add',data.tpayratetype[i].fields.Description);
-                    }
-                  
-                });
-            } else {
-
-                
-                let data = JSON.parse(dataObject[0].data);
-
-                let useData = data;               
-                let records = [];
-                let inventoryData = [];
-                for (let i = 0; i < useData.length; i++) {
-                    
-                         $('#edtRateTypeOvertime').editableSelect('add',data.tpayratetype[i].fields.Description);
-                         $('#edtRateTypeTermnination').editableSelect('add',data.tpayratetype[i].fields.Description);
-                         $('#edtRateTypeLumpSumE').editableSelect('add',data.tpayratetype[i].fields.Description);
-                         $('#edtRateTypeBonusesCommissions').editableSelect('add',data.tpayratetype[i].fields.Description);
-                         $('#edtRateTypeLumpSumW').editableSelect('add',data.tpayratetype[i].fields.Description);
-                         $('#edtRateTypeDirectorsFees').editableSelect('add',data.tpayratetype[i].fields.Description);
-                         $('#edtRateType').editableSelect('add',data.tpayratetype[i].fields.Description);
-                }
-             
-           
-            }
-        }).catch(function(err) {
-            sideBarService.getRateListVS1().then(function(data) {
-
-                let records = [];
-                let inventoryData = [];
-                for (let i = 0; i < data.tpayratetype.length; i++) {
-                   
-                    $('#edtRateTypeOvertime').editableSelect('add',data.tpayratetype[i].fields.Description);
-                    $('#edtRateTypeTermnination').editableSelect('add',data.tpayratetype[i].fields.Description);
-                    $('#edtRateTypeLumpSumE').editableSelect('add',data.tpayratetype[i].fields.Description);
-                    $('#edtRateTypeBonusesCommissions').editableSelect('add',data.tpayratetype[i].fields.Description);
-                    $('#edtRateTypeLumpSumW').editableSelect('add',data.tpayratetype[i].fields.Description);
-                    $('#edtRateTypeDirectorsFees').editableSelect('add',data.tpayratetype[i].fields.Description);
-                    $('#edtRateType').editableSelect('add',data.tpayratetype[i].fields.Description);  
-                }
-                          
-            });
-        });
-    };
-
-    templateObject.Ratetypes();
-
+     
     templateObject.getAllAllowance = function() {
     getVS1Data('TAllowance').then(function(dataObject) {
         if (dataObject.length == 0) {
@@ -1406,12 +1354,4119 @@ Template.payrollrules.onRendered(function() {
       });
     });
     };
-
     templateObject.getAllDeductions();
+
+    templateObject.getCalenders = function(){
+        getVS1Data('TPayrollCalendars').then(function(dataObject) {
+            if (dataObject.length == 0) {
+              sideBarService.getCalender(initialBaseDataLoad, 0).then(function (data) {
+                  addVS1Data('TPayrollCalendars', JSON.stringify(data));
+                  let lineItems = [];
+                  let lineItemObj = {};
+                  for (let i = 0; i < data.tpayrollcalendars.length; i++) {
+                    
+                      var dataListAllowance = [
+                          data.tpayrollcalendars[i].fields.ID || '',
+                          data.tpayrollcalendars[i].fields.PayrollCalendarName || '',
+                          data.tpayrollcalendars[i].fields.PayrollCalendarPayPeriod || '',
+                          moment(data.tpayrollcalendars[i].fields.PayrollCalendarStartDate).format('DD/MM/YYYY') || '',
+                          moment(data.tpayrollcalendars[i].fields.PayrollCalendarFirstPaymentDate).format('DD/MM/YYYY') || '',       
+                          '<td contenteditable="false" class="colDeleteCalenders"><span class="table-remove"><button type="button" class="btn btn-danger btn-rounded btn-sm my-0"><i class="fa fa-remove"></i></button></span>'
+                      ];
+    
+                      splashArrayCalenderList.push(dataListAllowance);
+                  }
+    
+            
+    
+    
+                  setTimeout(function () {
+                      MakeNegative();
+                  }, 100);
+                  setTimeout(function () {
+                      $('#tblPayCalendars').DataTable({
+    
+                          data: splashArrayCalenderList,
+                          "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
+                          columnDefs: [
+                              {
+                                className: "colCalenderID hiddenColumn",
+                                "targets": [0]
+                              },
+                              {
+                                  className: "colPayCalendarName",
+                                  "targets": [1]
+                              },  
+                              {
+                                  className: "colPayPeriod",
+                                  "targets": [2]
+                              }, 
+                              {
+                                  className: "colNextPayPeriod",
+                                  "targets": [3]
+                              }, 
+                              {
+                                  className: "colNextPaymentDate",
+                                  "targets": [4]
+                              },  
+                              {
+                                  className: "colDeleteCalenders",
+                                  "orderable": false,
+                                  "targets": -1
+                              }
+                          ],
+                          select: true,
+                          destroy: true,
+                          colReorder: true,
+                          pageLength: initialDatatableLoad,
+                          lengthMenu: [ [initialDatatableLoad, -1], [initialDatatableLoad, "All"] ],
+                          info: true,
+                          responsive: true,
+                          "order": [[0, "asc"]],
+                          action: function () {
+                              $('#tblPayCalendars').DataTable().ajax.reload();
+                          },
+                          "fnDrawCallback": function (oSettings) {
+                              $('.paginate_button.page-item').removeClass('disabled');
+                              $('#tblPayCalendars_ellipsis').addClass('disabled');
+                              if (oSettings._iDisplayLength == -1) {
+                                  if (oSettings.fnRecordsDisplay() > 150) {
+    
+                                  }
+                              } else {
+    
+                              }
+                              if (oSettings.fnRecordsDisplay() < initialDatatableLoad) {
+                                  $('.paginate_button.page-item.next').addClass('disabled');
+                              }
+    
+                              $('.paginate_button.next:not(.disabled)', this.api().table().container())
+                                  .on('click', function () {
+                                      $('.fullScreenSpin').css('display', 'inline-block');
+                                      var splashArrayAllowanceListDupp = new Array();
+                                      let dataLenght = oSettings._iDisplayLength;
+                                      let customerSearch = $('#tblPayCalendars_filter input').val();
+    
+                                      sideBarService.getCalender(initialDatatableLoad, oSettings.fnRecordsDisplay()).then(function (data) {
+    
+                                          for (let i = 0; i < data.tpayrollcalendars.length; i++) {
+                    
+                                            var dataListAllowance = [
+                                                data.tpayrollcalendars[i].fields.ID || '',
+                                                data.tpayrollcalendars[i].fields.PayrollCalendarName || '',
+                                                data.tpayrollcalendars[i].fields.PayrollCalendarPayPeriod || '',
+                                                moment(data.tpayrollcalendars[i].fields.PayrollCalendarStartDate).format('DD/MM/YYYY') || '',
+                                                moment(data.tpayrollcalendars[i].fields.PayrollCalendarFirstPaymentDate).format('DD/MM/YYYY') || '',
+                                                '<td contenteditable="false" class="colDeleteCalenders"><span class="table-remove"><button type="button" class="btn btn-danger btn-rounded btn-sm my-0"><i class="fa fa-remove"></i></button></span>'
+                                            ];
+                          
+                                            splashArrayCalenderList.push(dataListAllowance);
+                                        }
+    
+                                                  let uniqueChars = [...new Set(splashArrayCalenderList)];
+                                                  var datatable = $('#tblPayCalendars').DataTable();
+                                                  datatable.clear();
+                                                  datatable.rows.add(uniqueChars);
+                                                  datatable.draw(false);
+                                                  setTimeout(function () {
+                                                    $("#tblPayCalendars").dataTable().fnPageChange('last');
+                                                  }, 400);
+    
+                                                  $('.fullScreenSpin').css('display', 'none');
+    
+    
+                                      }).catch(function (err) {
+                                          $('.fullScreenSpin').css('display', 'none');
+                                      });
+    
+                                  });
+                              setTimeout(function () {
+                                  MakeNegative();
+                              }, 100);
+                          },
+                          "fnInitComplete": function () {
+                            //   $("<button class='btn btn-primary btnAddNewAllowance' data-dismiss='modal' data-toggle='modal' data-target='#newPayCalendarModal' type='button' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-plus'></i></button>").insertAfter("#tblPayCalendars_filter");
+                            //   $("<button class='btn btn-primary btnRefreshAllowance' type='button' id='btnRefreshAllowance' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#ttblPayCalendars_filter");
+    
+                          }
+    
+                      }).on('page', function () {
+                          setTimeout(function () {
+                              MakeNegative();
+                          }, 100);
+    
+                      }).on('column-reorder', function () {
+    
+                      }).on('length.dt', function (e, settings, len) {
+                        //$('.fullScreenSpin').css('display', 'inline-block');
+                        let dataLenght = settings._iDisplayLength;
+                        splashArrayCalenderList = [];
+                        if (dataLenght == -1) {
+                          $('.fullScreenSpin').css('display', 'none');
+    
+                        } else {
+                            if (settings.fnRecordsDisplay() >= settings._iDisplayLength) {
+                                $('.fullScreenSpin').css('display', 'none');
+                            } else {
+                                sideBarService.getCalender(dataLenght, 0).then(function (dataNonBo) {
+    
+                                    addVS1Data('TPayrollCalendars', JSON.stringify(dataNonBo)).then(function (datareturn) {
+                                        templateObject.resetData(dataNonBo);
+                                        $('.fullScreenSpin').css('display', 'none');
+                                    }).catch(function (err) {
+                                        $('.fullScreenSpin').css('display', 'none');
+                                    });
+                                }).catch(function (err) {
+                                    $('.fullScreenSpin').css('display', 'none');
+                                });
+                            }
+                        }
+                          setTimeout(function () {
+                              MakeNegative();
+                          }, 100);
+                      });
+    
+    
+                  }, 0);
+    
+                  $('div.dataTables_filter input').addClass('form-control form-control-sm');
+    
+                  $('.fullScreenSpin').css('display', 'none');
+              }).catch(function (err) {
+                $('.fullScreenSpin').css('display', 'none');
+              });
+            }else{
+    
+              let data = JSON.parse(dataObject[0].data);
+    
+              let useData = data;
+              let lineItems = [];
+              let lineItemObj = {};
+              for (let i = 0; i < data.tpayrollcalendars.length; i++) {
+                    
+                var dataListAllowance = [
+                    data.tpayrollcalendars[i].fields.ID || '',
+                    data.tpayrollcalendars[i].fields.PayrollCalendarName || '',
+                    data.tpayrollcalendars[i].fields.PayrollCalendarPayPeriod || '',
+                    moment(data.tpayrollcalendars[i].fields.PayrollCalendarStartDate).format('DD/MM/YYYY') || '',
+                    moment(data.tpayrollcalendars[i].fields.PayrollCalendarFirstPaymentDate).format('DD/MM/YYYY') || '',    
+                    '<td contenteditable="false" class="colDeleteCalenders"><span class="table-remove"><button type="button" class="btn btn-danger btn-rounded btn-sm my-0"><i class="fa fa-remove"></i></button></span>'
+                ];
+
+                splashArrayCalenderList.push(dataListAllowance);
+            }
+    
+        
+    
+    
+              setTimeout(function () {
+                  MakeNegative();
+              }, 100);
+              setTimeout(function () {
+                  $('#tblPayCalendars').DataTable({
+    
+                      data: splashArrayCalenderList,
+                      "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
+                      columnDefs: [
+                              
+                        {
+                            className: "colPayCalendarName",
+                            "targets": [0]
+                        },  {
+                            className: "colPayPeriod",
+                            "targets": [1]
+                        }, {
+                            className: "colNextPayPeriod",
+                            "targets": [2]
+                        }, {
+                            className: "colNextPaymentDate",
+                            "targets": [3]
+                        },  {
+                            className: "colDelete",
+                            "orderable": false,
+                            "targets": -1
+                        }
+                      ],
+                      select: true,
+                      destroy: true,
+                      colReorder: true,
+                      pageLength: initialDatatableLoad,
+                      lengthMenu: [ [initialDatatableLoad, -1], [initialDatatableLoad, "All"] ],
+                      info: true,
+                      responsive: true,
+                      "order": [[0, "asc"]],
+                      action: function () {
+                          $('#tblPayCalendars').DataTable().ajax.reload();
+                      },
+                      "fnDrawCallback": function (oSettings) {
+                          $('.paginate_button.page-item').removeClass('disabled');
+                          $('#tblPayCalendars_ellipsis').addClass('disabled');
+                          if (oSettings._iDisplayLength == -1) {
+                              if (oSettings.fnRecordsDisplay() > 150) {
+    
+                              }
+                          } else {
+    
+                          }
+                          if (oSettings.fnRecordsDisplay() < initialDatatableLoad) {
+                              $('.paginate_button.page-item.next').addClass('disabled');
+                          }
+    
+                          $('.paginate_button.next:not(.disabled)', this.api().table().container())
+                              .on('click', function () {
+                                  $('.fullScreenSpin').css('display', 'inline-block');
+                                  var splashArrayCalenderListDupp = new Array();
+                                  let dataLenght = oSettings._iDisplayLength;
+                                  let customerSearch = $('#tblPayCalendars_filter input').val();
+    
+                                  sideBarService.getCalender(initialDatatableLoad, oSettings.fnRecordsDisplay()).then(function (data) {
+    
+                                    for (let i = 0; i < data.tpayrollcalendars.length; i++) {
+                    
+                                        var dataListAllowance = [
+                                            data.tpayrollcalendars[i].fields.PayrollCalendarName || '',
+                                            data.tpayrollcalendars[i].fields.PayrollCalendarPayPeriod || '',
+                                            data.tpayrollcalendars[i].fields.PayrollCalendarStartDate || '',
+                                            data.tpayrollcalendars[i].fields.PayrollCalendarFirstPaymentDate || '',       
+                                            '<td contenteditable="false" class="colDelete"><span class="table-remove"><button type="button" class="btn btn-danger btn-rounded btn-sm my-0"><i class="fa fa-remove"></i></button></span>'
+                                        ];
+                        
+                                        splashArrayCalenderList.push(dataListAllowance);
+                                    }
+    
+                                              let uniqueChars = [...new Set(splashArrayCalenderList)];
+                                              var datatable = $('#tblPayCalendars').DataTable();
+                                              datatable.clear();
+                                              datatable.rows.add(uniqueChars);
+                                              datatable.draw(false);
+                                              setTimeout(function () {
+                                                $("#tblPayCalendars").dataTable().fnPageChange('last');
+                                              }, 400);
+    
+                                              $('.fullScreenSpin').css('display', 'none');
+    
+    
+                                  }).catch(function (err) {
+                                      $('.fullScreenSpin').css('display', 'none');
+                                  });
+    
+                              });
+                          setTimeout(function () {
+                              MakeNegative();
+                          }, 100);
+                      },
+                      "fnInitComplete": function () {
+                          $("<button class='btn btn-primary btnAddNewAllowance' data-dismiss='modal' data-toggle='modal' data-target='#newPayCalendarModal' type='button' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-plus'></i></button>").insertAfter("#tblAlowances_filter");
+                          $("<button class='btn btn-primary btnRefreshAllowance' type='button' id='btnRefreshAllowance' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblAlowances_filter");
+    
+                      }
+    
+                  }).on('page', function () {
+                      setTimeout(function () {
+                          MakeNegative();
+                      }, 100);
+    
+                  }).on('column-reorder', function () {
+    
+                  }).on('length.dt', function (e, settings, len) {
+                    //$('.fullScreenSpin').css('display', 'inline-block');
+                    let dataLenght = settings._iDisplayLength;
+                    splashArrayCalenderList = [];
+                    if (dataLenght == -1) {
+                      $('.fullScreenSpin').css('display', 'none');
+    
+                    } else {
+                        if (settings.fnRecordsDisplay() >= settings._iDisplayLength) {
+                            $('.fullScreenSpin').css('display', 'none');
+                        } else {
+                            sideBarService.getCalender(dataLenght, 0).then(function (dataNonBo) {
+    
+                                addVS1Data('TPayrollCalendars', JSON.stringify(dataNonBo)).then(function (datareturn) {
+                                    templateObject.resetData(dataNonBo);
+                                    $('.fullScreenSpin').css('display', 'none');
+                                }).catch(function (err) {
+                                    $('.fullScreenSpin').css('display', 'none');
+                                });
+                            }).catch(function (err) {
+                                $('.fullScreenSpin').css('display', 'none');
+                            });
+                        }
+                    }
+                      setTimeout(function () {
+                          MakeNegative();
+                      }, 100);
+                  });
+    
+    
+              }, 0);
+    
+              $('div.dataTables_filter input').addClass('form-control form-control-sm');
+              $('.fullScreenSpin').css('display', 'none');
+    
+            }
+        }).catch(function(err) {
+          sideBarService.getCalender(initialBaseDataLoad, 0).then(function (data) {
+              addVS1Data('TPayrollCalendars', JSON.stringify(data));
+              let lineItems = [];
+              let lineItemObj = {};
+              for (let i = 0; i < data.tpayrollcalendars.length; i++) {
+                    
+                var dataListAllowance = [
+                    data.tpayrollcalendars[i].fields.ID || '',
+                    data.tpayrollcalendars[i].fields.PayrollCalendarName || '',
+                    data.tpayrollcalendars[i].fields.PayrollCalendarPayPeriod || '',
+                    moment(data.tpayrollcalendars[i].fields.PayrollCalendarStartDate).format('DD/MM/YYYY') || '',
+                    moment(data.tpayrollcalendars[i].fields.PayrollCalendarFirstPaymentDate).format('DD/MM/YYYY') || '',   
+                    '<td contenteditable="false" class="colDeleteCalenders"><span class="table-remove"><button type="button" class="btn btn-danger btn-rounded btn-sm my-0"><i class="fa fa-remove"></i></button></span>'
+                ];
+
+                splashArrayCalenderList.push(dataListAllowance);
+            }
+      
+    
+              setTimeout(function () {
+                  MakeNegative();
+              }, 100);
+              setTimeout(function () {
+                  $('#tblPayCalendars').DataTable({
+    
+                      data: splashArrayCalenderList,
+                      "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
+                      columnDefs: [
+                        {
+                          className: "colCalenderID hiddenColumn",
+                          "targets": [0]
+                        },
+                        {
+                            className: "colPayCalendarName",
+                            "targets": [1]
+                        },  
+                        {
+                            className: "colPayPeriod",
+                            "targets": [2]
+                        }, 
+                        {
+                            className: "colNextPayPeriod",
+                            "targets": [3]
+                        }, 
+                        {
+                            className: "colNextPaymentDate",
+                            "targets": [4]
+                        },  
+                        {
+                            className: "colDeleteCalenders",
+                            "orderable": false,
+                            "targets": -1
+                        }
+                      ],
+                      select: true,
+                      destroy: true,
+                      colReorder: true,
+                      pageLength: initialDatatableLoad,
+                      lengthMenu: [ [initialDatatableLoad, -1], [initialDatatableLoad, "All"] ],
+                      info: true,
+                      responsive: true,
+                      "order": [[0, "asc"]],
+                      action: function () {
+                          $('#tblPayCalendars').DataTable().ajax.reload();
+                      },
+                      "fnDrawCallback": function (oSettings) {
+                          $('.paginate_button.page-item').removeClass('disabled');
+                          $('#tblPayCalendars_ellipsis').addClass('disabled');
+                          if (oSettings._iDisplayLength == -1) {
+                              if (oSettings.fnRecordsDisplay() > 150) {
+    
+                              }
+                          } else {
+    
+                          }
+                          if (oSettings.fnRecordsDisplay() < initialDatatableLoad) {
+                              $('.paginate_button.page-item.next').addClass('disabled');
+                          }
+    
+                          $('.paginate_button.next:not(.disabled)', this.api().table().container())
+                              .on('click', function () {
+                                  $('.fullScreenSpin').css('display', 'inline-block');
+                                  var splashArrayCalenderListDupp = new Array();
+                                  let dataLenght = oSettings._iDisplayLength;
+                                  let customerSearch = $('#tblPayCalendars_filter input').val();
+    
+                                  sideBarService.getCalender(initialDatatableLoad, oSettings.fnRecordsDisplay()).then(function (data) {
+    
+                                    for (let i = 0; i < data.tpayrollcalendars.length; i++) {
+                    
+                                        var dataListAllowance = [
+                                            data.tpayrollcalendars[i].fields.ID || '',
+                                            data.tpayrollcalendars[i].fields.PayrollCalendarName || '',
+                                            data.tpayrollcalendars[i].fields.PayrollCalendarPayPeriod || '',
+                                            moment(data.tpayrollcalendars[i].fields.PayrollCalendarStartDate).format('DD/MM/YYYY') || '',
+                                            moment(data.tpayrollcalendars[i].fields.PayrollCalendarFirstPaymentDate).format('DD/MM/YYYY') || '',       
+                                            '<td contenteditable="false" class="colDeleteCalenders"><span class="table-remove"><button type="button" class="btn btn-danger btn-rounded btn-sm my-0"><i class="fa fa-remove"></i></button></span>'
+                                        ];
+                        
+                                        splashArrayCalenderList.push(dataListAllowance);
+                                    }
+    
+                                         let uniqueChars = [...new Set(splashArrayCalenderList)];
+                                         var datatable = $('#tblPayCalendars').DataTable();
+                                              datatable.clear();
+                                              datatable.rows.add(uniqueChars);
+                                              datatable.draw(false);
+                                              setTimeout(function () {
+                                                $("#tblPayCalendars").dataTable().fnPageChange('last');
+                                              }, 400);
+    
+                                              $('.fullScreenSpin').css('display', 'none');
+    
+    
+                                  }).catch(function (err) {
+                                      $('.fullScreenSpin').css('display', 'none');
+                                  });
+    
+                              });
+                          setTimeout(function () {
+                              MakeNegative();
+                          }, 100);
+                      },
+                      "fnInitComplete": function () {
+                        //   $("<button class='btn btn-primary btnAddNewAllowance' data-dismiss='modal' data-toggle='modal' data-target='#newPayCalendarModal' type='button' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-plus'></i></button>").insertAfter("#tblAlowances_filter");
+                        //   $("<button class='btn btn-primary btnRefreshAllowance' type='button' id='btnRefreshAllowance' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblAlowances_filter");
+    
+                      }
+    
+                  }).on('page', function () {
+                      setTimeout(function () {
+                          MakeNegative();
+                      }, 100);
+    
+                  }).on('column-reorder', function () {
+    
+                  }).on('length.dt', function (e, settings, len) {
+                    //$('.fullScreenSpin').css('display', 'inline-block');
+                    let dataLenght = settings._iDisplayLength;
+                    splashArrayCalenderList = [];
+                    if (dataLenght == -1) {
+                      $('.fullScreenSpin').css('display', 'none');
+    
+                    } else {
+                        if (settings.fnRecordsDisplay() >= settings._iDisplayLength) {
+                            $('.fullScreenSpin').css('display', 'none');
+                        } else {
+                            sideBarService.getCalender(dataLenght, 0).then(function (dataNonBo) {
+    
+                                addVS1Data('TPayrollCalendars', JSON.stringify(dataNonBo)).then(function (datareturn) {
+                                    templateObject.resetData(dataNonBo);
+                                    $('.fullScreenSpin').css('display', 'none');
+                                }).catch(function (err) {
+                                    $('.fullScreenSpin').css('display', 'none');
+                                });
+                            }).catch(function (err) {
+                                $('.fullScreenSpin').css('display', 'none');
+                            });
+                        }
+                    }
+                      setTimeout(function () {
+                          MakeNegative();
+                      }, 100);
+                  });
+    
+    
+              }, 0);
+    
+              $('div.dataTables_filter input').addClass('form-control form-control-sm');
+    
+              $('.fullScreenSpin').css('display', 'none');
+          }).catch(function (err) {
+            $('.fullScreenSpin').css('display', 'none');
+          });
+        });
+    };
+    templateObject.getCalenders();
+    
+    templateObject.getReimbursement = function(){
+ 
+        getVS1Data('TReimbursement').then(function(dataObject) {
+            if (dataObject.length == 0) {
+                 sideBarService.getCalender(initialBaseDataLoad, 0).then(function (data) {
+                  addVS1Data('TReimbursement', JSON.stringify(data));
+                  let lineItems = [];
+                  let lineItemObj = {};
+                  for (let i = 0; i < data.treimbursement.length; i++) {
+                    
+                      var dataListAllowance = [
+                          data.treimbursement[i].fields.ID || '',
+                          data.treimbursement[i].fields.ReimbursementName || 0,
+                          data.treimbursement[i].fields.ReimbursementAccount || 0,
+                         '<td contenteditable="false" class="colDeleterei"><span class="table-remove"><button type="button" class="btn btn-danger btn-rounded btn-sm my-0"><i class="fa fa-remove"></i></button></span>'
+                      ];
+    
+                      splashArrayReisument.push(dataListAllowance);
+                  }
+    
+            
+    
+    
+                  setTimeout(function () {
+                      MakeNegative();
+                  }, 100);
+                  setTimeout(function () {
+                      $('#tblReimbursements').DataTable({
+    
+                          data: splashArrayCalenderList,
+                          "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
+                          columnDefs: [                              
+                            
+                            {
+                                 className: "colReimbursementID hiddenColumn",
+                                 "targets": [0]
+                               },
+                               {
+                                  className: "colReimbursementName",
+                                  "targets": [1]
+                               },  
+                               {
+                                  className: "colReimbursementAccount",
+                                  "targets": [2]
+                               },                        
+                               {
+                                  className: "colDeleterei",
+                                  "orderable": false,
+                                  "targets": -1
+                               }
+                          ],
+                          select: true,
+                          destroy: true,
+                          colReorder: true,
+                          pageLength: initialDatatableLoad,
+                          lengthMenu: [ [initialDatatableLoad, -1], [initialDatatableLoad, "All"] ],
+                          info: true,
+                          responsive: true,
+                          "order": [[0, "asc"]],
+                          action: function () {
+                              $('#tblReimbursements').DataTable().ajax.reload();
+                          },
+                          "fnDrawCallback": function (oSettings) {
+                              $('.paginate_button.page-item').removeClass('disabled');
+                              $('#tblReimbursements_ellipsis').addClass('disabled');
+                              if (oSettings._iDisplayLength == -1) {
+                                  if (oSettings.fnRecordsDisplay() > 150) {
+    
+                                  }
+                              } else {
+    
+                              }
+                              if (oSettings.fnRecordsDisplay() < initialDatatableLoad) {
+                                  $('.paginate_button.page-item.next').addClass('disabled');
+                              }
+    
+                              $('.paginate_button.next:not(.disabled)', this.api().table().container())
+                                  .on('click', function () {
+                                      $('.fullScreenSpin').css('display', 'inline-block');
+                                      var splashArrayReisumentDupp = new Array();
+                                      let dataLenght = oSettings._iDisplayLength;
+                                      let customerSearch = $('#tblReimbursements_filter input').val();
+    
+                                      sideBarService.getReimbursement(initialDatatableLoad, oSettings.fnRecordsDisplay()).then(function (data) {
+    
+                                        for (let i = 0; i < data.treimbursement.length; i++) {
+                    
+                                            var dataListAllowance = [
+                                                data.treimbursement[i].fields.ID || '',
+                                                data.treimbursement[i].fields.ReimbursementName || 0,
+                                                data.treimbursement[i].fields.ReimbursementAccount || 0,
+                                               '<td contenteditable="false" class="colDeleterei"><span class="table-remove"><button type="button" class="btn btn-danger btn-rounded btn-sm my-0"><i class="fa fa-remove"></i></button></span>'
+                                            ];
+                          
+                                            splashArrayReisument.push(dataListAllowance);
+                                        }
+    
+                                                  let uniqueChars = [...new Set(splashArrayReisument)];
+                                                  var datatable = $('#tblReimbursements').DataTable();
+                                                  datatable.clear();
+                                                  datatable.rows.add(uniqueChars);
+                                                  datatable.draw(false);
+                                                  setTimeout(function () {
+                                                    $("#tblReimbursements").dataTable().fnPageChange('last');
+                                                  }, 400);
+    
+                                                  $('.fullScreenSpin').css('display', 'none');
+    
+    
+                                      }).catch(function (err) {
+                                          $('.fullScreenSpin').css('display', 'none');
+                                      });
+    
+                                  });
+                              setTimeout(function () {
+                                  MakeNegative();
+                              }, 100);
+                          },
+                          "fnInitComplete": function () {
+                            //   $("<button class='btn btn-primary btnAddNewAllowance' data-dismiss='modal' data-toggle='modal' data-target='#newPayCalendarModal' type='button' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-plus'></i></button>").insertAfter("#tblPayCalendars_filter");
+                            //   $("<button class='btn btn-primary btnRefreshAllowance' type='button' id='btnRefreshAllowance' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#ttblPayCalendars_filter");
+    
+                          }
+    
+                      }).on('page', function () {
+                          setTimeout(function () {
+                              MakeNegative();
+                          }, 100);
+    
+                      }).on('column-reorder', function () {
+    
+                      }).on('length.dt', function (e, settings, len) {
+                        //$('.fullScreenSpin').css('display', 'inline-block');
+                        let dataLenght = settings._iDisplayLength;
+                        splashArrayReisument = [];
+                        if (dataLenght == -1) {
+                          $('.fullScreenSpin').css('display', 'none');
+    
+                        } else {
+                            if (settings.fnRecordsDisplay() >= settings._iDisplayLength) {
+                                $('.fullScreenSpin').css('display', 'none');
+                            } else {
+                                sideBarService.getReimbursement(dataLenght, 0).then(function (dataNonBo) {
+    
+                                    addVS1Data('tblReimbursements', JSON.stringify(dataNonBo)).then(function (datareturn) {
+                                        templateObject.resetData(dataNonBo);
+                                        $('.fullScreenSpin').css('display', 'none');
+                                    }).catch(function (err) {
+                                        $('.fullScreenSpin').css('display', 'none');
+                                    });
+                                }).catch(function (err) {
+                                    $('.fullScreenSpin').css('display', 'none');
+                                });
+                            }
+                        }
+                          setTimeout(function () {
+                              MakeNegative();
+                          }, 100);
+                      });
+    
+    
+                  }, 0);
+    
+                  $('div.dataTables_filter input').addClass('form-control form-control-sm');
+    
+                  $('.fullScreenSpin').css('display', 'none');
+              }).catch(function (err) {
+                $('.fullScreenSpin').css('display', 'none');
+              });
+            }else{
+    
+              let data = JSON.parse(dataObject[0].data);
+    
+              let useData = data;
+              let lineItems = [];
+              let lineItemObj = {};
+              for (let i = 0; i < data.treimbursement.length; i++) {
+                    
+                var dataListAllowance = [
+                    data.treimbursement[i].fields.ID || '',
+                    data.treimbursement[i].fields.ReimbursementName || 0,
+                    data.treimbursement[i].fields.ReimbursementAccount || 0,
+                   '<td contenteditable="false" class="colDeleterei"><span class="table-remove"><button type="button" class="btn btn-danger btn-rounded btn-sm my-0"><i class="fa fa-remove"></i></button></span>'
+                ];
+
+                splashArrayReisument.push(dataListAllowance);
+            }
+        
+    
+    
+              setTimeout(function () {
+                  MakeNegative();
+              }, 100);
+              setTimeout(function () {
+                  $('#tblReimbursements').DataTable({
+    
+                      data: splashArrayReisument,
+                      "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
+                      columnDefs: [                              
+                            
+                        {
+                             className: "colReimbursementID hiddenColumn",
+                             "targets": [0]
+                           },
+                           {
+                              className: "colReimbursementName",
+                              "targets": [1]
+                           },  
+                           {
+                              className: "colReimbursementAccount",
+                              "targets": [2]
+                           },                        
+                           {
+                              className: "colDeleterei",
+                              "orderable": false,
+                              "targets": -1
+                           }
+                      ],
+                      select: true,
+                      destroy: true,
+                      colReorder: true,
+                      pageLength: initialDatatableLoad,
+                      lengthMenu: [ [initialDatatableLoad, -1], [initialDatatableLoad, "All"] ],
+                      info: true,
+                      responsive: true,
+                      "order": [[0, "asc"]],
+                      action: function () {
+                          $('#tblReimbursements').DataTable().ajax.reload();
+                      },
+                      "fnDrawCallback": function (oSettings) {
+                          $('.paginate_button.page-item').removeClass('disabled');
+                          $('#tblReimbursements_ellipsis').addClass('disabled');
+                          if (oSettings._iDisplayLength == -1) {
+                              if (oSettings.fnRecordsDisplay() > 150) {
+    
+                              }
+                          } else {
+    
+                          }
+                          if (oSettings.fnRecordsDisplay() < initialDatatableLoad) {
+                              $('.paginate_button.page-item.next').addClass('disabled');
+                          }
+    
+                          $('.paginate_button.next:not(.disabled)', this.api().table().container())
+                              .on('click', function () {
+                                  $('.fullScreenSpin').css('display', 'inline-block');
+                                  var splashArrayReisumentDuppDupp = new Array();
+                                  let dataLenght = oSettings._iDisplayLength;
+                                  let customerSearch = $('#tblReimbursements_filter input').val();
+    
+                                  sideBarService.getReimbursement(initialDatatableLoad, oSettings.fnRecordsDisplay()).then(function (data) {
+    
+                                    for (let i = 0; i < data.treimbursement.length; i++) {
+                    
+                                        var dataListAllowance = [
+                                            data.treimbursement[i].fields.ID || '',
+                                            data.treimbursement[i].fields.ReimbursementName || 0,
+                                            data.treimbursement[i].fields.ReimbursementAccount || 0,
+                                           '<td contenteditable="false" class="colDeleterei"><span class="table-remove"><button type="button" class="btn btn-danger btn-rounded btn-sm my-0"><i class="fa fa-remove"></i></button></span>'
+                                        ];
+                        
+                                        splashArrayReisument.push(dataListAllowance);
+                                      }
+    
+                                              let uniqueChars = [...new Set(splashArrayReisument)];
+                                              var datatable = $('#tblReimbursements').DataTable();
+                                              datatable.clear();
+                                              datatable.rows.add(uniqueChars);
+                                              datatable.draw(false);
+                                              setTimeout(function () {
+                                                $("#tblReimbursements").dataTable().fnPageChange('last');
+                                              }, 400);
+    
+                                              $('.fullScreenSpin').css('display', 'none');
+    
+    
+                                  }).catch(function (err) {
+                                      $('.fullScreenSpin').css('display', 'none');
+                                  });
+    
+                              });
+                          setTimeout(function () {
+                              MakeNegative();
+                          }, 100);
+                      },
+                      "fnInitComplete": function () {
+                          $("<button class='btn btn-primary btnAddNewAllowance' data-dismiss='modal' data-toggle='modal' data-target='#newPayCalendarModal' type='button' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-plus'></i></button>").insertAfter("#tblAlowances_filter");
+                          $("<button class='btn btn-primary btnRefreshAllowance' type='button' id='btnRefreshAllowance' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblAlowances_filter");
+    
+                      }
+    
+                  }).on('page', function () {
+                      setTimeout(function () {
+                          MakeNegative();
+                      }, 100);
+    
+                  }).on('column-reorder', function () {
+    
+                  }).on('length.dt', function (e, settings, len) {
+                    //$('.fullScreenSpin').css('display', 'inline-block');
+                    let dataLenght = settings._iDisplayLength;
+                    splashArrayCalenderList = [];
+                    if (dataLenght == -1) {
+                      $('.fullScreenSpin').css('display', 'none');
+    
+                    } else {
+                        if (settings.fnRecordsDisplay() >= settings._iDisplayLength) {
+                            $('.fullScreenSpin').css('display', 'none');
+                        } else {
+                            sideBarService.getReimbursement(dataLenght, 0).then(function (dataNonBo) {
+    
+                                addVS1Data('TReimbursement', JSON.stringify(dataNonBo)).then(function (datareturn) {
+                                    templateObject.resetData(dataNonBo);
+                                    $('.fullScreenSpin').css('display', 'none');
+                                }).catch(function (err) {
+                                    $('.fullScreenSpin').css('display', 'none');
+                                });
+                            }).catch(function (err) {
+                                $('.fullScreenSpin').css('display', 'none');
+                            });
+                        }
+                    }
+                      setTimeout(function () {
+                          MakeNegative();
+                      }, 100);
+                  });
+    
+    
+              }, 0);
+    
+              $('div.dataTables_filter input').addClass('form-control form-control-sm');
+              $('.fullScreenSpin').css('display', 'none');
+    
+            }
+        }).catch(function(err) {
+          sideBarService.getReimbursement(initialBaseDataLoad, 0).then(function (data) {
+              addVS1Data('TReimbursement', JSON.stringify(data));
+              let lineItems = [];
+              let lineItemObj = {};
+              for (let i = 0; i < data.treimbursement.length; i++) {
+                    
+                var dataListAllowance = [
+                    data.treimbursement[i].fields.ID || '',
+                    data.treimbursement[i].fields.ReimbursementName || 0,
+                    data.treimbursement[i].fields.ReimbursementAccount || 0,
+                   '<td contenteditable="false" class="colDeleterei"><span class="table-remove"><button type="button" class="btn btn-danger btn-rounded btn-sm my-0"><i class="fa fa-remove"></i></button></span>'
+                ];
+
+                splashArrayReisument.push(dataListAllowance);
+            }
+      
+    
+              setTimeout(function () {
+                  MakeNegative();
+              }, 100);
+              setTimeout(function () {
+                  $('#tblReimbursements').DataTable({
+    
+                      data: splashArrayReisument,
+                      "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
+                      columnDefs: [                              
+                            
+                        {
+                             className: "colReimbursementID hiddenColumn",
+                             "targets": [0]
+                           },
+                           {
+                              className: "colReimbursementName",
+                              "targets": [1]
+                           },  
+                           {
+                              className: "colReimbursementAccount",
+                              "targets": [2]
+                           },                        
+                           {
+                              className: "colDeleterei",
+                              "orderable": false,
+                              "targets": -1
+                           }
+                      ],
+                      select: true,
+                      destroy: true,
+                      colReorder: true,
+                      pageLength: initialDatatableLoad,
+                      lengthMenu: [ [initialDatatableLoad, -1], [initialDatatableLoad, "All"] ],
+                      info: true,
+                      responsive: true,
+                      "order": [[0, "asc"]],
+                      action: function () {
+                          $('#tblReimbursements').DataTable().ajax.reload();
+                      },
+                      "fnDrawCallback": function (oSettings) {
+                          $('.paginate_button.page-item').removeClass('disabled');
+                          $('#tblReimbursements_ellipsis').addClass('disabled');
+                          if (oSettings._iDisplayLength == -1) {
+                              if (oSettings.fnRecordsDisplay() > 150) {
+    
+                              }
+                          } else {
+    
+                          }
+                          if (oSettings.fnRecordsDisplay() < initialDatatableLoad) {
+                              $('.paginate_button.page-item.next').addClass('disabled');
+                          }
+    
+                          $('.paginate_button.next:not(.disabled)', this.api().table().container())
+                              .on('click', function () {
+                                  $('.fullScreenSpin').css('display', 'inline-block');
+                                  var splashArrayReisumentDupp = new Array();
+                                  let dataLenght = oSettings._iDisplayLength;
+                                  let customerSearch = $('#tblReimbursements_filter input').val();
+    
+                                  sideBarService.getReimbursement(initialDatatableLoad, oSettings.fnRecordsDisplay()).then(function (data) {
+    
+                                    for (let i = 0; i < data.treimbursement.length; i++) {
+                    
+                                        var dataListAllowance = [
+                                            data.treimbursement[i].fields.ID || '',
+                                            data.treimbursement[i].fields.ReimbursementName || 0,
+                                            data.treimbursement[i].fields.ReimbursementAccount || 0,
+                                           '<td contenteditable="false" class="colDeleterei"><span class="table-remove"><button type="button" class="btn btn-danger btn-rounded btn-sm my-0"><i class="fa fa-remove"></i></button></span>'
+                                        ];
+                        
+                                        splashArrayReisument.push(dataListAllowance);
+                                    }
+    
+                                         let uniqueChars = [...new Set(splashArrayReisument)];
+                                         var datatable = $('#tblReimbursements').DataTable();
+                                              datatable.clear();
+                                              datatable.rows.add(uniqueChars);
+                                              datatable.draw(false);
+                                              setTimeout(function () {
+                                                $("#tblReimbursements").dataTable().fnPageChange('last');
+                                              }, 400);
+    
+                                              $('.fullScreenSpin').css('display', 'none');
+    
+    
+                                  }).catch(function (err) {
+                                      $('.fullScreenSpin').css('display', 'none');
+                                  });
+    
+                              });
+                          setTimeout(function () {
+                              MakeNegative();
+                          }, 100);
+                      },
+                      "fnInitComplete": function () {
+                        //   $("<button class='btn btn-primary btnAddNewAllowance' data-dismiss='modal' data-toggle='modal' data-target='#newPayCalendarModal' type='button' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-plus'></i></button>").insertAfter("#tblAlowances_filter");
+                        //   $("<button class='btn btn-primary btnRefreshAllowance' type='button' id='btnRefreshAllowance' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblAlowances_filter");
+    
+                      }
+    
+                  }).on('page', function () {
+                      setTimeout(function () {
+                          MakeNegative();
+                      }, 100);
+    
+                  }).on('column-reorder', function () {
+    
+                  }).on('length.dt', function (e, settings, len) {
+                    //$('.fullScreenSpin').css('display', 'inline-block');
+                    let dataLenght = settings._iDisplayLength;
+                    splashArrayReisument = [];
+                    if (dataLenght == -1) {
+                      $('.fullScreenSpin').css('display', 'none');
+    
+                    } else {
+                        if (settings.fnRecordsDisplay() >= settings._iDisplayLength) {
+                            $('.fullScreenSpin').css('display', 'none');
+                        } else {
+                            sideBarService.getReimbursement(dataLenght, 0).then(function (dataNonBo) {
+    
+                                addVS1Data('TReimbursement', JSON.stringify(dataNonBo)).then(function (datareturn) {
+                                    templateObject.resetData(dataNonBo);
+                                    $('.fullScreenSpin').css('display', 'none');
+                                }).catch(function (err) {
+                                    $('.fullScreenSpin').css('display', 'none');
+                                });
+                            }).catch(function (err) {
+                                $('.fullScreenSpin').css('display', 'none');
+                            });
+                        }
+                    }
+                      setTimeout(function () {
+                          MakeNegative();
+                      }, 100);
+                  });
+    
+    
+              }, 0);
+    
+              $('div.dataTables_filter input').addClass('form-control form-control-sm');
+    
+              $('.fullScreenSpin').css('display', 'none');
+          }).catch(function (err) {
+            $('.fullScreenSpin').css('display', 'none');
+          });
+        });
+
+    };
+    templateObject.getReimbursement();
+
+    templateObject.getLeaveTypeData = function(){
+
+        getVS1Data('TPaidLeave').then(function(dataObject) {
+            if (dataObject.length == 0) {
+                 sideBarService.getPaidLeave(initialBaseDataLoad, 0).then(function (data) {
+                  addVS1Data('TPaidLeave', JSON.stringify(data));
+                  let lineItems = [];
+                  let lineItemObj = {};
+                  for (let i = 0; i < data.tpaidleave.length; i++) {
+                    
+                      var dataListAllowance = [
+                          data.tpaidleave[i].fields.ID || '',
+                          data.tpaidleave[i].fields.LeavePaidName || '',
+                          data.tpaidleave[i].fields.LeavePaidUnits || '',
+                          data.tpaidleave[i].fields.LeavePaidNormalEntitlement || '',
+                          data.tpaidleave[i].fields.LeavePaidLeaveLoadingRate || '',
+                          true,
+                          data.tpaidleave[i].fields.LeavePaidShowBalanceOnPayslip || false,
+                         '<td contenteditable="false" class="colDeletepaidrem"><span class="table-remove"><button type="button" class="btn btn-danger btn-rounded btn-sm my-0"><i class="fa fa-remove"></i></button></span>'
+                      ];
+    
+                      splashArrayLeaveList.push(dataListAllowance);
+                  }
+    
+            
+    
+    
+                  setTimeout(function () {
+                      MakeNegative();
+                  }, 100);
+                  setTimeout(function () {
+                      $('#tblLeave').DataTable({
+    
+                          data: splashArrayLeaveList,
+                          "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
+                          columnDefs: [                              
+                            
+                            {
+                                 className: "colLeaveID hiddenColumn",
+                                 "targets": [0]
+                               },
+                               {
+                                  className: "colLeaveName",
+                                  "targets": [1]
+                               },  
+                               {
+                                  className: "colLeaveUnits",
+                                  "targets": [2]
+                               },  
+                               {
+                                className: "colLeaveNormalEntitlement",
+                                "targets": [3]
+                               },  
+                               {
+                                className: "colLeaveLeaveLoadingRate",
+                                "targets": [4]
+                               },  
+                               {
+                                className: "colLeavePaidLeave",
+                                "targets": [5]
+                               },  
+                               {
+                                className: "colLeaveShownOnPayslip",
+                                "targets": [6]
+                               },                        
+                               {
+                                  className: "colDeletepaidrem",
+                                  "orderable": false,
+                                  "targets": -1
+                               }
+                          ],
+                          select: true,
+                          destroy: true,
+                          colReorder: true,
+                          pageLength: initialDatatableLoad,
+                          lengthMenu: [ [initialDatatableLoad, -1], [initialDatatableLoad, "All"] ],
+                          info: true,
+                          responsive: true,
+                          "order": [[0, "asc"]],
+                          action: function () {
+                              $('#tblLeave').DataTable().ajax.reload();
+                          },
+                          "fnDrawCallback": function (oSettings) {
+                              $('.paginate_button.page-item').removeClass('disabled');
+                              $('#tblLeave_ellipsis').addClass('disabled');
+                              if (oSettings._iDisplayLength == -1) {
+                                  if (oSettings.fnRecordsDisplay() > 150) {
+    
+                                  }
+                              } else {
+    
+                              }
+                              if (oSettings.fnRecordsDisplay() < initialDatatableLoad) {
+                                  $('.paginate_button.page-item.next').addClass('disabled');
+                              }
+    
+                              $('.paginate_button.next:not(.disabled)', this.api().table().container())
+                                  .on('click', function () {
+                                      $('.fullScreenSpin').css('display', 'inline-block');
+                                      var splashArrayLeaveListDupp = new Array();
+                                      let dataLenght = oSettings._iDisplayLength;
+                                      let customerSearch = $('#tblLeave_filter input').val();
+    
+                                      sideBarService.getPaidLeave(initialDatatableLoad, oSettings.fnRecordsDisplay()).then(function (data) {
+    
+                                        for (let i = 0; i < data.tpaidleave.length; i++) {
+                    
+                                            var dataListAllowance = [
+                                                data.tpaidleave[i].fields.ID || '',
+                                                data.tpaidleave[i].fields.LeavePaidName || '',
+                                                data.tpaidleave[i].fields.LeavePaidUnits || '',
+                                                data.tpaidleave[i].fields.LeavePaidNormalEntitlement || '',
+                                                data.tpaidleave[i].fields.LeavePaidLeaveLoadingRate || '',
+                                                true,
+                                                data.tpaidleave[i].fields.LeavePaidShowBalanceOnPayslip || false,
+                                               '<td contenteditable="false" class="colDeletepaidrem"><span class="table-remove"><button type="button" class="btn btn-danger btn-rounded btn-sm my-0"><i class="fa fa-remove"></i></button></span>'
+                                            ];
+                          
+                                            splashArrayLeaveList.push(dataListAllowance);
+                                        }
+    
+                                                  let uniqueChars = [...new Set(splashArrayLeaveList)];
+                                                  var datatable = $('#tblLeave').DataTable();
+                                                  datatable.clear();
+                                                  datatable.rows.add(uniqueChars);
+                                                  datatable.draw(false);
+                                                  setTimeout(function () {
+                                                    $("#tblLeave").dataTable().fnPageChange('last');
+                                                  }, 400);
+    
+                                                  $('.fullScreenSpin').css('display', 'none');
+    
+    
+                                      }).catch(function (err) {
+                                          $('.fullScreenSpin').css('display', 'none');
+                                      });
+    
+                                  });
+                              setTimeout(function () {
+                                  MakeNegative();
+                              }, 100);
+                          },
+                          "fnInitComplete": function () {
+                            //   $("<button class='btn btn-primary btnAddNewAllowance' data-dismiss='modal' data-toggle='modal' data-target='#newPayCalendarModal' type='button' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-plus'></i></button>").insertAfter("#tblPayCalendars_filter");
+                            //   $("<button class='btn btn-primary btnRefreshAllowance' type='button' id='btnRefreshAllowance' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#ttblPayCalendars_filter");
+    
+                          }
+    
+                      }).on('page', function () {
+                          setTimeout(function () {
+                              MakeNegative();
+                          }, 100);
+    
+                      }).on('column-reorder', function () {
+    
+                      }).on('length.dt', function (e, settings, len) {
+                        //$('.fullScreenSpin').css('display', 'inline-block');
+                        let dataLenght = settings._iDisplayLength;
+                        splashArrayLeaveList = [];
+                        if (dataLenght == -1) {
+                          $('.fullScreenSpin').css('display', 'none');
+    
+                        } else {
+                            if (settings.fnRecordsDisplay() >= settings._iDisplayLength) {
+                                $('.fullScreenSpin').css('display', 'none');
+                            } else {
+                                sideBarService.getPaidLeave(dataLenght, 0).then(function (dataNonBo) {
+    
+                                    addVS1Data('TPaidLeave', JSON.stringify(dataNonBo)).then(function (datareturn) {
+                                        templateObject.resetData(dataNonBo);
+                                        $('.fullScreenSpin').css('display', 'none');
+                                    }).catch(function (err) {
+                                        $('.fullScreenSpin').css('display', 'none');
+                                    });
+                                }).catch(function (err) {
+                                    $('.fullScreenSpin').css('display', 'none');
+                                });
+                            }
+                        }
+                          setTimeout(function () {
+                              MakeNegative();
+                          }, 100);
+                      });
+    
+    
+                  }, 0);
+    
+                  $('div.dataTables_filter input').addClass('form-control form-control-sm');
+    
+                  $('.fullScreenSpin').css('display', 'none');
+              }).catch(function (err) {
+                $('.fullScreenSpin').css('display', 'none');
+              });
+            }else{
+    
+              let data = JSON.parse(dataObject[0].data);
+    
+              let useData = data;
+              let lineItems = [];
+              let lineItemObj = {};
+              for (let i = 0; i < data.tpaidleave.length; i++) {
+                    
+                var dataListAllowance = [
+                    data.tpaidleave[i].fields.ID || '',
+                    data.tpaidleave[i].fields.LeavePaidName || '',
+                    data.tpaidleave[i].fields.LeavePaidUnits || '',
+                    data.tpaidleave[i].fields.LeavePaidNormalEntitlement || '',
+                    data.tpaidleave[i].fields.LeavePaidLeaveLoadingRate || '',
+                    true,
+                    data.tpaidleave[i].fields.LeavePaidShowBalanceOnPayslip || false,
+                   '<td contenteditable="false" class="colDeletepaidrem"><span class="table-remove"><button type="button" class="btn btn-danger btn-rounded btn-sm my-0"><i class="fa fa-remove"></i></button></span>'
+                   ];
+
+                splashArrayLeaveList.push(dataListAllowance);
+            }
+        
+    
+    
+              setTimeout(function () {
+                  MakeNegative();
+              }, 100);
+              setTimeout(function () {
+                  $('#tblLeave').DataTable({
+    
+                      data: splashArrayLeaveList,
+                      "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
+                      columnDefs: [                              
+                            
+                        {
+                             className: "colLeaveID hiddenColumn",
+                             "targets": [0]
+                           },
+                           {
+                              className: "colLeaveName",
+                              "targets": [1]
+                           },  
+                           {
+                              className: "colLeaveUnits",
+                              "targets": [2]
+                           },  
+                           {
+                            className: "colLeaveNormalEntitlement",
+                            "targets": [3]
+                           },  
+                           {
+                            className: "colLeaveLeaveLoadingRate",
+                            "targets": [4]
+                           },  
+                           {
+                            className: "colLeavePaidLeave",
+                            "targets": [5]
+                           },  
+                           {
+                            className: "colLeaveShownOnPayslip",
+                            "targets": [6]
+                           },                        
+                           {
+                              className: "colDeletepaidrem",
+                              "orderable": false,
+                              "targets": -1
+                           }
+                      ],
+                      select: true,
+                      destroy: true,
+                      colReorder: true,
+                      pageLength: initialDatatableLoad,
+                      lengthMenu: [ [initialDatatableLoad, -1], [initialDatatableLoad, "All"] ],
+                      info: true,
+                      responsive: true,
+                      "order": [[0, "asc"]],
+                      action: function () {
+                          $('#tblLeave').DataTable().ajax.reload();
+                      },
+                      "fnDrawCallback": function (oSettings) {
+                          $('.paginate_button.page-item').removeClass('disabled');
+                          $('#tblLeave_ellipsis').addClass('disabled');
+                          if (oSettings._iDisplayLength == -1) {
+                              if (oSettings.fnRecordsDisplay() > 150) {
+    
+                              }
+                          } else {
+    
+                          }
+                          if (oSettings.fnRecordsDisplay() < initialDatatableLoad) {
+                              $('.paginate_button.page-item.next').addClass('disabled');
+                          }
+    
+                          $('.paginate_button.next:not(.disabled)', this.api().table().container())
+                              .on('click', function () {
+                                  $('.fullScreenSpin').css('display', 'inline-block');
+                                  var splashArrayLeaveListDupp = new Array();
+                                  let dataLenght = oSettings._iDisplayLength;
+                                  let customerSearch = $('#tblLeave_filter input').val();
+    
+                                  sideBarService.getPaidLeave(initialDatatableLoad, oSettings.fnRecordsDisplay()).then(function (data) {
+    
+                                    for (let i = 0; i < data.tpaidleave.length; i++) {
+                    
+                                        var dataListAllowance = [
+                                            data.tpaidleave[i].fields.ID || '',
+                                            data.tpaidleave[i].fields.LeavePaidName || '',
+                                            data.tpaidleave[i].fields.LeavePaidUnits || '',
+                                            data.tpaidleave[i].fields.LeavePaidNormalEntitlement || '',
+                                            data.tpaidleave[i].fields.LeavePaidLeaveLoadingRate || '',
+                                            true,
+                                            data.tpaidleave[i].fields.LeavePaidShowBalanceOnPayslip || false,
+                                           '<td contenteditable="false" class="colDeletepaidrem"><span class="table-remove"><button type="button" class="btn btn-danger btn-rounded btn-sm my-0"><i class="fa fa-remove"></i></button></span>'
+                                           ];
+                        
+                                        splashArrayLeaveList.push(dataListAllowance);
+                                    }
+    
+                                              let uniqueChars = [...new Set(splashArrayLeaveList)];
+                                              var datatable = $('#tblLeave').DataTable();
+                                              datatable.clear();
+                                              datatable.rows.add(uniqueChars);
+                                              datatable.draw(false);
+                                              setTimeout(function () {
+                                                $("#tblLeave").dataTable().fnPageChange('last');
+                                              }, 400);
+    
+                                              $('.fullScreenSpin').css('display', 'none');
+    
+    
+                                  }).catch(function (err) {
+                                      $('.fullScreenSpin').css('display', 'none');
+                                  });
+    
+                              });
+                          setTimeout(function () {
+                              MakeNegative();
+                          }, 100);
+                      },
+                      "fnInitComplete": function () {
+                          $("<button class='btn btn-primary btnAddNewAllowance' data-dismiss='modal' data-toggle='modal' data-target='#newPayCalendarModal' type='button' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-plus'></i></button>").insertAfter("#tblAlowances_filter");
+                          $("<button class='btn btn-primary btnRefreshAllowance' type='button' id='btnRefreshAllowance' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblAlowances_filter");
+    
+                      }
+    
+                  }).on('page', function () {
+                      setTimeout(function () {
+                          MakeNegative();
+                      }, 100);
+    
+                  }).on('column-reorder', function () {
+    
+                  }).on('length.dt', function (e, settings, len) {
+                    //$('.fullScreenSpin').css('display', 'inline-block');
+                    let dataLenght = settings._iDisplayLength;
+                    splashArrayCalenderList = [];
+                    if (dataLenght == -1) {
+                      $('.fullScreenSpin').css('display', 'none');
+    
+                    } else {
+                        if (settings.fnRecordsDisplay() >= settings._iDisplayLength) {
+                            $('.fullScreenSpin').css('display', 'none');
+                        } else {
+                            sideBarService.getPaidLeave(dataLenght, 0).then(function (dataNonBo) {
+    
+                                addVS1Data('TPaidLeave', JSON.stringify(dataNonBo)).then(function (datareturn) {
+                                    templateObject.resetData(dataNonBo);
+                                    $('.fullScreenSpin').css('display', 'none');
+                                }).catch(function (err) {
+                                    $('.fullScreenSpin').css('display', 'none');
+                                });
+                            }).catch(function (err) {
+                                $('.fullScreenSpin').css('display', 'none');
+                            });
+                        }
+                    }
+                      setTimeout(function () {
+                          MakeNegative();
+                      }, 100);
+                  });
+    
+    
+              }, 0);
+    
+              $('div.dataTables_filter input').addClass('form-control form-control-sm');
+              $('.fullScreenSpin').css('display', 'none');
+    
+            }
+        }).catch(function(err) {
+          sideBarService.getPaidLeave(initialBaseDataLoad, 0).then(function (data) {
+              addVS1Data('TPaidLeave', JSON.stringify(data));
+              let lineItems = [];
+              let lineItemObj = {};
+              for (let i = 0; i < data.tpaidleave.length; i++) {
+                    
+                var dataListAllowance = [
+                    data.tpaidleave[i].fields.ID || '',
+                    data.tpaidleave[i].fields.LeavePaidName || '',
+                    data.tpaidleave[i].fields.LeavePaidUnits || '',
+                    data.tpaidleave[i].fields.LeavePaidNormalEntitlement || '',
+                    data.tpaidleave[i].fields.LeavePaidLeaveLoadingRate || '',
+                    true,
+                    data.tpaidleave[i].fields.LeavePaidShowBalanceOnPayslip || false,
+                   '<td contenteditable="false" class="colDeletepaidrem"><span class="table-remove"><button type="button" class="btn btn-danger btn-rounded btn-sm my-0"><i class="fa fa-remove"></i></button></span>'
+                   ];
+
+                splashArrayLeaveList.push(dataListAllowance);
+            }
+      
+    
+              setTimeout(function () {
+                  MakeNegative();
+              }, 100);
+              setTimeout(function () {
+                  $('#tblLeave').DataTable({
+    
+                      data: splashArrayLeaveList,
+                      "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
+                      columnDefs: [                              
+                            
+                        {
+                             className: "colLeaveID hiddenColumn",
+                             "targets": [0]
+                           },
+                           {
+                              className: "colLeaveName",
+                              "targets": [1]
+                           },  
+                           {
+                              className: "colLeaveUnits",
+                              "targets": [2]
+                           },  
+                           {
+                            className: "colLeaveNormalEntitlement",
+                            "targets": [3]
+                           },  
+                           {
+                            className: "colLeaveLeaveLoadingRate",
+                            "targets": [4]
+                           },  
+                           {
+                            className: "colLeavePaidLeave",
+                            "targets": [5]
+                           },  
+                           {
+                            className: "colLeaveShownOnPayslip",
+                            "targets": [6]
+                           },                        
+                           {
+                              className: "colDeletepaidrem",
+                              "orderable": false,
+                              "targets": -1
+                           }
+                      ],
+                      select: true,
+                      destroy: true,
+                      colReorder: true,
+                      pageLength: initialDatatableLoad,
+                      lengthMenu: [ [initialDatatableLoad, -1], [initialDatatableLoad, "All"] ],
+                      info: true,
+                      responsive: true,
+                      "order": [[0, "asc"]],
+                      action: function () {
+                          $('#tblLeave').DataTable().ajax.reload();
+                      },
+                      "fnDrawCallback": function (oSettings) {
+                          $('.paginate_button.page-item').removeClass('disabled');
+                          $('#tblLeave_ellipsis').addClass('disabled');
+                          if (oSettings._iDisplayLength == -1) {
+                              if (oSettings.fnRecordsDisplay() > 150) {
+    
+                              }
+                          } else {
+    
+                          }
+                          if (oSettings.fnRecordsDisplay() < initialDatatableLoad) {
+                              $('.paginate_button.page-item.next').addClass('disabled');
+                          }
+    
+                          $('.paginate_button.next:not(.disabled)', this.api().table().container())
+                              .on('click', function () {
+                                  $('.fullScreenSpin').css('display', 'inline-block');
+                                  var splashArrayLeaveListDupp = new Array();
+                                  let dataLenght = oSettings._iDisplayLength;
+                                  let customerSearch = $('#tblLeave_filter input').val();
+    
+                                  sideBarService.getPaidLeave(initialDatatableLoad, oSettings.fnRecordsDisplay()).then(function (data) {
+    
+                                    for (let i = 0; i < data.tpaidleave.length; i++) {
+                    
+                                        var dataListAllowance = [
+                                            data.tpaidleave[i].fields.ID || '',
+                                            data.tpaidleave[i].fields.LeavePaidUnits || '',
+                                            data.tpaidleave[i].fields.LeavePaidNormalEntitlement || '',
+                                            data.tpaidleave[i].fields.LeavePaidLeaveLoadingRate || '',
+                                            true,
+                                            data.tpaidleave[i].fields.LeavePaidShowBalanceOnPayslip || false,
+                                           '<td contenteditable="false" class="colDeletepaidrem"><span class="table-remove"><button type="button" class="btn btn-danger btn-rounded btn-sm my-0"><i class="fa fa-remove"></i></button></span>'
+                                        ];
+                        
+                                        splashArrayLeaveList.push(dataListAllowance);
+                                    }
+    
+                                         let uniqueChars = [...new Set(splashArrayLeaveList)];
+                                         var datatable = $('#tblLeave').DataTable();
+                                              datatable.clear();
+                                              datatable.rows.add(uniqueChars);
+                                              datatable.draw(false);
+                                              setTimeout(function () {
+                                                $("#tblLeave").dataTable().fnPageChange('last');
+                                              }, 400);
+    
+                                              $('.fullScreenSpin').css('display', 'none');
+    
+    
+                                  }).catch(function (err) {
+                                      $('.fullScreenSpin').css('display', 'none');
+                                  });
+    
+                              });
+                          setTimeout(function () {
+                              MakeNegative();
+                          }, 100);
+                      },
+                      "fnInitComplete": function () {
+                        //   $("<button class='btn btn-primary btnAddNewAllowance' data-dismiss='modal' data-toggle='modal' data-target='#newPayCalendarModal' type='button' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-plus'></i></button>").insertAfter("#tblAlowances_filter");
+                        //   $("<button class='btn btn-primary btnRefreshAllowance' type='button' id='btnRefreshAllowance' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblAlowances_filter");
+    
+                      }
+    
+                  }).on('page', function () {
+                      setTimeout(function () {
+                          MakeNegative();
+                      }, 100);
+    
+                  }).on('column-reorder', function () {
+    
+                  }).on('length.dt', function (e, settings, len) {
+                    //$('.fullScreenSpin').css('display', 'inline-block');
+                    let dataLenght = settings._iDisplayLength;
+                    splashArrayReisument = [];
+                    if (dataLenght == -1) {
+                      $('.fullScreenSpin').css('display', 'none');
+    
+                    } else {
+                        if (settings.fnRecordsDisplay() >= settings._iDisplayLength) {
+                            $('.fullScreenSpin').css('display', 'none');
+                        } else {
+                            sideBarService.getPaidLeave(dataLenght, 0).then(function (dataNonBo) {
+    
+                                addVS1Data('TPaidLeave', JSON.stringify(dataNonBo)).then(function (datareturn) {
+                                    templateObject.resetData(dataNonBo);
+                                    $('.fullScreenSpin').css('display', 'none');
+                                }).catch(function (err) {
+                                    $('.fullScreenSpin').css('display', 'none');
+                                });
+                            }).catch(function (err) {
+                                $('.fullScreenSpin').css('display', 'none');
+                            });
+                        }
+                    }
+                      setTimeout(function () {
+                          MakeNegative();
+                      }, 100);
+                  });
+    
+    
+              }, 0);
+    
+              $('div.dataTables_filter input').addClass('form-control form-control-sm');
+    
+              $('.fullScreenSpin').css('display', 'none');
+          }).catch(function (err) {
+            $('.fullScreenSpin').css('display', 'none');
+          });
+        });
+
+    };
+
+    templateObject.getLeaveTypeData();
+
+    
+    templateObject.getUnpaidLeaveTypeData = function(){
+
+        getVS1Data('TUnpaidLeave').then(function(dataObject) {
+            if (dataObject.length == 0) {
+                 sideBarService.getUnPaidLeave(initialBaseDataLoad, 0).then(function (data) {
+                  addVS1Data('TUnpaidLeave', JSON.stringify(data));
+                  let lineItems = [];
+                  let lineItemObj = {};
+                  for (let i = 0; i < data.tunpaidleave.length; i++) {
+                    
+                      var dataListAllowance = [
+                          data.tunpaidleave[i].fields.ID || '',
+                          data.tunpaidleave[i].fields.LeaveUnPaidName || '',
+                          data.tunpaidleave[i].fields.LeaveUnPaidUnits || '',
+                          data.tunpaidleave[i].fields.LeaveUnPaidNormalEntitlement || '',
+                          data.tunpaidleave[i].fields.LeaveUnPaidLeaveLoadingRate || '',
+                          false,
+                          data.tpaidleave[i].fields.LeaveUnPaidShowBalanceOnPayslip || false,
+                         '<td contenteditable="false" class="colDeletepaidrem"><span class="table-remove"><button type="button" class="btn btn-danger btn-rounded btn-sm my-0"><i class="fa fa-remove"></i></button></span>'
+                      ];
+    
+                      splashArrayUnLeaveList.push(dataListAllowance);
+                  }
+    
+            
+    
+    
+                  setTimeout(function () {
+                      MakeNegative();
+                  }, 100);
+                  setTimeout(function () {
+                      $('#tblLeave').DataTable({
+    
+                          data: splashArrayUnLeaveList,
+                          "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
+                          columnDefs: [                              
+                            
+                            {
+                                 className: "colLeaveID hiddenColumn",
+                                 "targets": [0]
+                               },
+                               {
+                                  className: "colLeaveName",
+                                  "targets": [1]
+                               },  
+                               {
+                                  className: "colLeaveUnits",
+                                  "targets": [2]
+                               },  
+                               {
+                                className: "colLeaveNormalEntitlement",
+                                "targets": [3]
+                               },  
+                               {
+                                className: "colLeaveLeaveLoadingRate",
+                                "targets": [4]
+                               },  
+                               {
+                                className: "colLeavePaidLeave",
+                                "targets": [5]
+                               },  
+                               {
+                                className: "colLeaveShownOnPayslip",
+                                "targets": [6]
+                               },                        
+                               {
+                                  className: "colDeleterei",
+                                  "orderable": false,
+                                  "targets": -1
+                               }
+                          ],
+                          select: true,
+                          destroy: true,
+                          colReorder: true,
+                          pageLength: initialDatatableLoad,
+                          lengthMenu: [ [initialDatatableLoad, -1], [initialDatatableLoad, "All"] ],
+                          info: true,
+                          responsive: true,
+                          "order": [[0, "asc"]],
+                          action: function () {
+                              $('#tblLeave').DataTable().ajax.reload();
+                          },
+                          "fnDrawCallback": function (oSettings) {
+                              $('.paginate_button.page-item').removeClass('disabled');
+                              $('#tblLeave_ellipsis').addClass('disabled');
+                              if (oSettings._iDisplayLength == -1) {
+                                  if (oSettings.fnRecordsDisplay() > 150) {
+    
+                                  }
+                              } else {
+    
+                              }
+                              if (oSettings.fnRecordsDisplay() < initialDatatableLoad) {
+                                  $('.paginate_button.page-item.next').addClass('disabled');
+                              }
+    
+                              $('.paginate_button.next:not(.disabled)', this.api().table().container())
+                                  .on('click', function () {
+                                      $('.fullScreenSpin').css('display', 'inline-block');
+                                      var splashArrayUnLeaveListDupp = new Array();
+                                      let dataLenght = oSettings._iDisplayLength;
+                                      let customerSearch = $('#tblLeave_filter input').val();
+    
+                                      sideBarService.getUnPaidLeave(initialDatatableLoad, oSettings.fnRecordsDisplay()).then(function (data) {
+    
+                                        for (let i = 0; i < data.tunpaidleave.length; i++) {
+                    
+                                            var dataListAllowance = [
+                                                data.tunpaidleave[i].fields.ID || '',
+                                                data.tunpaidleave[i].fields.LeaveUnPaidName || '',
+                                                data.tunpaidleave[i].fields.LeaveUnPaidUnits || '',
+                                                data.tunpaidleave[i].fields.LeaveUnPaidNormalEntitlement || '',
+                                                data.tunpaidleave[i].fields.LeaveUnPaidLeaveLoadingRate || '',
+                                                false,
+                                                data.tpaidleave[i].fields.LeaveUnPaidShowBalanceOnPayslip || false,
+                                               '<td contenteditable="false" class="colDeletepaidrem"><span class="table-remove"><button type="button" class="btn btn-danger btn-rounded btn-sm my-0"><i class="fa fa-remove"></i></button></span>'
+                                            ];
+                          
+                                            splashArrayUnLeaveList.push(dataListAllowance);
+                                        }
+    
+                                                  let uniqueChars = [...new Set(splashArrayUnLeaveList)];
+                                                  var datatable = $('#tblLeave').DataTable();
+                                                  datatable.clear();
+                                                  datatable.rows.add(uniqueChars);
+                                                  datatable.draw(false);
+                                                  setTimeout(function () {
+                                                    $("#tblLeave").dataTable().fnPageChange('last');
+                                                  }, 400);
+    
+                                                  $('.fullScreenSpin').css('display', 'none');
+    
+    
+                                      }).catch(function (err) {
+                                          $('.fullScreenSpin').css('display', 'none');
+                                      });
+    
+                                  });
+                              setTimeout(function () {
+                                  MakeNegative();
+                              }, 100);
+                          },
+                          "fnInitComplete": function () {
+                            //   $("<button class='btn btn-primary btnAddNewAllowance' data-dismiss='modal' data-toggle='modal' data-target='#newPayCalendarModal' type='button' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-plus'></i></button>").insertAfter("#tblPayCalendars_filter");
+                            //   $("<button class='btn btn-primary btnRefreshAllowance' type='button' id='btnRefreshAllowance' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#ttblPayCalendars_filter");
+    
+                          }
+    
+                      }).on('page', function () {
+                          setTimeout(function () {
+                              MakeNegative();
+                          }, 100);
+    
+                      }).on('column-reorder', function () {
+    
+                      }).on('length.dt', function (e, settings, len) {
+                        //$('.fullScreenSpin').css('display', 'inline-block');
+                        let dataLenght = settings._iDisplayLength;
+                        splashArrayUnLeaveList = [];
+                        if (dataLenght == -1) {
+                          $('.fullScreenSpin').css('display', 'none');
+    
+                        } else {
+                            if (settings.fnRecordsDisplay() >= settings._iDisplayLength) {
+                                $('.fullScreenSpin').css('display', 'none');
+                            } else {
+                                sideBarService.getUnPaidLeave(dataLenght, 0).then(function (dataNonBo) {
+    
+                                    addVS1Data('TUnpaidLeave', JSON.stringify(dataNonBo)).then(function (datareturn) {
+                                        templateObject.resetData(dataNonBo);
+                                        $('.fullScreenSpin').css('display', 'none');
+                                    }).catch(function (err) {
+                                        $('.fullScreenSpin').css('display', 'none');
+                                    });
+                                }).catch(function (err) {
+                                    $('.fullScreenSpin').css('display', 'none');
+                                });
+                            }
+                        }
+                          setTimeout(function () {
+                              MakeNegative();
+                          }, 100);
+                      });
+    
+    
+                  }, 0);
+    
+                  $('div.dataTables_filter input').addClass('form-control form-control-sm');
+    
+                  $('.fullScreenSpin').css('display', 'none');
+              }).catch(function (err) {
+                $('.fullScreenSpin').css('display', 'none');
+              });
+            }else{
+    
+              let data = JSON.parse(dataObject[0].data);
+    
+              let useData = data;
+              let lineItems = [];
+              let lineItemObj = {};
+              for (let i = 0; i < data.tunpaidleave.length; i++) {
+                    
+                var dataListAllowance = [
+                    data.tunpaidleave[i].fields.ID || '',
+                    data.tunpaidleave[i].fields.LeaveUnPaidName || '',
+                    data.tunpaidleave[i].fields.LeaveUnPaidUnits || '',
+                    data.tunpaidleave[i].fields.LeaveUnPaidNormalEntitlement || '',
+                    data.tunpaidleave[i].fields.LeaveUnPaidLeaveLoadingRate || '',
+                    false,
+                    data.tpaidleave[i].fields.LeaveUnPaidShowBalanceOnPayslip || false,
+                   '<td contenteditable="false" class="colDeletepaidrem"><span class="table-remove"><button type="button" class="btn btn-danger btn-rounded btn-sm my-0"><i class="fa fa-remove"></i></button></span>'
+                ];
+
+                splashArrayUnLeaveList.push(dataListAllowance);
+            }
+        
+    
+    
+              setTimeout(function () {
+                  MakeNegative();
+              }, 100);
+              setTimeout(function () {
+                  $('#tblLeave').DataTable({
+    
+                      data: splashArrayUnLeaveList,
+                      "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
+                      columnDefs: [                              
+                            
+                        {
+                             className: "colLeaveID hiddenColumn",
+                             "targets": [0]
+                           },
+                           {
+                              className: "colLeaveName",
+                              "targets": [1]
+                           },  
+                           {
+                              className: "colLeaveUnits",
+                              "targets": [2]
+                           },  
+                           {
+                            className: "colLeaveNormalEntitlement",
+                            "targets": [3]
+                           },  
+                           {
+                            className: "colLeaveLeaveLoadingRate",
+                            "targets": [4]
+                           },  
+                           {
+                            className: "colLeavePaidLeave",
+                            "targets": [5]
+                           },  
+                           {
+                            className: "colLeaveShownOnPayslip",
+                            "targets": [6]
+                           },                        
+                           {
+                              className: "colDeleterei",
+                              "orderable": false,
+                              "targets": -1
+                           }
+                      ],
+                      select: true,
+                      destroy: true,
+                      colReorder: true,
+                      pageLength: initialDatatableLoad,
+                      lengthMenu: [ [initialDatatableLoad, -1], [initialDatatableLoad, "All"] ],
+                      info: true,
+                      responsive: true,
+                      "order": [[0, "asc"]],
+                      action: function () {
+                          $('#tblLeave').DataTable().ajax.reload();
+                      },
+                      "fnDrawCallback": function (oSettings) {
+                          $('.paginate_button.page-item').removeClass('disabled');
+                          $('#tblLeave_ellipsis').addClass('disabled');
+                          if (oSettings._iDisplayLength == -1) {
+                              if (oSettings.fnRecordsDisplay() > 150) {
+    
+                              }
+                          } else {
+    
+                          }
+                          if (oSettings.fnRecordsDisplay() < initialDatatableLoad) {
+                              $('.paginate_button.page-item.next').addClass('disabled');
+                          }
+    
+                          $('.paginate_button.next:not(.disabled)', this.api().table().container())
+                              .on('click', function () {
+                                  $('.fullScreenSpin').css('display', 'inline-block');
+                                  var splashArrayLeaveListDupp = new Array();
+                                  let dataLenght = oSettings._iDisplayLength;
+                                  let customerSearch = $('#tblLeave_filter input').val();
+    
+                                  sideBarService.getUnPaidLeave(initialDatatableLoad, oSettings.fnRecordsDisplay()).then(function (data) {
+    
+                                    for (let i = 0; i < data.tunpaidleave.length; i++) {
+                    
+                                        var dataListAllowance = [
+                                            data.tunpaidleave[i].fields.ID || '',
+                                            data.tunpaidleave[i].fields.LeaveUnPaidName || '',
+                                            data.tunpaidleave[i].fields.LeaveUnPaidUnits || '',
+                                            data.tunpaidleave[i].fields.LeaveUnPaidNormalEntitlement || '',
+                                            data.tunpaidleave[i].fields.LeaveUnPaidLeaveLoadingRate || '',
+                                            false,
+                                            data.tpaidleave[i].fields.LeaveUnPaidShowBalanceOnPayslip || false,
+                                           '<td contenteditable="false" class="colDeletepaidrem"><span class="table-remove"><button type="button" class="btn btn-danger btn-rounded btn-sm my-0"><i class="fa fa-remove"></i></button></span>'
+                                        ];
+                      
+                                        splashArrayUnLeaveList.push(dataListAllowance);
+                                    }
+                                              let uniqueChars = [...new Set(splashArrayUnLeaveList)];
+                                              var datatable = $('#tblLeave').DataTable();
+                                              datatable.clear();
+                                              datatable.rows.add(uniqueChars);
+                                              datatable.draw(false);
+                                              setTimeout(function () {
+                                                $("#tblLeave").dataTable().fnPageChange('last');
+                                              }, 400);
+    
+                                              $('.fullScreenSpin').css('display', 'none');
+    
+    
+                                  }).catch(function (err) {
+                                      $('.fullScreenSpin').css('display', 'none');
+                                  });
+    
+                              });
+                          setTimeout(function () {
+                              MakeNegative();
+                          }, 100);
+                      },
+                      "fnInitComplete": function () {
+                          $("<button class='btn btn-primary btnAddNewAllowance' data-dismiss='modal' data-toggle='modal' data-target='#newPayCalendarModal' type='button' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-plus'></i></button>").insertAfter("#tblAlowances_filter");
+                          $("<button class='btn btn-primary btnRefreshAllowance' type='button' id='btnRefreshAllowance' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblAlowances_filter");
+    
+                      }
+    
+                  }).on('page', function () {
+                      setTimeout(function () {
+                          MakeNegative();
+                      }, 100);
+    
+                  }).on('column-reorder', function () {
+    
+                  }).on('length.dt', function (e, settings, len) {
+                    //$('.fullScreenSpin').css('display', 'inline-block');
+                    let dataLenght = settings._iDisplayLength;
+                    splashArrayLeaveList = [];
+                    if (dataLenght == -1) {
+                      $('.fullScreenSpin').css('display', 'none');
+    
+                    } else {
+                        if (settings.fnRecordsDisplay() >= settings._iDisplayLength) {
+                            $('.fullScreenSpin').css('display', 'none');
+                        } else {
+                            sideBarService.getUnPaidLeave(dataLenght, 0).then(function (dataNonBo) {
+    
+                                addVS1Data('TUnpaidLeave', JSON.stringify(dataNonBo)).then(function (datareturn) {
+                                    templateObject.resetData(dataNonBo);
+                                    $('.fullScreenSpin').css('display', 'none');
+                                }).catch(function (err) {
+                                    $('.fullScreenSpin').css('display', 'none');
+                                });
+                            }).catch(function (err) {
+                                $('.fullScreenSpin').css('display', 'none');
+                            });
+                        }
+                    }
+                      setTimeout(function () {
+                          MakeNegative();
+                      }, 100);
+                  });
+    
+    
+              }, 0);
+    
+              $('div.dataTables_filter input').addClass('form-control form-control-sm');
+              $('.fullScreenSpin').css('display', 'none');
+    
+            }
+        }).catch(function(err) {
+          sideBarService.getUnPaidLeave(initialBaseDataLoad, 0).then(function (data) {
+              addVS1Data('TUnPaidLeave', JSON.stringify(data));
+              let lineItems = [];
+              let lineItemObj = {};
+              for (let i = 0; i < data.tunpaidleave.length; i++) {
+                    
+                var dataListAllowance = [
+                    data.tunpaidleave[i].fields.ID || '',
+                    data.tunpaidleave[i].fields.LeaveUnPaidName || '',
+                    data.tunpaidleave[i].fields.LeaveUnPaidUnits || '',
+                    data.tunpaidleave[i].fields.LeaveUnPaidNormalEntitlement || '',
+                    data.tunpaidleave[i].fields.LeaveUnPaidLeaveLoadingRate || '',
+                    false,
+                    data.tpaidleave[i].fields.LeaveUnPaidShowBalanceOnPayslip || false,
+                   '<td contenteditable="false" class="colDeletepaidrem"><span class="table-remove"><button type="button" class="btn btn-danger btn-rounded btn-sm my-0"><i class="fa fa-remove"></i></button></span>'
+                ];
+
+                splashArrayUnLeaveList.push(dataListAllowance);
+            }
+      
+    
+              setTimeout(function () {
+                  MakeNegative();
+              }, 100);
+              setTimeout(function () {
+                  $('#tblLeave').DataTable({
+    
+                      data: splashArrayUnLeaveList,
+                      "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
+                      columnDefs: [                              
+                            
+                        {
+                             className: "colLeaveID hiddenColumn",
+                             "targets": [0]
+                           },
+                           {
+                              className: "colLeaveName",
+                              "targets": [1]
+                           },  
+                           {
+                              className: "colLeaveUnits",
+                              "targets": [2]
+                           },  
+                           {
+                            className: "colLeaveNormalEntitlement",
+                            "targets": [3]
+                           },  
+                           {
+                            className: "colLeaveLeaveLoadingRate",
+                            "targets": [4]
+                           },  
+                           {
+                            className: "colLeavePaidLeave",
+                            "targets": [5]
+                           },  
+                           {
+                            className: "colLeaveShownOnPayslip",
+                            "targets": [6]
+                           },                        
+                           {
+                              className: "colDeleterei",
+                              "orderable": false,
+                              "targets": -1
+                           }
+                      ],
+                      select: true,
+                      destroy: true,
+                      colReorder: true,
+                      pageLength: initialDatatableLoad,
+                      lengthMenu: [ [initialDatatableLoad, -1], [initialDatatableLoad, "All"] ],
+                      info: true,
+                      responsive: true,
+                      "order": [[0, "asc"]],
+                      action: function () {
+                          $('#tblLeave').DataTable().ajax.reload();
+                      },
+                      "fnDrawCallback": function (oSettings) {
+                          $('.paginate_button.page-item').removeClass('disabled');
+                          $('#tblLeave_ellipsis').addClass('disabled');
+                          if (oSettings._iDisplayLength == -1) {
+                              if (oSettings.fnRecordsDisplay() > 150) {
+    
+                              }
+                          } else {
+    
+                          }
+                          if (oSettings.fnRecordsDisplay() < initialDatatableLoad) {
+                              $('.paginate_button.page-item.next').addClass('disabled');
+                          }
+    
+                          $('.paginate_button.next:not(.disabled)', this.api().table().container())
+                              .on('click', function () {
+                                  $('.fullScreenSpin').css('display', 'inline-block');
+                                  var splashArrayLeaveListDupp = new Array();
+                                  let dataLenght = oSettings._iDisplayLength;
+                                  let customerSearch = $('#tblLeave_filter input').val();
+    
+                                  sideBarService.getUnPaidLeave(initialDatatableLoad, oSettings.fnRecordsDisplay()).then(function (data) {
+    
+                                    for (let i = 0; i < data.tunpaidleave.length; i++) {
+                    
+                                        var dataListAllowance = [
+                                            data.tunpaidleave[i].fields.ID || '',
+                                            data.tunpaidleave[i].fields.LeaveUnPaidUnits || '',
+                                            data.tunpaidleave[i].fields.LeaveUnPaidNormalEntitlement || '',
+                                            data.tunpaidleave[i].fields.LeaveUnPaidLeaveLoadingRate || '',
+                                            true,
+                                            data.tunpaidleave[i].fields.LeaveUnPaidShowBalanceOnPayslip || false,
+                                           '<td contenteditable="false" class="colDeletepaidrem"><span class="table-remove"><button type="button" class="btn btn-danger btn-rounded btn-sm my-0"><i class="fa fa-remove"></i></button></span>'
+                                        ];
+                        
+                                        splashArrayUnLeaveList.push(dataListAllowance);
+                                    }
+    
+                                         let uniqueChars = [...new Set(splashArrayUnLeaveList)];
+                                         var datatable = $('#tblLeave').DataTable();
+                                              datatable.clear();
+                                              datatable.rows.add(uniqueChars);
+                                              datatable.draw(false);
+                                              setTimeout(function () {
+                                                $("#tblLeave").dataTable().fnPageChange('last');
+                                              }, 400);
+    
+                                              $('.fullScreenSpin').css('display', 'none');
+    
+    
+                                  }).catch(function (err) {
+                                      $('.fullScreenSpin').css('display', 'none');
+                                  });
+    
+                              });
+                          setTimeout(function () {
+                              MakeNegative();
+                          }, 100);
+                      },
+                      "fnInitComplete": function () {
+                        //   $("<button class='btn btn-primary btnAddNewAllowance' data-dismiss='modal' data-toggle='modal' data-target='#newPayCalendarModal' type='button' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-plus'></i></button>").insertAfter("#tblAlowances_filter");
+                        //   $("<button class='btn btn-primary btnRefreshAllowance' type='button' id='btnRefreshAllowance' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblAlowances_filter");
+    
+                      }
+    
+                  }).on('page', function () {
+                      setTimeout(function () {
+                          MakeNegative();
+                      }, 100);
+    
+                  }).on('column-reorder', function () {
+    
+                  }).on('length.dt', function (e, settings, len) {
+                    //$('.fullScreenSpin').css('display', 'inline-block');
+                    let dataLenght = settings._iDisplayLength;
+                    splashArrayUnLeaveList = [];
+                    if (dataLenght == -1) {
+                      $('.fullScreenSpin').css('display', 'none');
+    
+                    } else {
+                        if (settings.fnRecordsDisplay() >= settings._iDisplayLength) {
+                            $('.fullScreenSpin').css('display', 'none');
+                        } else {
+                            sideBarService.getUnPaidLeave(dataLenght, 0).then(function (dataNonBo) {
+    
+                                addVS1Data('TUnpaidLeave', JSON.stringify(dataNonBo)).then(function (datareturn) {
+                                    templateObject.resetData(dataNonBo);
+                                    $('.fullScreenSpin').css('display', 'none');
+                                }).catch(function (err) {
+                                    $('.fullScreenSpin').css('display', 'none');
+                                });
+                            }).catch(function (err) {
+                                $('.fullScreenSpin').css('display', 'none');
+                            });
+                        }
+                    }
+                      setTimeout(function () {
+                          MakeNegative();
+                      }, 100);
+                  });
+    
+    
+              }, 0);
+    
+              $('div.dataTables_filter input').addClass('form-control form-control-sm');
+    
+              $('.fullScreenSpin').css('display', 'none');
+          }).catch(function (err) {
+            $('.fullScreenSpin').css('display', 'none');
+          });
+        });
+
+    };
+
+    templateObject.getUnpaidLeaveTypeData();
+
+    templateObject.getSuperannuationData = function(){
+       
+        getVS1Data('TSuperannuation').then(function(dataObject) {
+            if (dataObject.length == 0) {
+                 sideBarService.getSuperannuation(initialBaseDataLoad, 0).then(function (data) {
+                  addVS1Data('TSuperannuation', JSON.stringify(data));
+                  let lineItems = [];
+                  let lineItemObj = {};
+                
+                  for (let i = 0; i < data.tsuperannuation.length; i++) {
+                    
+                      var dataListAllowance = [
+                          data.tsuperannuation[i].fields.ID || '',
+                          data.tsuperannuation[i].fields.Superfund || '',
+                          data.tsuperannuation[i].fields.Supertypeid || '',
+                          data.tsuperannuation[i].fields.Employeeid || '',
+                          'Key Missing',
+                          'Key Missing',
+                          'Key Missing',
+                          data.tsuperannuation[i].fields.Accountno || '',
+                          'Key Missing',
+                          '<td contenteditable="false" class="colDeletesup"><span class="table-remove"><button type="button" class="btn btn-danger btn-rounded btn-sm my-0"><i class="fa fa-remove"></i></button></span>'
+                      ];
+    
+                      splashArraySuperannuationList.push(dataListAllowance);
+                  }
+    
+            
+    
+    
+                  setTimeout(function () {
+                      MakeNegative();
+                  }, 100);
+                  setTimeout(function () {
+                      $('#tblSuperannuation').DataTable({
+    
+                          data: splashArraySuperannuationList,
+                          "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
+                          columnDefs: [                              
+                            
+                               {
+                                 className: "colSuperannuationID hiddenColumn",
+                                 "targets": [0]
+                               },
+                               {
+                                  className: "colSuperannuationName",
+                                  "targets": [1]
+                               },  
+                               {
+                                  className: "colSuperannuationType",
+                                  "targets": [2]
+                               },  
+                               {
+                                className: "colEmployerNum",
+                                "targets": [3]
+                               },  
+                               {
+                                className: "colabn",
+                                "targets": [4]
+                               },  
+                               {
+                                className: "colservicealias",
+                                "targets": [5]
+                               },  
+                               {
+                                className: "colbsb",
+                                "targets": [6]
+                               },  
+                               {
+                                className: "colaccountnumber",
+                                "targets": [7]
+                               },  
+                               {
+                                className: "colaccountname",
+                                "targets": [8]
+                               },  
+                                                   
+                               {
+                                  className: "colDeletesup",
+                                  "orderable": false,
+                                  "targets": -1
+                               }
+                          ],
+                          select: true,
+                          destroy: true,
+                          colReorder: true,
+                          pageLength: initialDatatableLoad,
+                          lengthMenu: [ [initialDatatableLoad, -1], [initialDatatableLoad, "All"] ],
+                          info: true,
+                          responsive: true,
+                          "order": [[0, "asc"]],
+                          action: function () {
+                              $('#tblSuperannuation').DataTable().ajax.reload();
+                          },
+                          "fnDrawCallback": function (oSettings) {
+                              $('.paginate_button.page-item').removeClass('disabled');
+                              $('#tblSuperannuation_ellipsis').addClass('disabled');
+                              if (oSettings._iDisplayLength == -1) {
+                                  if (oSettings.fnRecordsDisplay() > 150) {
+    
+                                  }
+                              } else {
+    
+                              }
+                              if (oSettings.fnRecordsDisplay() < initialDatatableLoad) {
+                                  $('.paginate_button.page-item.next').addClass('disabled');
+                              }
+    
+                              $('.paginate_button.next:not(.disabled)', this.api().table().container())
+                                  .on('click', function () {
+                                      $('.fullScreenSpin').css('display', 'inline-block');
+                                      var splashArraySuperannuationListDupp = new Array();
+                                      let dataLenght = oSettings._iDisplayLength;
+                                      let customerSearch = $('#tblSuperannuation_filter input').val();
+    
+                                      sideBarService.getSuperannuation(initialDatatableLoad, oSettings.fnRecordsDisplay()).then(function (data) {
+    
+                                        for (let i = 0; i < data.tsuperannuation.length; i++) {
+                    
+                                            var dataListAllowance = [
+                                                data.tsuperannuation[i].fields.ID || '',
+                                                data.tsuperannuation[i].fields.Superfund || '',
+                                                data.tsuperannuation[i].fields.Supertypeid || '',
+                                                data.tsuperannuation[i].fields.Employeeid || '',
+                                                'Key Missing',
+                                                'Key Missing',
+                                                'Key Missing',
+                                                data.tsuperannuation[i].fields.Accountno || '',
+                                                'Key Missing',
+                                                '<td contenteditable="false" class="colDeletesup"><span class="table-remove"><button type="button" class="btn btn-danger btn-rounded btn-sm my-0"><i class="fa fa-remove"></i></button></span>'
+                                            ];
+                          
+                                            splashArraySuperannuationList.push(dataListAllowance);
+                                        }
+    
+                                                  let uniqueChars = [...new Set(splashArraySuperannuationList)];
+                                                  var datatable = $('#tblSuperannuation').DataTable();
+                                                  datatable.clear();
+                                                  datatable.rows.add(uniqueChars);
+                                                  datatable.draw(false);
+                                                  setTimeout(function () {
+                                                    $("#tblSuperannuation").dataTable().fnPageChange('last');
+                                                  }, 400);
+    
+                                                  $('.fullScreenSpin').css('display', 'none');
+    
+    
+                                      }).catch(function (err) {
+                                          $('.fullScreenSpin').css('display', 'none');
+                                      });
+    
+                                  });
+                              setTimeout(function () {
+                                  MakeNegative();
+                              }, 100);
+                          },
+                          "fnInitComplete": function () {
+                            //   $("<button class='btn btn-primary btnAddNewAllowance' data-dismiss='modal' data-toggle='modal' data-target='#newPayCalendarModal' type='button' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-plus'></i></button>").insertAfter("#tblPayCalendars_filter");
+                            //   $("<button class='btn btn-primary btnRefreshAllowance' type='button' id='btnRefreshAllowance' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#ttblPayCalendars_filter");
+    
+                          }
+    
+                      }).on('page', function () {
+                          setTimeout(function () {
+                              MakeNegative();
+                          }, 100);
+    
+                      }).on('column-reorder', function () {
+    
+                      }).on('length.dt', function (e, settings, len) {
+                        //$('.fullScreenSpin').css('display', 'inline-block');
+                        let dataLenght = settings._iDisplayLength;
+                        splashArraySuperannuationList = [];
+                        if (dataLenght == -1) {
+                          $('.fullScreenSpin').css('display', 'none');
+    
+                        } else {
+                            if (settings.fnRecordsDisplay() >= settings._iDisplayLength) {
+                                $('.fullScreenSpin').css('display', 'none');
+                            } else {
+                                sideBarService.getSuperannuation(dataLenght, 0).then(function (dataNonBo) {
+    
+                                    addVS1Data('TSuperannuation', JSON.stringify(dataNonBo)).then(function (datareturn) {
+                                        templateObject.resetData(dataNonBo);
+                                        $('.fullScreenSpin').css('display', 'none');
+                                    }).catch(function (err) {
+                                        $('.fullScreenSpin').css('display', 'none');
+                                    });
+                                }).catch(function (err) {
+                                    $('.fullScreenSpin').css('display', 'none');
+                                });
+                            }
+                        }
+                          setTimeout(function () {
+                              MakeNegative();
+                          }, 100);
+                      });
+    
+    
+                  }, 0);
+    
+                  $('div.dataTables_filter input').addClass('form-control form-control-sm');
+    
+                  $('.fullScreenSpin').css('display', 'none');
+              }).catch(function (err) {
+                $('.fullScreenSpin').css('display', 'none');
+              });
+            }else{
+    
+              let data = JSON.parse(dataObject[0].data);    
+             
+              let useData = data;
+              let lineItems = [];
+              let lineItemObj = {};
+
+              for (let i = 0; i < data.tsuperannuation.length; i++) {
+                    
+                
+                var dataListAllowance = [
+                    data.tsuperannuation[i].fields.ID || '',
+                    data.tsuperannuation[i].fields.Superfund || '',
+                    data.tsuperannuation[i].fields.Supertypeid || '',
+                    data.tsuperannuation[i].fields.Employeeid || '',
+                    'Key Missing',
+                    'Key Missing',
+                    'Key Missing',
+                    data.tsuperannuation[i].fields.Accountno || '',
+                    'Key Missing',
+                    '<td contenteditable="false" class="colDeletesup"><span class="table-remove"><button type="button" class="btn btn-danger btn-rounded btn-sm my-0"><i class="fa fa-remove"></i></button></span>'
+                ];
+
+                splashArraySuperannuationList.push(dataListAllowance);
+            }
+        
+    
+    
+              setTimeout(function () {
+                  MakeNegative();
+              }, 100);
+              setTimeout(function () {
+                  $('#tblSuperannuation').DataTable({
+    
+                      data: splashArraySuperannuationList,
+                      "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
+                      columnDefs: [                              
+                            
+                        {
+                          className: "colSuperannuationID hiddenColumn",
+                          "targets": [0]
+                        },
+                        {
+                           className: "colSuperannuationName",
+                           "targets": [1]
+                        },  
+                        {
+                           className: "colSuperannuationType",
+                           "targets": [2]
+                        },  
+                        {
+                         className: "colEmployerNum",
+                         "targets": [3]
+                        },  
+                        {
+                         className: "colabn",
+                         "targets": [4]
+                        },  
+                        {
+                         className: "colservicealias",
+                         "targets": [5]
+                        },  
+                        {
+                         className: "colbsb",
+                         "targets": [6]
+                        },  
+                        {
+                         className: "colaccountnumber",
+                         "targets": [7]
+                        },  
+                        {
+                         className: "colaccountname",
+                         "targets": [8]
+                        },  
+                                            
+                        {
+                           className: "colDeletesup",
+                           "orderable": false,
+                           "targets": -1
+                        }
+                      ],
+                      select: true,
+                      destroy: true,
+                      colReorder: true,
+                      pageLength: initialDatatableLoad,
+                      lengthMenu: [ [initialDatatableLoad, -1], [initialDatatableLoad, "All"] ],
+                      info: true,
+                      responsive: true,
+                      "order": [[0, "asc"]],
+                      action: function () {
+                          $('#tblSuperannuation').DataTable().ajax.reload();
+                      },
+                      "fnDrawCallback": function (oSettings) {
+                          $('.paginate_button.page-item').removeClass('disabled');
+                          $('#tblSuperannuation_ellipsis').addClass('disabled');
+                          if (oSettings._iDisplayLength == -1) {
+                              if (oSettings.fnRecordsDisplay() > 150) {
+    
+                              }
+                          } else {
+    
+                          }
+                          if (oSettings.fnRecordsDisplay() < initialDatatableLoad) {
+                              $('.paginate_button.page-item.next').addClass('disabled');
+                          }
+    
+                          $('.paginate_button.next:not(.disabled)', this.api().table().container())
+                              .on('click', function () {
+                                  $('.fullScreenSpin').css('display', 'inline-block');
+                                  var splashArraySuperannuationListDupp = new Array();
+                                  let dataLenght = oSettings._iDisplayLength;
+                                  let customerSearch = $('#splashArraySuperannuationList_filter input').val();
+    
+                                  sideBarService.getSuperannuation(initialDatatableLoad, oSettings.fnRecordsDisplay()).then(function (data) {
+    
+                                     for (let i = 0; i < data.tsuperannuation.length; i++) {
+                    
+                                        var dataListAllowance = [
+                                            data.tsuperannuation[i].fields.ID || '',
+                                            data.tsuperannuation[i].fields.Superfund || '',
+                                            data.tsuperannuation[i].fields.Supertypeid || '',
+                                            data.tsuperannuation[i].fields.Employeeid || '',
+                                            'Key Missing',
+                                            'Key Missing',
+                                            'Key Missing',
+                                            data.tsuperannuation[i].fields.Accountno || '',
+                                            'Key Missing',
+                                            '<td contenteditable="false" class="colDeletesup"><span class="table-remove"><button type="button" class="btn btn-danger btn-rounded btn-sm my-0"><i class="fa fa-remove"></i></button></span>'
+                                        ];
+                        
+                                        splashArraySuperannuationList.push(dataListAllowance);
+                                      }
+                                              let uniqueChars = [...new Set(splashArraySuperannuationList)];
+                                              var datatable = $('#tblSuperannuation').DataTable();
+                                              datatable.clear();
+                                              datatable.rows.add(uniqueChars);
+                                              datatable.draw(false);
+                                              setTimeout(function () {
+                                                $("#tblSuperannuation").dataTable().fnPageChange('last');
+                                              }, 400);
+    
+                                              $('.fullScreenSpin').css('display', 'none');
+    
+    
+                                  }).catch(function (err) {
+                                      $('.fullScreenSpin').css('display', 'none');
+                                  });
+    
+                              });
+                          setTimeout(function () {
+                              MakeNegative();
+                          }, 100);
+                      },
+                      "fnInitComplete": function () {
+                          $("<button class='btn btn-primary btnAddNewAllowance' data-dismiss='modal' data-toggle='modal' data-target='#newPayCalendarModal' type='button' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-plus'></i></button>").insertAfter("#tblAlowances_filter");
+                          $("<button class='btn btn-primary btnRefreshAllowance' type='button' id='btnRefreshAllowance' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblAlowances_filter");
+    
+                      }
+    
+                  }).on('page', function () {
+                      setTimeout(function () {
+                          MakeNegative();
+                      }, 100);
+    
+                  }).on('column-reorder', function () {
+    
+                  }).on('length.dt', function (e, settings, len) {
+                    //$('.fullScreenSpin').css('display', 'inline-block');
+                    let dataLenght = settings._iDisplayLength;
+                    splashArraySuperannuationList = [];
+                    if (dataLenght == -1) {
+                      $('.fullScreenSpin').css('display', 'none');
+    
+                    } else {
+                        if (settings.fnRecordsDisplay() >= settings._iDisplayLength) {
+                            $('.fullScreenSpin').css('display', 'none');
+                        } else {
+                            sideBarService.getSuperannuation(dataLenght, 0).then(function (dataNonBo) {
+    
+                                addVS1Data('TSuperannuation', JSON.stringify(dataNonBo)).then(function (datareturn) {
+                                    templateObject.resetData(dataNonBo);
+                                    $('.fullScreenSpin').css('display', 'none');
+                                }).catch(function (err) {
+                                    $('.fullScreenSpin').css('display', 'none');
+                                });
+                            }).catch(function (err) {
+                                $('.fullScreenSpin').css('display', 'none');
+                            });
+                        }
+                    }
+                      setTimeout(function () {
+                          MakeNegative();
+                      }, 100);
+                  });
+    
+    
+              }, 0);
+    
+              $('div.dataTables_filter input').addClass('form-control form-control-sm');
+              $('.fullScreenSpin').css('display', 'none');
+    
+            }
+        }).catch(function(err) {
+          sideBarService.getSuperannuation(initialBaseDataLoad, 0).then(function (data) {
+              addVS1Data('TSuperannuation', JSON.stringify(data));
+              let lineItems = [];
+              let lineItemObj = {};
+              for (let i = 0; i < data.tsuperannuation.length; i++) {
+                    
+                var dataListAllowance = [
+                    data.tsuperannuation[i].fields.ID || '',
+                    data.tsuperannuation[i].fields.Superfund || '',
+                    data.tsuperannuation[i].fields.Supertypeid || '',
+                    data.tsuperannuation[i].fields.Employeeid || '',
+                    'Key Missing',
+                    'Key Missing',
+                    'Key Missing',
+                    data.tsuperannuation[i].fields.Accountno || '',
+                    'Key Missing',
+                    '<td contenteditable="false" class="colDeletesup"><span class="table-remove"><button type="button" class="btn btn-danger btn-rounded btn-sm my-0"><i class="fa fa-remove"></i></button></span>'
+                ];
+
+                splashArraySuperannuationList.push(dataListAllowance);
+              }
+      
+    
+              setTimeout(function () {
+                  MakeNegative();
+              }, 100);
+              setTimeout(function () {
+                  $('#tblSuperannuation').DataTable({
+    
+                      data: splashArraySuperannuationList,
+                      "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
+                      columnDefs: [                              
+                            
+                        {
+                          className: "colSuperannuationID hiddenColumn",
+                          "targets": [0]
+                        },
+                        {
+                           className: "colSuperannuationName",
+                           "targets": [1]
+                        },  
+                        {
+                           className: "colSuperannuationType",
+                           "targets": [2]
+                        },  
+                        {
+                         className: "colEmployerNum",
+                         "targets": [3]
+                        },  
+                        {
+                         className: "colabn",
+                         "targets": [4]
+                        },  
+                        {
+                         className: "colservicealias",
+                         "targets": [5]
+                        },  
+                        {
+                         className: "colbsb",
+                         "targets": [6]
+                        },  
+                        {
+                         className: "colaccountnumber",
+                         "targets": [7]
+                        },  
+                        {
+                         className: "colaccountname",
+                         "targets": [8]
+                        },  
+                                            
+                        {
+                           className: "colDeletesup",
+                           "orderable": false,
+                           "targets": -1
+                        }
+                   ],
+                      select: true,
+                      destroy: true,
+                      colReorder: true,
+                      pageLength: initialDatatableLoad,
+                      lengthMenu: [ [initialDatatableLoad, -1], [initialDatatableLoad, "All"] ],
+                      info: true,
+                      responsive: true,
+                      "order": [[0, "asc"]],
+                      action: function () {
+                          $('#tblSuperannuation').DataTable().ajax.reload();
+                      },
+                      "fnDrawCallback": function (oSettings) {
+                          $('.paginate_button.page-item').removeClass('disabled');
+                          $('#tblSuperannuation_ellipsis').addClass('disabled');
+                          if (oSettings._iDisplayLength == -1) {
+                              if (oSettings.fnRecordsDisplay() > 150) {
+    
+                              }
+                          } else {
+    
+                          }
+                          if (oSettings.fnRecordsDisplay() < initialDatatableLoad) {
+                              $('.paginate_button.page-item.next').addClass('disabled');
+                          }
+    
+                          $('.paginate_button.next:not(.disabled)', this.api().table().container())
+                              .on('click', function () {
+                                  $('.fullScreenSpin').css('display', 'inline-block');
+                                  var splashArraySuperannuationListDupp = new Array();
+                                  let dataLenght = oSettings._iDisplayLength;
+                                  let customerSearch = $('#tblLeave_filter input').val();
+    
+                                  sideBarService.getSuperannuation(initialDatatableLoad, oSettings.fnRecordsDisplay()).then(function (data) {
+    
+                                    for (let i = 0; i < data.tsuperannuation.length; i++) {
+                    
+                                        var dataListAllowance = [
+                                            data.tsuperannuation[i].fields.ID || '',
+                                            data.tsuperannuation[i].fields.Superfund || '',
+                                            data.tsuperannuation[i].fields.Supertypeid || '',
+                                            data.tsuperannuation[i].fields.Employeeid || '',
+                                            'Key Missing',
+                                            'Key Missing',
+                                            'Key Missing',
+                                            data.tsuperannuation[i].fields.Accountno || '',
+                                            'Key Missing',
+                                            '<td contenteditable="false" class="colDeletesup"><span class="table-remove"><button type="button" class="btn btn-danger btn-rounded btn-sm my-0"><i class="fa fa-remove"></i></button></span>'
+                                        ];
+                        
+                                        splashArraySuperannuationList.push(dataListAllowance);
+                                      }
+    
+                                         let uniqueChars = [...new Set(splashArraySuperannuationList)];
+                                         var datatable = $('#tblSuperannuation').DataTable();
+                                              datatable.clear();
+                                              datatable.rows.add(uniqueChars);
+                                              datatable.draw(false);
+                                              setTimeout(function () {
+                                                $("#tblSuperannuation").dataTable().fnPageChange('last');
+                                              }, 400);
+    
+                                              $('.fullScreenSpin').css('display', 'none');
+    
+    
+                                  }).catch(function (err) {
+                                      $('.fullScreenSpin').css('display', 'none');
+                                  });
+    
+                              });
+                          setTimeout(function () {
+                              MakeNegative();
+                          }, 100);
+                      },
+                      "fnInitComplete": function () {
+                        //   $("<button class='btn btn-primary btnAddNewAllowance' data-dismiss='modal' data-toggle='modal' data-target='#newPayCalendarModal' type='button' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-plus'></i></button>").insertAfter("#tblAlowances_filter");
+                        //   $("<button class='btn btn-primary btnRefreshAllowance' type='button' id='btnRefreshAllowance' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblAlowances_filter");
+    
+                      }
+    
+                  }).on('page', function () {
+                      setTimeout(function () {
+                          MakeNegative();
+                      }, 100);
+    
+                  }).on('column-reorder', function () {
+    
+                  }).on('length.dt', function (e, settings, len) {
+                    //$('.fullScreenSpin').css('display', 'inline-block');
+                    let dataLenght = settings._iDisplayLength;
+                    splashArraySuperannuationList = [];
+                    if (dataLenght == -1) {
+                      $('.fullScreenSpin').css('display', 'none');
+    
+                    } else {
+                        if (settings.fnRecordsDisplay() >= settings._iDisplayLength) {
+                            $('.fullScreenSpin').css('display', 'none');
+                        } else {
+                            sideBarService.getSuperannuation(dataLenght, 0).then(function (dataNonBo) {
+    
+                                addVS1Data('TSuperannuation', JSON.stringify(dataNonBo)).then(function (datareturn) {
+                                    templateObject.resetData(dataNonBo);
+                                    $('.fullScreenSpin').css('display', 'none');
+                                }).catch(function (err) {
+                                    $('.fullScreenSpin').css('display', 'none');
+                                });
+                            }).catch(function (err) {
+                                $('.fullScreenSpin').css('display', 'none');
+                            });
+                        }
+                    }
+                      setTimeout(function () {
+                          MakeNegative();
+                      }, 100);
+                  });
+    
+    
+              }, 0);
+    
+              $('div.dataTables_filter input').addClass('form-control form-control-sm');
+    
+              $('.fullScreenSpin').css('display', 'none');
+          }).catch(function (err) {
+            $('.fullScreenSpin').css('display', 'none');
+          });
+        });
+
+    };
+ 
+    templateObject.getSuperannuationData();
+ 
+    templateObject.getHolidayData = function() {
+        
+        getVS1Data('TPayrollHolidays').then(function(dataObject) {
+            if (dataObject.length == 0) {
+                 sideBarService.getHolidayData(initialBaseDataLoad, 0).then(function (data) {
+                  addVS1Data('TPayrollHolidays', JSON.stringify(data));
+                  let lineItems = [];
+                  let lineItemObj = {};
+                
+                  for (let i = 0; i < data.Tpayrollholidays.length; i++) {
+                    
+                      var dataListAllowance = [
+                          data.Tpayrollholidays[i].fields.ID || '',
+                          data.Tpayrollholidays[i].fields.PayrollHolidaysName || '',
+                          data.Tpayrollholidays[i].fields.PayrollHolidaysDate || '',
+                          data.Tpayrollholidays[i].fields.PayrollHolidaysGroupName || '',               
+                          '<td contenteditable="false" class="colHolidayDelete"><span class="table-remove"><button type="button" class="btn btn-danger btn-rounded btn-sm my-0"><i class="fa fa-remove"></i></button></span>'
+                      ];
+    
+                      splashArrayHolidayList.push(dataListAllowance);
+                  }
+    
+            
+    
+    
+                  setTimeout(function () {
+                      MakeNegative();
+                  }, 100);
+                  setTimeout(function () {
+                      $('#tblHolidays').DataTable({
+    
+                          data: splashArrayHolidayList,
+                          "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
+                          columnDefs: [                              
+                            
+                               {
+                                 className: "colHolidayID hiddenColumn",
+                                 "targets": [0]
+                               },
+                               {
+                                  className: "colHolidayName",
+                                  "targets": [1]
+                               },  
+                               {
+                                  className: "colHolidayDate",
+                                  "targets": [2]
+                               },                                                  
+                               {
+                                  className: "colHolidayDelete",
+                                  "orderable": false,
+                                  "targets": -1
+                               }
+                          ],
+                          select: true,
+                          destroy: true,
+                          colReorder: true,
+                          pageLength: initialDatatableLoad,
+                          lengthMenu: [ [initialDatatableLoad, -1], [initialDatatableLoad, "All"] ],
+                          info: true,
+                          responsive: true,
+                          "order": [[0, "asc"]],
+                          action: function () {
+                              $('#tblHolidays').DataTable().ajax.reload();
+                          },
+                          "fnDrawCallback": function (oSettings) {
+                              $('.paginate_button.page-item').removeClass('disabled');
+                              $('#tblHolidays_ellipsis').addClass('disabled');
+                              if (oSettings._iDisplayLength == -1) {
+                                  if (oSettings.fnRecordsDisplay() > 150) {
+    
+                                  }
+                              } else {
+    
+                              }
+                              if (oSettings.fnRecordsDisplay() < initialDatatableLoad) {
+                                  $('.paginate_button.page-item.next').addClass('disabled');
+                              }
+    
+                              $('.paginate_button.next:not(.disabled)', this.api().table().container())
+                                  .on('click', function () {
+                                      $('.fullScreenSpin').css('display', 'inline-block');
+                                      var splashArrayHolidayListDupp = new Array();
+                                      let dataLenght = oSettings._iDisplayLength;
+                                      let customerSearch = $('#tblHolidays_filter input').val();
+    
+                                      sideBarService.getHolidayData(initialDatatableLoad, oSettings.fnRecordsDisplay()).then(function (data) {
+    
+                                        for (let i = 0; i < data.Tpayrollholidays.length; i++) {
+                    
+                                            var dataListAllowance = [
+                                                data.Tpayrollholidays[i].fields.ID || '',
+                                                data.Tpayrollholidays[i].fields.PayrollHolidaysName || '',
+                                                data.Tpayrollholidays[i].fields.PayrollHolidaysDate || '',
+                                                data.Tpayrollholidays[i].fields.PayrollHolidaysGroupName || '',               
+                                                '<td contenteditable="false" class="colHolidayDelete"><span class="table-remove"><button type="button" class="btn btn-danger btn-rounded btn-sm my-0"><i class="fa fa-remove"></i></button></span>'
+                                            ];
+                          
+                                            splashArrayHolidayList.push(dataListAllowance);
+                                        }
+    
+                                                  let uniqueChars = [...new Set(splashArrayHolidayList)];
+                                                  var datatable = $('#tblHolidays').DataTable();
+                                                  datatable.clear();
+                                                  datatable.rows.add(uniqueChars);
+                                                  datatable.draw(false);
+                                                  setTimeout(function () {
+                                                    $("#tblHolidays").dataTable().fnPageChange('last');
+                                                  }, 400);
+    
+                                                  $('.fullScreenSpin').css('display', 'none');
+    
+    
+                                      }).catch(function (err) {
+                                          $('.fullScreenSpin').css('display', 'none');
+                                      });
+    
+                                  });
+                              setTimeout(function () {
+                                  MakeNegative();
+                              }, 100);
+                          },
+                          "fnInitComplete": function () {
+                            //   $("<button class='btn btn-primary btnAddNewAllowance' data-dismiss='modal' data-toggle='modal' data-target='#newPayCalendarModal' type='button' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-plus'></i></button>").insertAfter("#tblPayCalendars_filter");
+                            //   $("<button class='btn btn-primary btnRefreshAllowance' type='button' id='btnRefreshAllowance' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#ttblPayCalendars_filter");
+    
+                          }
+    
+                      }).on('page', function () {
+                          setTimeout(function () {
+                              MakeNegative();
+                          }, 100);
+    
+                      }).on('column-reorder', function () {
+    
+                      }).on('length.dt', function (e, settings, len) {
+                        //$('.fullScreenSpin').css('display', 'inline-block');
+                        let dataLenght = settings._iDisplayLength;
+                        splashArrayHolidayList = [];
+                        if (dataLenght == -1) {
+                          $('.fullScreenSpin').css('display', 'none');
+    
+                        } else {
+                            if (settings.fnRecordsDisplay() >= settings._iDisplayLength) {
+                                $('.fullScreenSpin').css('display', 'none');
+                            } else {
+                                sideBarService.getHolidayData(dataLenght, 0).then(function (dataNonBo) {
+    
+                                    addVS1Data('TPayrollHolidays', JSON.stringify(dataNonBo)).then(function (datareturn) {
+                                        templateObject.resetData(dataNonBo);
+                                        $('.fullScreenSpin').css('display', 'none');
+                                    }).catch(function (err) {
+                                        $('.fullScreenSpin').css('display', 'none');
+                                    });
+                                }).catch(function (err) {
+                                    $('.fullScreenSpin').css('display', 'none');
+                                });
+                            }
+                        }
+                          setTimeout(function () {
+                              MakeNegative();
+                          }, 100);
+                      });
+    
+    
+                  }, 0);
+    
+                  $('div.dataTables_filter input').addClass('form-control form-control-sm');
+    
+                  $('.fullScreenSpin').css('display', 'none');
+              }).catch(function (err) {
+                $('.fullScreenSpin').css('display', 'none');
+              });
+            }else{
+    
+              let data = JSON.parse(dataObject[0].data);    
+             
+              let useData = data;
+              let lineItems = [];
+              let lineItemObj = {};
+              for (let i = 0; i < data.Tpayrollholidays.length; i++) {
+                    
+                var dataListAllowance = [
+                    data.tpayrollholidays[i].fields.ID || '',
+                    data.tpayrollholidays[i].fields.PayrollHolidaysName || '',
+                    moment(data.tpayrollholidays[i].fields.PayrollHolidaysDate).format('DD/MM/YYYY') || '',
+                 
+                    '<td contenteditable="false" class="colHolidayDelete"><span class="table-remove"><button type="button" class="btn btn-danger btn-rounded btn-sm my-0"><i class="fa fa-remove"></i></button></span>'
+                ];
+
+                splashArrayHolidayList.push(dataListAllowance);
+            }
+        
+    
+    
+              setTimeout(function () {
+                  MakeNegative();
+              }, 100);
+              setTimeout(function () {
+                  $('#TPayrollHolidays').DataTable({
+    
+                      data: splashArrayHolidayList,
+                      "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
+                      columnDefs: [                              
+                            
+                        {
+                          className: "colHolidayID hiddenColumn",
+                          "targets": [0]
+                        },
+                        {
+                           className: "colHolidayName",
+                           "targets": [1]
+                        },  
+                        {
+                           className: "colHolidayDate",
+                           "targets": [2]
+                        },                                                  
+                        {
+                           className: "colHolidayDelete",
+                           "orderable": false,
+                           "targets": -1
+                        }
+                   ],
+                      select: true,
+                      destroy: true,
+                      colReorder: true,
+                      pageLength: initialDatatableLoad,
+                      lengthMenu: [ [initialDatatableLoad, -1], [initialDatatableLoad, "All"] ],
+                      info: true,
+                      responsive: true,
+                      "order": [[0, "asc"]],
+                      action: function () {
+                          $('#tblHolidays').DataTable().ajax.reload();
+                      },
+                      "fnDrawCallback": function (oSettings) {
+                          $('.paginate_button.page-item').removeClass('disabled');
+                          $('#tblHolidays_ellipsis').addClass('disabled');
+                          if (oSettings._iDisplayLength == -1) {
+                              if (oSettings.fnRecordsDisplay() > 150) {
+    
+                              }
+                          } else {
+    
+                          }
+                          if (oSettings.fnRecordsDisplay() < initialDatatableLoad) {
+                              $('.paginate_button.page-item.next').addClass('disabled');
+                          }
+    
+                          $('.paginate_button.next:not(.disabled)', this.api().table().container())
+                              .on('click', function () {
+                                  $('.fullScreenSpin').css('display', 'inline-block');
+                                  var splashArrayHolidayListDupp = new Array();
+                                  let dataLenght = oSettings._iDisplayLength;
+                                  let customerSearch = $('#tblHolidays_filter input').val();
+    
+                                  sideBarService.getHolidayData(initialDatatableLoad, oSettings.fnRecordsDisplay()).then(function (data) {
+    
+                                    for (let i = 0; i < data.Tpayrollholidays.length; i++) {
+                    
+                                        var dataListAllowance = [
+                                            data.tpayrollholidays[i].fields.ID || '',
+                                            data.tpayrollholidays[i].fields.PayrollHolidaysName || '',
+                                            moment(data.tpayrollholidays[i].fields.PayrollHolidaysDate).format('DD/MM/YYYY') || '',
+                                            '<td contenteditable="false" class="colHolidayDelete"><span class="table-remove"><button type="button" class="btn btn-danger btn-rounded btn-sm my-0"><i class="fa fa-remove"></i></button></span>'
+                                        ];
+                        
+                                        splashArrayHolidayList.push(dataListAllowance);
+                                    }
+                                              let uniqueChars = [...new Set(splashArrayHolidayList)];
+                                              var datatable = $('#tblHolidays').DataTable();
+                                              datatable.clear();
+                                              datatable.rows.add(uniqueChars);
+                                              datatable.draw(false);
+                                              setTimeout(function () {
+                                                $("#tblHolidays").dataTable().fnPageChange('last');
+                                              }, 400);
+    
+                                              $('.fullScreenSpin').css('display', 'none');
+    
+    
+                                  }).catch(function (err) {
+                                      $('.fullScreenSpin').css('display', 'none');
+                                  });
+    
+                              });
+                          setTimeout(function () {
+                              MakeNegative();
+                          }, 100);
+                      },
+                      "fnInitComplete": function () {
+                          $("<button class='btn btn-primary btnAddNewAllowance' data-dismiss='modal' data-toggle='modal' data-target='#newPayCalendarModal' type='button' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-plus'></i></button>").insertAfter("#tblAlowances_filter");
+                          $("<button class='btn btn-primary btnRefreshAllowance' type='button' id='btnRefreshAllowance' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblAlowances_filter");
+    
+                      }
+    
+                  }).on('page', function () {
+                      setTimeout(function () {
+                          MakeNegative();
+                      }, 100);
+    
+                  }).on('column-reorder', function () {
+    
+                  }).on('length.dt', function (e, settings, len) {
+                    //$('.fullScreenSpin').css('display', 'inline-block');
+                    let dataLenght = settings._iDisplayLength;
+                    splashArrayHolidayList = [];
+                    if (dataLenght == -1) {
+                      $('.fullScreenSpin').css('display', 'none');
+    
+                    } else {
+                        if (settings.fnRecordsDisplay() >= settings._iDisplayLength) {
+                            $('.fullScreenSpin').css('display', 'none');
+                        } else {
+                            sideBarService.getHolidayData(dataLenght, 0).then(function (dataNonBo) {
+    
+                                addVS1Data('TPayrollHolidays', JSON.stringify(dataNonBo)).then(function (datareturn) {
+                                    templateObject.resetData(dataNonBo);
+                                    $('.fullScreenSpin').css('display', 'none');
+                                }).catch(function (err) {
+                                    $('.fullScreenSpin').css('display', 'none');
+                                });
+                            }).catch(function (err) {
+                                $('.fullScreenSpin').css('display', 'none');
+                            });
+                        }
+                    }
+                      setTimeout(function () {
+                          MakeNegative();
+                      }, 100);
+                  });
+    
+    
+              }, 0);
+    
+              $('div.dataTables_filter input').addClass('form-control form-control-sm');
+              $('.fullScreenSpin').css('display', 'none');
+    
+            }
+        }).catch(function(err) {
+          sideBarService.getHolidayData(initialBaseDataLoad, 0).then(function (data) {
+              addVS1Data('TPayrollHolidays', JSON.stringify(data));
+              let lineItems = [];
+              let lineItemObj = {};
+             
+              for (let i = 0; i < data.tpayrollholidays.length; i++) {
+                    
+                var dataListAllowance = [
+                    data.tpayrollholidays[i].fields.ID || '',
+                    data.tpayrollholidays[i].fields.PayrollHolidaysName || '',
+                    moment(data.tpayrollholidays[i].fields.PayrollHolidaysDate).format('DD/MM/YYYY') || '',
+                    '<td contenteditable="false" class="colHolidayDelete"><span class="table-remove"><button type="button" class="btn btn-danger btn-rounded btn-sm my-0"><i class="fa fa-remove"></i></button></span>'
+                ];
+                splashArrayHolidayList.push(dataListAllowance);
+            }
+             
+              
+              setTimeout(function () {
+                  MakeNegative();
+              }, 100);
+              setTimeout(function () {
+                  $('#tblHolidays').DataTable({
+    
+                      data: splashArrayHolidayList,
+                      "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
+                      columnDefs: [                              
+                            
+                        {
+                          className: "colHolidayID hiddenColumn",
+                          "targets": [0]
+                        },
+                        {
+                           className: "colHolidayName",
+                           "targets": [1]
+                        },  
+                        {
+                           className: "colHolidayDate",
+                           "targets": [2]
+                        },                                                  
+                        {
+                           className: "colHolidayDelete",
+                           "orderable": false,
+                           "targets": -1
+                        }
+                   ],
+                      select: true,
+                      destroy: true,
+                      colReorder: true,
+                      pageLength: initialDatatableLoad,
+                      lengthMenu: [ [initialDatatableLoad, -1], [initialDatatableLoad, "All"] ],
+                      info: true,
+                      responsive: true,
+                      "order": [[0, "asc"]],
+                      action: function () {
+                          $('#tblHolidays').DataTable().ajax.reload();
+                      },
+                      "fnDrawCallback": function (oSettings) {
+                          $('.paginate_button.page-item').removeClass('disabled');
+                          $('#tblHolidays_ellipsis').addClass('disabled');
+                          if (oSettings._iDisplayLength == -1) {
+                              if (oSettings.fnRecordsDisplay() > 150) {
+    
+                              }
+                          } else {
+    
+                          }
+                          if (oSettings.fnRecordsDisplay() < initialDatatableLoad) {
+                              $('.paginate_button.page-item.next').addClass('disabled');
+                          }
+    
+                          $('.paginate_button.next:not(.disabled)', this.api().table().container())
+                              .on('click', function () {
+                                  $('.fullScreenSpin').css('display', 'inline-block');
+                                  var splashArrayHolidayListDupp = new Array();
+                                  let dataLenght = oSettings._iDisplayLength;
+                                  let customerSearch = $('#tblHolidays_filter input').val();
+    
+                                  sideBarService.getHolidayData(initialDatatableLoad, oSettings.fnRecordsDisplay()).then(function (data) {
+    
+                                    for (let i = 0; i < data.Tpayrollholidays.length; i++) {
+                    
+                                        var dataListAllowance = [
+                                            data.tpayrollholidays[i].fields.ID || '',
+                                            data.tpayrollholidays[i].fields.PayrollHolidaysName || '',
+                                            moment(data.tpayrollholidays[i].fields.PayrollHolidaysDate).format('DD/MM/YYYY') || '',  
+                                            '<td contenteditable="false" class="colHolidayDelete"><span class="table-remove"><button type="button" class="btn btn-danger btn-rounded btn-sm my-0"><i class="fa fa-remove"></i></button></span>'
+                                        ];
+                        
+                                        splashArrayHolidayList.push(dataListAllowance);
+                                    }
+    
+                                         let uniqueChars = [...new Set(splashArrayHolidayList)];
+                                         var datatable = $('#tblHolidays').DataTable();
+                                              datatable.clear();
+                                              datatable.rows.add(uniqueChars);
+                                              datatable.draw(false);
+                                              setTimeout(function () {
+                                                $("#tblHolidays").dataTable().fnPageChange('last');
+                                              }, 400);
+    
+                                              $('.fullScreenSpin').css('display', 'none');
+    
+    
+                                  }).catch(function (err) {
+                                      $('.fullScreenSpin').css('display', 'none');
+                                  });
+    
+                              });
+                          setTimeout(function () {
+                              MakeNegative();
+                          }, 100);
+                      },
+                      "fnInitComplete": function () {
+                        //   $("<button class='btn btn-primary btnAddNewAllowance' data-dismiss='modal' data-toggle='modal' data-target='#newPayCalendarModal' type='button' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-plus'></i></button>").insertAfter("#tblAlowances_filter");
+                        //   $("<button class='btn btn-primary btnRefreshAllowance' type='button' id='btnRefreshAllowance' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblAlowances_filter");
+    
+                      }
+    
+                  }).on('page', function () {
+                      setTimeout(function () {
+                          MakeNegative();
+                      }, 100);
+    
+                  }).on('column-reorder', function () {
+    
+                  }).on('length.dt', function (e, settings, len) {
+                    //$('.fullScreenSpin').css('display', 'inline-block');
+                    let dataLenght = settings._iDisplayLength;
+                    splashArrayHolidayList = [];
+                    if (dataLenght == -1) {
+                      $('.fullScreenSpin').css('display', 'none');
+    
+                    } else {
+                        if (settings.fnRecordsDisplay() >= settings._iDisplayLength) {
+                            $('.fullScreenSpin').css('display', 'none');
+                        } else {
+                            sideBarService.getHolidayData(dataLenght, 0).then(function (dataNonBo) {
+    
+                                addVS1Data('TPayrollHolidays', JSON.stringify(dataNonBo)).then(function (datareturn) {
+                                    templateObject.resetData(dataNonBo);
+                                    $('.fullScreenSpin').css('display', 'none');
+                                }).catch(function (err) {
+                                    $('.fullScreenSpin').css('display', 'none');
+                                });
+                            }).catch(function (err) {
+                                $('.fullScreenSpin').css('display', 'none');
+                            });
+                        }
+                    }
+                      setTimeout(function () {
+                          MakeNegative();
+                      }, 100);
+                  });
+    
+    
+              }, 0);
+    
+              $('div.dataTables_filter input').addClass('form-control form-control-sm');
+    
+              $('.fullScreenSpin').css('display', 'none');
+          }).catch(function (err) {
+            $('.fullScreenSpin').css('display', 'none');
+          });
+        });
+
+
+
+        // let splashArrayAllowanceList = [];
+        // let output = [];
+
+        // if(Session.get('holidayname'))
+        // {
+        //     output = Session.get('holidayname');
+        // }
+        // else{
+        //     output = [];
+        // }
+        
+        
+        //  let useData = output;
+        //  let lineItems = [];
+        //  let lineItemObj = {};
+
+        //  if(output !== undefined && output.length > 0){
+        //     for (let i = 0; i < output.length; i++) {
+            
+     
+        //         var datalistsuperannuation = [
+        //             output[i].fields.holidayname || 0,
+        //             output[i].fields.holidaydate || 0,
+        //             '<td contenteditable="false" class="colDeleteAllowances"><span class="table-remove"><button type="button" class="btn btn-danger btn-rounded btn-sm my-0"><i class="fa fa-remove"></i></button></span>'
+        //         ];
+    
+        //         splashArrayAllowanceList.push(datalistsuperannuation);
+        //     }
+        //  }
+       
+ 
+        //  setTimeout(function () {
+        //      MakeNegative();
+        //  }, 100);
+
+        //  setTimeout(function() {
+        //     $('#tblHolidays').DataTable({
+        //         data: splashArrayAllowanceList,
+        //         columnDefs: [{
+        //             "orderable": false,
+        //             "targets": -1
+        //         }],
+        //         "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
+        //         buttons: [{
+        //             extend: 'excelHtml5',
+        //             text: '',
+        //             download: 'open',
+        //             className: "btntabletocsv hiddenColumn",
+        //             filename: "taxratelist_" + moment().format(),
+        //             orientation: 'portrait',
+        //             exportOptions: {
+        //                 columns: ':visible'
+        //             }
+        //         }, {
+        //             extend: 'print',
+        //             download: 'open',
+        //             className: "btntabletopdf hiddenColumn",
+        //             text: '',
+        //             title: 'Tax Rate List',
+        //             filename: "taxratelist_" + moment().format(),
+        //             exportOptions: {
+        //                 columns: ':visible'
+        //             }
+        //         }],
+        //         select: true,
+        //         destroy: true,
+        //         colReorder: true,
+        //         colReorder: {
+        //             fixedColumnsRight: 1
+        //         },
+        //         lengthMenu: [
+        //             [25, -1],
+        //             [25, "All"]
+        //         ],
+        //         // bStateSave: true,
+        //         // rowId: 0,
+        //         paging: true,
+        //         info: true,
+        //         responsive: true,
+        //         "order": [
+        //             [0, "asc"]
+        //         ],
+        //         action: function() {
+        //             $('#tblPayCalendars').DataTable().ajax.reload();
+        //         },
+        //         "fnDrawCallback": function(oSettings) {
+        //             setTimeout(function() {
+        //                 MakeNegative();
+        //             }, 100);
+        //         },
+    
+        //     }).on('page', function() {
+        //         setTimeout(function() {
+        //             MakeNegative();
+        //         }, 100);
+        //         let draftRecord = templateObject.datatablerecords.get();
+        //         templateObject.datatablerecords.set(draftRecord);
+        //     }).on('column-reorder', function() {
+    
+        //     }).on('length.dt', function(e, settings, len) {
+        //         setTimeout(function() {
+        //             MakeNegative();
+        //         }, 100);
+        //     });
+    
+        //     // $('#currencyLists').DataTable().column( 0 ).visible( true );
+        //     $('.fullScreenSpin').css('display', 'none');
+        // }, 0);
+
+         
+        
+      };
+    templateObject.getHolidayData();
+
+    function getPayrollOrgainzation()
+    {
+        sideBarService.getPayrollinformation().then((dataListRet) => {
+            for (let event in dataListRet) {
+                let dataCopy = dataListRet[event];
+                for (let data in dataCopy) {
+                    let mainData = dataCopy[data];
+                    
+                     $('#editbankaccount').val(mainData.fields.PayrollBankAccount);
+                     $('#editpaygbankaccount').val(mainData.fields.PayrollPaygLiabilityAccount);
+                     $('#editwagesexpbankaccount').val(mainData.fields.PayrollWagesExpenseAccount);
+                     $('#editwagespaybankaccount').val(mainData.fields.PayrollWagesPayableAccount);
+                     $('#editsuperliabbankaccount').val(mainData.fields.PayrollSuperannuationLiabilityAccount);
+                     $('#editsuperexpbankaccount').val(mainData.fields.PayrollSuperannuationPayableAccount);
+                     $('#employegroup').val(mainData.fields.PayrollEmployeeGroup);
+                     $('#timesheetcat').val(mainData.fields.PayrollTimesheetCategories);
+                     $('#payrollsettingor').val(mainData.fields.ID);
+                     
+                     if(mainData.fields.PayrollShowAnnualSalary == true)
+                     {
+                         $('#swtShowAnnualSalary').attr("checked","checked");
+                     }
+                     else{
+                        $('#swtShowAnnualSalary').removeAttr('checked');
+                     }
+
+                     if(mainData.fields.PayrollShowEmploymentBasis == true)
+                     {
+                         $('#swtShowEmploymentBasis').attr("checked","checked");
+                     }
+                     else{
+                        $('#swtShowEmploymentBasis').removeAttr('checked');
+                     }
+                
+        
+                }
+            }
+            $('.fullScreenSpin').css('display','none');
+        }).catch(function (err) {
+          $('.fullScreenSpin').css('display','none');
+          });
+
+          let imageData= (localStorage.getItem("Image"));
+          if(imageData)
+          {
+              $('#uploadedImage').attr('src', imageData);
+              $('#uploadedImage').attr('width','50%');
+              $('#removeLogo').show();
+              $('#changeLogo').show();
+          }
+    }
+
+    getPayrollOrgainzation();
+
+    templateObject.getOrderdinaryEarning = function(){
+            getVS1Data('TOrdinaryTimeEarnings').then(function(dataObject) {
+            if (dataObject.length == 0) {
+                 sideBarService.getOrdinarytimeEarning(initialBaseDataLoad, 0).then(function (data) {
+                  addVS1Data('TOrdinaryTimeEarnings', JSON.stringify(data));
+                  let lineItems = [];
+                  let lineItemObj = {};
+                  for (let i = 0; i < data.tordinarytimeearnings.length; i++) {
+                    
+                      var dataListAllowance = [
+                          data.tordinarytimeearnings[i].fields.ID || '',
+                          data.tordinarytimeearnings[i].fields.OrdinaryTimeEarningsName || 0,
+                          'Ordinary Time Earning',
+                          data.tordinarytimeearnings[i].fields.OrdinaryTimeEarningsDisplayName || 0,
+                          '100',
+                          data.tordinarytimeearnings[i].fields.OrdinaryTimeEarningsExpenseAccount || 0,
+                       
+                         '<td contenteditable="false" class="colDeleteEarnings"><span class="table-remove"><button type="button" class="btn btn-danger btn-rounded btn-sm my-0"><i class="fa fa-remove"></i></button></span>'
+                      ];
+    
+                      splashArrayEarningList.push(dataListAllowance);
+                  }
+    
+            
+    
+    
+                  setTimeout(function () {
+                      MakeNegative();
+                  }, 100);
+                  setTimeout(function () {
+                      $('#tblEarnings').DataTable({
+    
+                          data: splashArrayEarningList,
+                          "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
+                          columnDefs: [                              
+                            
+                            {
+                               className: "colEarningsID hiddenColumn",
+                               "targets": [0]
+                             },
+                             {
+                                className: "colEarningsNames",
+                                "targets": [1]
+                             },  
+                             {
+                                className: "colEarningsType",
+                                "targets": [2]
+                             },      
+                             {
+                              className: "colEarningsDisplayName",
+                              "targets": [3]
+                             },  
+                             {
+                              className: "colEarningsAmount",
+                              "targets": [4]
+                             },  
+                             {
+                              className: "colEarningsAccounts",
+                              "targets": [5]
+                             },  
+                             {
+                              className: "colEarningsAccountsID hiddenColumn",
+                              "targets": [6]
+                             },   
+                             {
+                              className: "colEarningsPAYG hiddenColumn"  ,
+                              "targets": [7]
+                             },  
+                             {
+                              className: "colEarningsSuperannuation hiddenColumn",
+                              "targets": [8]
+                             },  
+                             {
+                              className: "colEarningsReportableasW1 hiddenColumn",
+                              "targets": [9]
+                             },                   
+                             {
+                                className: "colDeleteEarnings",
+                                "orderable": false,
+                                "targets": -1
+                             }
+                          ],
+                          select: true,
+                          destroy: true,
+                          colReorder: true,
+                          pageLength: initialDatatableLoad,
+                          lengthMenu: [ [initialDatatableLoad, -1], [initialDatatableLoad, "All"] ],
+                          info: true,
+                          responsive: true,
+                          "order": [[0, "asc"]],
+                          action: function () {
+                              $('#tblEarnings').DataTable().ajax.reload();
+                          },
+                          "fnDrawCallback": function (oSettings) {
+                              $('.paginate_button.page-item').removeClass('disabled');
+                              $('#tblEarnings_ellipsis').addClass('disabled');
+                              if (oSettings._iDisplayLength == -1) {
+                                  if (oSettings.fnRecordsDisplay() > 150) {
+    
+                                  }
+                              } else {
+    
+                              }
+                              if (oSettings.fnRecordsDisplay() < initialDatatableLoad) {
+                                  $('.paginate_button.page-item.next').addClass('disabled');
+                              }
+    
+                              $('.paginate_button.next:not(.disabled)', this.api().table().container())
+                                  .on('click', function () {
+                                      $('.fullScreenSpin').css('display', 'inline-block');
+                                      var splashArrayReisumentDupp = new Array();
+                                      let dataLenght = oSettings._iDisplayLength;
+                                      let customerSearch = $('#tblEarnings_filter input').val();
+    
+                                      sideBarService.getOrdinarytimeEarning(initialDatatableLoad, oSettings.fnRecordsDisplay()).then(function (data) {
+    
+                                        for (let i = 0; i < data.tordinarytimeearnings.length; i++) {
+                    
+                                            var dataListAllowance = [
+                                                data.tordinarytimeearnings[i].fields.ID || '',
+                                                data.tordinarytimeearnings[i].fields.OrdinaryTimeEarningsName || 0,
+                                                'Ordinary Time Earning',
+                                                data.tordinarytimeearnings[i].fields.OrdinaryTimeEarningsDisplayName || 0,
+                                                '100',
+                                                data.tordinarytimeearnings[i].fields.OrdinaryTimeEarningsExpenseAccount || 0,
+                                             
+                                               '<td contenteditable="false" class="colDeleteEarnings"><span class="table-remove"><button type="button" class="btn btn-danger btn-rounded btn-sm my-0"><i class="fa fa-remove"></i></button></span>'
+                                            ];
+                          
+                                            splashArrayEarningList.push(dataListAllowance);
+                                        }
+                          
+    
+                                                  let uniqueChars = [...new Set(splashArrayEarningList)];
+                                                  var datatable = $('#tblEarnings').DataTable();
+                                                  datatable.clear();
+                                                  datatable.rows.add(uniqueChars);
+                                                  datatable.draw(false);
+                                                  setTimeout(function () {
+                                                    $("#tblEarnings").dataTable().fnPageChange('last');
+                                                  }, 400);
+    
+                                                  $('.fullScreenSpin').css('display', 'none');
+    
+    
+                                      }).catch(function (err) {
+                                          $('.fullScreenSpin').css('display', 'none');
+                                      });
+    
+                                  });
+                              setTimeout(function () {
+                                  MakeNegative();
+                              }, 100);
+                          },
+                          "fnInitComplete": function () {
+                            //   $("<button class='btn btn-primary btnAddNewAllowance' data-dismiss='modal' data-toggle='modal' data-target='#newPayCalendarModal' type='button' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-plus'></i></button>").insertAfter("#tblPayCalendars_filter");
+                            //   $("<button class='btn btn-primary btnRefreshAllowance' type='button' id='btnRefreshAllowance' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#ttblPayCalendars_filter");
+    
+                          }
+    
+                      }).on('page', function () {
+                          setTimeout(function () {
+                              MakeNegative();
+                          }, 100);
+    
+                      }).on('column-reorder', function () {
+    
+                      }).on('length.dt', function (e, settings, len) {
+                        //$('.fullScreenSpin').css('display', 'inline-block');
+                        let dataLenght = settings._iDisplayLength;
+                        splashArrayReisument = [];
+                        if (dataLenght == -1) {
+                          $('.fullScreenSpin').css('display', 'none');
+    
+                        } else {
+                            if (settings.fnRecordsDisplay() >= settings._iDisplayLength) {
+                                $('.fullScreenSpin').css('display', 'none');
+                            } else {
+                                sideBarService.getOrdinarytimeEarning(dataLenght, 0).then(function (dataNonBo) {
+    
+                                    addVS1Data('TOrdinaryTimeEarnings', JSON.stringify(dataNonBo)).then(function (datareturn) {
+                                        templateObject.resetData(dataNonBo);
+                                        $('.fullScreenSpin').css('display', 'none');
+                                    }).catch(function (err) {
+                                        $('.fullScreenSpin').css('display', 'none');
+                                    });
+                                }).catch(function (err) {
+                                    $('.fullScreenSpin').css('display', 'none');
+                                });
+                            }
+                        }
+                          setTimeout(function () {
+                              MakeNegative();
+                          }, 100);
+                      });
+    
+    
+                  }, 0);
+    
+                  $('div.dataTables_filter input').addClass('form-control form-control-sm');
+    
+                  $('.fullScreenSpin').css('display', 'none');
+              }).catch(function (err) {
+                $('.fullScreenSpin').css('display', 'none');
+              });
+            }else{
+    
+              let data = JSON.parse(dataObject[0].data);
+    
+              let useData = data;
+              let lineItems = [];
+              let lineItemObj = {};
+              for (let i = 0; i < data.Tordinarytimeearnings.length; i++) {
+                    
+                var dataListAllowance = [
+                    data.Tordinarytimeearnings[i].fields.ID || '',
+                    data.Tordinarytimeearnings[i].fields.OrdinaryTimeEarningsName || 0,
+                    'Ordinary Time Earning',
+                    data.Tordinarytimeearnings[i].fields.OrdinaryTimeEarningsDisplayName || 0,
+                    '100',
+                    data.Tordinarytimeearnings[i].fields.OrdinaryTimeEarningsExpenseAccount || 0,
+                    data.Tordinarytimeearnings[i].fields.OrdinaryTimeEarningsExemptPaygWithholding || '',
+                    data.Tordinarytimeearnings[i].fields.OrdinaryTimeEarningsExpenseAccount || 0,
+                    data.Tordinarytimeearnings[i].fields.OrdinaryTimeEarningsExemptSuperannuationGuaranteeCont || 0,
+                    data.Tordinarytimeearnings[i].fields.OrdinaryTimeEarningsReportableW1onActivityStatement || 0,
+                 
+                   '<td contenteditable="false" class="colDeleteEarnings"><span class="table-remove"><button type="button" class="btn btn-danger btn-rounded btn-sm my-0"><i class="fa fa-remove"></i></button></span>'
+                ];
+
+                splashArrayEarningList.push(dataListAllowance);
+            }
+        
+    
+    
+              setTimeout(function () {
+                  MakeNegative();
+              }, 100);
+              setTimeout(function () {
+                  $('#tblEarnings').DataTable({
+    
+                      data: splashArrayEarningList,
+                      "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
+                      columnDefs: [                              
+                            
+                          {
+                             className: "colEarningsID hiddenColumn",
+                             "targets": [0]
+                           },
+                           {
+                              className: "colEarningsNames",
+                              "targets": [1]
+                           },  
+                           {
+                              className: "colEarningsType",
+                              "targets": [2]
+                           },      
+                           {
+                            className: "colEarningsDisplayName",
+                            "targets": [3]
+                           },  
+                           {
+                            className: "colEarningsAmount",
+                            "targets": [4]
+                           },  
+                           {
+                            className: "colEarningsAccounts",
+                            "targets": [5]
+                           },  
+                           {
+                            className: "colEarningsAccountsID hiddenColumn",
+                            "targets": [6]
+                           },   
+                           {
+                            className: "colEarningsPAYG hiddenColumn"  ,
+                            "targets": [7]
+                           },  
+                           {
+                            className: "colEarningsSuperannuation hiddenColumn",
+                            "targets": [8]
+                           },  
+                           {
+                            className: "colEarningsReportableasW1 hiddenColumn",
+                            "targets": [9]
+                           },                   
+                           {
+                              className: "colDeleteEarnings",
+                              "orderable": false,
+                              "targets": -1
+                           }
+                      ],
+                      select: true,
+                      destroy: true,
+                      colReorder: true,
+                      pageLength: initialDatatableLoad,
+                      lengthMenu: [ [initialDatatableLoad, -1], [initialDatatableLoad, "All"] ],
+                      info: true,
+                      responsive: true,
+                      "order": [[0, "asc"]],
+                      action: function () {
+                          $('#tblEarnings').DataTable().ajax.reload();
+                      },
+                      "fnDrawCallback": function (oSettings) {
+                          $('.paginate_button.page-item').removeClass('disabled');
+                          $('#tblEarnings_ellipsis').addClass('disabled');
+                          if (oSettings._iDisplayLength == -1) {
+                              if (oSettings.fnRecordsDisplay() > 150) {
+    
+                              }
+                          } else {
+    
+                          }
+                          if (oSettings.fnRecordsDisplay() < initialDatatableLoad) {
+                              $('.paginate_button.page-item.next').addClass('disabled');
+                          }
+    
+                          $('.paginate_button.next:not(.disabled)', this.api().table().container())
+                              .on('click', function () {
+                                  $('.fullScreenSpin').css('display', 'inline-block');
+                                  var splashArrayEarningListDupp = new Array();
+                                  let dataLenght = oSettings._iDisplayLength;
+                                  let customerSearch = $('#tblEarnings_filter input').val();
+    
+                                  sideBarService.getOrdinarytimeEarning(initialDatatableLoad, oSettings.fnRecordsDisplay()).then(function (data) {
+    
+                                    for (let i = 0; i < data.tordinarytimeearnings.length; i++) {
+                    
+                                        var dataListAllowance = [
+                                            data.tordinarytimeearnings[i].fields.ID || '',
+                                            data.tordinarytimeearnings[i].fields.OrdinaryTimeEarningsName || '',
+                                            'Ordinary Time Earning',
+                                            data.tordinarytimeearnings[i].fields.OrdinaryTimeEarningsDisplayName || '',
+                                            '100',
+                                            data.tordinarytimeearnings[i].fields.OrdinaryTimeEarningsExpenseAccount || '',
+                                            data.tordinarytimeearnings[i].fields.OrdinaryTimeEarningsExemptPaygWithholding || '',
+                                            data.tordinarytimeearnings[i].fields.OrdinaryTimeEarningsExpenseAccount || '',
+                                            data.tordinarytimeearnings[i].fields.OrdinaryTimeEarningsExemptSuperannuationGuaranteeCont || '',
+                                            data.tordinarytimeearnings[i].fields.OrdinaryTimeEarningsReportableW1onActivityStatement || '',
+                                         
+                                           '<td contenteditable="false" class="colDeleteEarnings"><span class="table-remove"><button type="button" class="btn btn-danger btn-rounded btn-sm my-0"><i class="fa fa-remove"></i></button></span>'
+                                        ];
+                      
+                                        splashArrayEarningList.push(dataListAllowance);
+                                    }
+    
+                                              let uniqueChars = [...new Set(splashArrayEarningList)];
+                                              var datatable = $('#tblEarnings').DataTable();
+                                              datatable.clear();
+                                              datatable.rows.add(uniqueChars);
+                                              datatable.draw(false);
+                                              setTimeout(function () {
+                                                $("#tblEarnings").dataTable().fnPageChange('last');
+                                              }, 400);
+    
+                                              $('.fullScreenSpin').css('display', 'none');
+    
+    
+                                  }).catch(function (err) {
+                                      $('.fullScreenSpin').css('display', 'none');
+                                  });
+    
+                              });
+                          setTimeout(function () {
+                              MakeNegative();
+                          }, 100);
+                      },
+                      "fnInitComplete": function () {
+                          $("<button class='btn btn-primary btnAddNewAllowance' data-dismiss='modal' data-toggle='modal' data-target='#newPayCalendarModal' type='button' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-plus'></i></button>").insertAfter("#tblAlowances_filter");
+                          $("<button class='btn btn-primary btnRefreshAllowance' type='button' id='btnRefreshAllowance' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblAlowances_filter");
+    
+                      }
+    
+                  }).on('page', function () {
+                      setTimeout(function () {
+                          MakeNegative();
+                      }, 100);
+    
+                  }).on('column-reorder', function () {
+    
+                  }).on('length.dt', function (e, settings, len) {
+                    //$('.fullScreenSpin').css('display', 'inline-block');
+                    let dataLenght = settings._iDisplayLength;
+                    splashArrayEarningList = [];
+                    if (dataLenght == -1) {
+                      $('.fullScreenSpin').css('display', 'none');
+    
+                    } else {
+                        if (settings.fnRecordsDisplay() >= settings._iDisplayLength) {
+                            $('.fullScreenSpin').css('display', 'none');
+                        } else {
+                            sideBarService.getOrdinarytimeEarning(dataLenght, 0).then(function (dataNonBo) {
+    
+                                addVS1Data('TOrdinaryTimeEarnings', JSON.stringify(dataNonBo)).then(function (datareturn) {
+                                    templateObject.resetData(dataNonBo);
+                                    $('.fullScreenSpin').css('display', 'none');
+                                }).catch(function (err) {
+                                    $('.fullScreenSpin').css('display', 'none');
+                                });
+                            }).catch(function (err) {
+                                $('.fullScreenSpin').css('display', 'none');
+                            });
+                        }
+                    }
+                      setTimeout(function () {
+                          MakeNegative();
+                      }, 100);
+                  });
+    
+    
+              }, 0);
+    
+              $('div.dataTables_filter input').addClass('form-control form-control-sm');
+              $('.fullScreenSpin').css('display', 'none');
+    
+            }
+            }).catch(function(err) {
+
+             
+               sideBarService.getOrdinarytimeEarning(initialBaseDataLoad, 0).then(function (data) {
+                 addVS1Data('TOrdinaryTimeEarnings', JSON.stringify(data));
+                   let lineItems = [];
+                   let lineItemObj = {};
+                   
+                  for (let i = 0; i < data.tordinarytimeearnings.length; i++) {
+                     
+                        
+                    var dataListAllowance = [
+                        data.tordinarytimeearnings[i].fields.ID || '',
+                        data.tordinarytimeearnings[i].fields.OrdinaryTimeEarningsName || '',
+                        'Ordinary Time Earning',
+                        data.tordinarytimeearnings[i].fields.OrdinaryTimeEarningsDisplayName || '',
+                        '100',
+                        data.tordinarytimeearnings[i].fields.OrdinaryTimeEarningsExpenseAccount || '',
+                        data.tordinarytimeearnings[i].fields.OrdinaryTimeEarningsExemptPaygWithholding || '',
+                        data.tordinarytimeearnings[i].fields.OrdinaryTimeEarningsExpenseAccount || '',
+                        data.tordinarytimeearnings[i].fields.OrdinaryTimeEarningsExemptSuperannuationGuaranteeCont || '',
+                        data.tordinarytimeearnings[i].fields.OrdinaryTimeEarningsReportableW1onActivityStatement || '',
+                     
+                       '<td contenteditable="false" class="colDeleteEarnings"><span class="table-remove"><button type="button" class="btn btn-danger btn-rounded btn-sm my-0"><i class="fa fa-remove"></i></button></span>'
+                    ];
+                         
+                     
+                          splashArrayEarningList.push(dataListAllowance);
+                       }
+
+                 
+          
+                  
+    
+                    setTimeout(function () {
+                        MakeNegative();
+                    }, 100);
+                    setTimeout(function () {
+                        
+                        $('#tblEarnings').DataTable({
+            
+                            data: splashArrayEarningList,
+                            "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
+                            columnDefs: [                                                        
+                                {
+                                className: "colEarningsID hiddenColumn",
+                                "targets": [0]
+                                },
+                                {
+                                    className: "colEarningsNames",
+                                    "targets": [1]
+                                },  
+                                {
+                                    className: "colEarningsType",
+                                    "targets": [2]
+                                },      
+                                {
+                                className: "colEarningsDisplayName",
+                                "targets": [3]
+                                },  
+                                {
+                                className: "colEarningsAmount",
+                                "targets": [4]
+                                },  
+                                {
+                                className: "colEarningsAccounts",
+                                "targets": [5]
+                                },  
+                                {
+                                className: "colEarningsAccountsID hiddenColumn",
+                                "targets": [6]
+                                },   
+                                {
+                                className: "colEarningsPAYG hiddenColumn"  ,
+                                "targets": [7]
+                                },  
+                                {
+                                className: "colEarningsSuperannuation hiddenColumn",
+                                "targets": [8]
+                                },  
+                                {
+                                className: "colEarningsReportableasW1 hiddenColumn",
+                                "targets": [9]
+                                },                   
+                                {
+                                    className: "colDeleteEarnings",
+                                    "orderable": false,
+                                    "targets": -1
+                                }
+                            ],
+                            select: true,
+                            destroy: true,
+                            colReorder: true,
+                            pageLength: initialDatatableLoad,
+                            lengthMenu: [ [initialDatatableLoad, -1], [initialDatatableLoad, "All"] ],
+                            info: true,
+                            responsive: true,
+                            "order": [[0, "asc"]],
+                            action: function () {
+                                $('#tblEarnings').DataTable().ajax.reload();
+                            },
+                            "fnDrawCallback": function (oSettings) {
+                                $('.paginate_button.page-item').removeClass('disabled');
+                                $('#tblEarnings_ellipsis').addClass('disabled');
+                                if (oSettings._iDisplayLength == -1) {
+                                    if (oSettings.fnRecordsDisplay() > 150) {
+            
+                                    }
+                                } else {
+            
+                                }
+                                if (oSettings.fnRecordsDisplay() < initialDatatableLoad) {
+                                    $('.paginate_button.page-item.next').addClass('disabled');
+                                }
+            
+                                $('.paginate_button.next:not(.disabled)', this.api().table().container())
+                                    .on('click', function () {
+                                        $('.fullScreenSpin').css('display', 'inline-block');
+                                        var splashArrayReisumentDupp = new Array();
+                                        let dataLenght = oSettings._iDisplayLength;
+                                        let customerSearch = $('#tblEarnings_filter input').val();
+            
+                                        sideBarService.getOrdinarytimeEarning(initialDatatableLoad, oSettings.fnRecordsDisplay()).then(function (data) {
+            
+                                            for (let i = 0; i < data.tordinarytimeearnings.length; i++) {
+                            
+                                                var dataListAllowance = [
+                                                    data.tordinarytimeearnings[i].fields.ID || '',
+                                                    data.tordinarytimeearnings[i].fields.OrdinaryTimeEarningsName || '',
+                                                    'Ordinary Time Earning',
+                                                    data.tordinarytimeearnings[i].fields.OrdinaryTimeEarningsDisplayName || '',
+                                                    '100',
+                                                    data.tordinarytimeearnings[i].fields.OrdinaryTimeEarningsExpenseAccount || '',
+                                                    data.tordinarytimeearnings[i].fields.OrdinaryTimeEarningsExemptPaygWithholding || '',
+                                                    data.tordinarytimeearnings[i].fields.OrdinaryTimeEarningsExpenseAccount || '',
+                                                    data.tordinarytimeearnings[i].fields.OrdinaryTimeEarningsExemptSuperannuationGuaranteeCont || '',
+                                                    data.tordinarytimeearnings[i].fields.OrdinaryTimeEarningsReportableW1onActivityStatement || '',
+                                                 
+                                                   '<td contenteditable="false" class="colDeleteEarnings"><span class="table-remove"><button type="button" class="btn btn-danger btn-rounded btn-sm my-0"><i class="fa fa-remove"></i></button></span>'
+                                                ];
+                            
+                                                splashArrayEarningList.push(dataListAllowance);
+                                            }
+            
+                                                let uniqueChars = [...new Set(splashArrayEarningList)];
+                                                var datatable = $('#tblEarnings').DataTable();
+                                                    datatable.clear();
+                                                    datatable.rows.add(uniqueChars);
+                                                    datatable.draw(false);
+                                                    setTimeout(function () {
+                                                        $("#tblEarnings").dataTable().fnPageChange('last');
+                                                    }, 400);
+            
+                                                    $('.fullScreenSpin').css('display', 'none');
+            
+            
+                                        }).catch(function (err) {
+                                            $('.fullScreenSpin').css('display', 'none');
+                                        });
+            
+                                    });
+                                setTimeout(function () {
+                                    MakeNegative();
+                                }, 100);
+                            },
+                            "fnInitComplete": function () {
+                                //   $("<button class='btn btn-primary btnAddNewAllowance' data-dismiss='modal' data-toggle='modal' data-target='#newPayCalendarModal' type='button' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-plus'></i></button>").insertAfter("#tblAlowances_filter");
+                                //   $("<button class='btn btn-primary btnRefreshAllowance' type='button' id='btnRefreshAllowance' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblAlowances_filter");
+            
+                            }
+            
+                        }).on('page', function () {
+                            setTimeout(function () {
+                                MakeNegative();
+                            }, 100);
+            
+                        }).on('column-reorder', function () {
+            
+                        }).on('length.dt', function (e, settings, len) {
+                            //$('.fullScreenSpin').css('display', 'inline-block');
+                            let dataLenght = settings._iDisplayLength;
+                            splashArrayEarningList = [];
+                            if (dataLenght == -1) {
+                            $('.fullScreenSpin').css('display', 'none');
+            
+                            } else {
+                                if (settings.fnRecordsDisplay() >= settings._iDisplayLength) {
+                                    $('.fullScreenSpin').css('display', 'none');
+                                } else {
+                                    sideBarService.getOrdinarytimeEarning(dataLenght, 0).then(function (dataNonBo) {
+            
+                                        addVS1Data('TOrdinaryTimeEarnings', JSON.stringify(dataNonBo)).then(function (datareturn) {
+                                            templateObject.resetData(dataNonBo);
+                                            $('.fullScreenSpin').css('display', 'none');
+                                        }).catch(function (err) {
+                                            $('.fullScreenSpin').css('display', 'none');
+                                        });
+                                    }).catch(function (err) {
+                                        $('.fullScreenSpin').css('display', 'none');
+                                    });
+                                }
+                            }
+                            setTimeout(function () {
+                                MakeNegative();
+                            }, 100);
+                        });
+            
+            
+                    }, 0);
+            
+                    $('div.dataTables_filter input').addClass('form-control form-control-sm');
+            
+                    $('.fullScreenSpin').css('display', 'none');
+                    }).catch(function (err) {
+                        $('.fullScreenSpin').css('display', 'none');
+                    });
+                    });
+
+
+    };
+
+    templateObject.getOrderdinaryEarning();
+
 
     $('#tblAlowances tbody').on( 'click', 'td:not(.colDeleteAllowances)', function () {
      
-    var listData = $(this).closest('tr').find('.colAlowancesID').text();
+      var listData = $(this).closest('tr').find('.colAlowancesID').text();
       if(listData){
       let allowanceType = $(this).closest('tr').find('.colAllowancesType').text()||'';
       let earningName = $(this).closest('tr').find('.colAllowancesNames').text()||'';
@@ -1445,9 +5500,6 @@ Template.payrollrules.onRendered(function() {
       $('#edtExpenseAccountLumpSumE').val(earningExpenseAccount);
       $('#edtExpenseAccountBonusesCommissions').val(earningExpenseAccount);
       $('#edtExpenseAccountLumpSumW').val(earningExpenseAccount);
-
-
-
       $('#edtExpenseAccountID').val(earningExpenseAccountID);
 
       if(exemptPAYG == 'true'){
@@ -1507,185 +5559,13 @@ Template.payrollrules.onRendered(function() {
         }
 
 
+        $('#deductionModal').modal('toggle');
 
-      // if(exemptPAYG == 'true'){
-      //     $('#formCheck-ExemptPAYGAllowance').prop('checked', true);
-      // }else{
-      //   $('#formCheck-ExemptPAYGAllowance').prop('checked', false);
-      // }
-      //
-      // if(exemptSupernation == 'true'){
-      //     $('#formCheck-ExemptSuperannuationAllowance').prop('checked', true);
-      // }else{
-      //   $('#formCheck-ExemptSuperannuationAllowance').prop('checked', false);
-      // }
-      //
-      // if(exemptActivityStatement == 'true'){
-      //     $('#formCheck-ExemptReportableAllowance').prop('checked', true);
-      // }else{
-      //   $('#formCheck-ExemptReportableAllowance').prop('checked', false);
-      // }
-
-      $('#deductionModal').modal('toggle');
-
-    }
+   }
     });
 
-    // $('#tblAlowances tbody').on( 'click', 'td.colDeleteAllowances', function () {
-    //   var listData = $(this).closest('tr').find('.colAlowancesID').text();
-    //   if(listData){
-    //     // FlowRouter.go('/productview?id=' + listData+'&instock=true');
-    //   }
-    // });
 
-
-    setTimeout(function() {
-        $('#tblHolidays').DataTable({
-            columnDefs: [{
-                "orderable": false,
-                "targets": -1
-            }],
-            "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
-            buttons: [{
-                extend: 'excelHtml5',
-                text: '',
-                download: 'open',
-                className: "btntabletocsv hiddenColumn",
-                filename: "taxratelist_" + moment().format(),
-                orientation: 'portrait',
-                exportOptions: {
-                    columns: ':visible'
-                }
-            }, {
-                extend: 'print',
-                download: 'open',
-                className: "btntabletopdf hiddenColumn",
-                text: '',
-                title: 'Tax Rate List',
-                filename: "taxratelist_" + moment().format(),
-                exportOptions: {
-                    columns: ':visible'
-                }
-            }],
-            select: true,
-            destroy: true,
-            colReorder: true,
-            colReorder: {
-                fixedColumnsRight: 1
-            },
-            lengthMenu: [
-                [25, -1],
-                [25, "All"]
-            ],
-            // bStateSave: true,
-            // rowId: 0,
-            paging: true,
-            info: true,
-            responsive: true,
-            "order": [
-                [0, "asc"]
-            ],
-            action: function() {
-                $('#tblPayCalendars').DataTable().ajax.reload();
-            },
-            "fnDrawCallback": function(oSettings) {
-                setTimeout(function() {
-                    MakeNegative();
-                }, 100);
-            },
-
-        }).on('page', function() {
-            setTimeout(function() {
-                MakeNegative();
-            }, 100);
-            let draftRecord = templateObject.datatablerecords.get();
-            templateObject.datatablerecords.set(draftRecord);
-        }).on('column-reorder', function() {
-
-        }).on('length.dt', function(e, settings, len) {
-            setTimeout(function() {
-                MakeNegative();
-            }, 100);
-        });
-
-        // $('#currencyLists').DataTable().column( 0 ).visible( true );
-        $('.fullScreenSpin').css('display', 'none');
-    }, 0);
-
-    setTimeout(function() {
-        $('#tblPayCalendars').DataTable({
-            columnDefs: [{
-                "orderable": false,
-                "targets": -1
-            }],
-            "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
-            buttons: [{
-                extend: 'excelHtml5',
-                text: '',
-                download: 'open',
-                className: "btntabletocsv hiddenColumn",
-                filename: "taxratelist_" + moment().format(),
-                orientation: 'portrait',
-                exportOptions: {
-                    columns: ':visible'
-                }
-            }, {
-                extend: 'print',
-                download: 'open',
-                className: "btntabletopdf hiddenColumn",
-                text: '',
-                title: 'Tax Rate List',
-                filename: "taxratelist_" + moment().format(),
-                exportOptions: {
-                    columns: ':visible'
-                }
-            }],
-            select: true,
-            destroy: true,
-            colReorder: true,
-            colReorder: {
-                fixedColumnsRight: 1
-            },
-            lengthMenu: [
-                [25, -1],
-                [25, "All"]
-            ],
-            // bStateSave: true,
-            // rowId: 0,
-            paging: true,
-            info: true,
-            responsive: true,
-            "order": [
-                [0, "asc"]
-            ],
-            action: function() {
-                $('#tblPayCalendars').DataTable().ajax.reload();
-            },
-            "fnDrawCallback": function(oSettings) {
-                setTimeout(function() {
-                    MakeNegative();
-                }, 100);
-            },
-
-        }).on('page', function() {
-            setTimeout(function() {
-                MakeNegative();
-            }, 100);
-            let draftRecord = templateObject.datatablerecords.get();
-            templateObject.datatablerecords.set(draftRecord);
-        }).on('column-reorder', function() {
-
-        }).on('length.dt', function(e, settings, len) {
-            setTimeout(function() {
-                MakeNegative();
-            }, 100);
-        });
-
-        // $('#currencyLists').DataTable().column( 0 ).visible( true );
-        $('.fullScreenSpin').css('display', 'none');
-    }, 0);
-
-    setTimeout(function() {
+     setTimeout(function() {
         $('#tblPayRollRulesList').DataTable({
             columnDefs: [{
                 "orderable": false,
@@ -1756,306 +5636,25 @@ Template.payrollrules.onRendered(function() {
 
         // $('#currencyLists').DataTable().column( 0 ).visible( true );
         $('.fullScreenSpin').css('display', 'none');
-    }, 0);
+     }, 0);
 
-    setTimeout(function() {
-        $('#tblSuperannuation').DataTable({
-            columnDefs: [{
-                "orderable": false,
-                "targets": -1
-            }],
-            "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
-            buttons: [{
-                extend: 'excelHtml5',
-                text: '',
-                download: 'open',
-                className: "btntabletocsv hiddenColumn",
-                filename: "taxratelist_" + moment().format(),
-                orientation: 'portrait',
-                exportOptions: {
-                    columns: ':visible'
-                }
-            }, {
-                extend: 'print',
-                download: 'open',
-                className: "btntabletopdf hiddenColumn",
-                text: '',
-                title: 'Tax Rate List',
-                filename: "taxratelist_" + moment().format(),
-                exportOptions: {
-                    columns: ':visible'
-                }
-            }],
-            select: true,
-            destroy: true,
-            colReorder: true,
-            colReorder: {
-                fixedColumnsRight: 1
-            },
-            lengthMenu: [
-                [25, -1],
-                [25, "All"]
-            ],
-            // bStateSave: true,
-            // rowId: 0,
-            paging: true,
-            info: true,
-            responsive: true,
-            "order": [
-                [0, "asc"]
-            ],
-            action: function() {
-                $('#tblSuperannuation').DataTable().ajax.reload();
-            },
-            "fnDrawCallback": function(oSettings) {
-                setTimeout(function() {
-                    MakeNegative();
-                }, 100);
-            },
-
-        }).on('page', function() {
-            setTimeout(function() {
-                MakeNegative();
-            }, 100);
-            let draftRecord = templateObject.datatablerecords.get();
-            templateObject.datatablerecords.set(draftRecord);
-        }).on('column-reorder', function() {
-
-        }).on('length.dt', function(e, settings, len) {
-            setTimeout(function() {
-                MakeNegative();
-            }, 100);
-        });
-
-        // $('#currencyLists').DataTable().column( 0 ).visible( true );
-        $('.fullScreenSpin').css('display', 'none');
-    }, 0);
-
-    setTimeout(function() {
-        $('#tblReimbursements').DataTable({
-            columnDefs: [{
-                "orderable": false,
-                "targets": -1
-            }],
-            "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
-            buttons: [{
-                extend: 'excelHtml5',
-                text: '',
-                download: 'open',
-                className: "btntabletocsv hiddenColumn",
-                filename: "taxratelist_" + moment().format(),
-                orientation: 'portrait',
-                exportOptions: {
-                    columns: ':visible'
-                }
-            }, {
-                extend: 'print',
-                download: 'open',
-                className: "btntabletopdf hiddenColumn",
-                text: '',
-                title: 'Tax Rate List',
-                filename: "taxratelist_" + moment().format(),
-                exportOptions: {
-                    columns: ':visible'
-                }
-            }],
-            select: true,
-            destroy: true,
-            colReorder: true,
-            colReorder: {
-                fixedColumnsRight: 1
-            },
-            lengthMenu: [
-                [25, -1],
-                [25, "All"]
-            ],
-            // bStateSave: true,
-            // rowId: 0,
-            paging: true,
-            info: true,
-            responsive: true,
-            "order": [
-                [0, "asc"]
-            ],
-            action: function() {
-                $('#tblReimbursements').DataTable().ajax.reload();
-            },
-            "fnDrawCallback": function(oSettings) {
-                setTimeout(function() {
-                    MakeNegative();
-                }, 100);
-            },
-
-        }).on('page', function() {
-            setTimeout(function() {
-                MakeNegative();
-            }, 100);
-            let draftRecord = templateObject.datatablerecords.get();
-            templateObject.datatablerecords.set(draftRecord);
-        }).on('column-reorder', function() {
-
-        }).on('length.dt', function(e, settings, len) {
-            setTimeout(function() {
-                MakeNegative();
-            }, 100);
-        });
-
-        // $('#currencyLists').DataTable().column( 0 ).visible( true );
-        $('.fullScreenSpin').css('display', 'none');
-    }, 0);
-
-   setTimeout(function() {
-        $('#tblLeave').DataTable({
-            columnDefs: [{
-                "orderable": false,
-                "targets": -1
-            }],
-            "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
-            buttons: [{
-                extend: 'excelHtml5',
-                text: '',
-                download: 'open',
-                className: "btntabletocsv hiddenColumn",
-                filename: "taxratelist_" + moment().format(),
-                orientation: 'portrait',
-                exportOptions: {
-                    columns: ':visible'
-                }
-            }, {
-                extend: 'print',
-                download: 'open',
-                className: "btntabletopdf hiddenColumn",
-                text: '',
-                title: 'Tax Rate List',
-                filename: "taxratelist_" + moment().format(),
-                exportOptions: {
-                    columns: ':visible'
-                }
-            }],
-            select: true,
-            destroy: true,
-            colReorder: true,
-            colReorder: {
-                fixedColumnsRight: 1
-            },
-            lengthMenu: [
-                [25, -1],
-                [25, "All"]
-            ],
-            // bStateSave: true,
-            // rowId: 0,
-            paging: true,
-            info: true,
-            responsive: true,
-            "order": [
-                [0, "asc"]
-            ],
-            action: function() {
-                $('#tblLeave').DataTable().ajax.reload();
-            },
-            "fnDrawCallback": function(oSettings) {
-                setTimeout(function() {
-                    MakeNegative();
-                }, 100);
-            },
-
-        }).on('page', function() {
-            setTimeout(function() {
-                MakeNegative();
-            }, 100);
-            let draftRecord = templateObject.datatablerecords.get();
-            templateObject.datatablerecords.set(draftRecord);
-        }).on('column-reorder', function() {
-
-        }).on('length.dt', function(e, settings, len) {
-            setTimeout(function() {
-                MakeNegative();
-            }, 100);
-        });
-
-        // $('#currencyLists').DataTable().column( 0 ).visible( true );
-        $('.fullScreenSpin').css('display', 'none');
-    }, 0);
-
-   setTimeout(function() {
-
-        $('#tblEarnings').DataTable({
-            columnDefs: [{
-                "orderable": false,
-                "targets": -1
-            }],
-            "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
-            buttons: [{
-                extend: 'excelHtml5',
-                text: '',
-                download: 'open',
-                className: "btntabletocsv hiddenColumn",
-                filename: "taxratelist_" + moment().format(),
-                orientation: 'portrait',
-                exportOptions: {
-                    columns: ':visible'
-                }
-            }, {
-                extend: 'print',
-                download: 'open',
-                className: "btntabletopdf hiddenColumn",
-                text: '',
-                title: 'Tax Rate List',
-                filename: "taxratelist_" + moment().format(),
-                exportOptions: {
-                    columns: ':visible'
-                }
-            }],
-            select: true,
-            destroy: true,
-            colReorder: true,
-            colReorder: {
-                fixedColumnsRight: 1
-            },
-            lengthMenu: [
-                [25, -1],
-                [25, "All"]
-            ],
-            // bStateSave: true,
-            // rowId: 0,
-            paging: true,
-            info: true,
-            responsive: true,
-            "order": [
-                [0, "asc"]
-            ],
-            action: function() {
-                $('#tblLeave').DataTable().ajax.reload();
-            },
-            "fnDrawCallback": function(oSettings) {
-                setTimeout(function() {
-                    MakeNegative();
-                }, 100);
-            },
-
-        }).on('page', function() {
-            setTimeout(function() {
-                MakeNegative();
-            }, 100);
-            let draftRecord = templateObject.datatablerecords.get();
-            templateObject.datatablerecords.set(draftRecord);
-        }).on('column-reorder', function() {
-
-        }).on('length.dt', function(e, settings, len) {
-            setTimeout(function() {
-                MakeNegative();
-            }, 100);
-        });
-
-        // $('#currencyLists').DataTable().column( 0 ).visible( true );
-        $('.fullScreenSpin').css('display', 'none');
-    }, 0);
-
-   $(document).on('click', '.colDeleteAllowances', function() {
+  
+    $(document).on('click', '.colDeleteAllowances', function() {
         event.stopPropagation();
         var targetID = $(event.target).closest('tr').find('.colAlowancesID').text()||0; // table row ID
         $('#selectDeleteLineID').val(targetID);
         $('#deleteAllowanceLineModal').modal('toggle');
+    });
+
+    $(document).on('click', '.colDeleteCalenders', function(event) {
+        event.stopPropagation();
+        let targetID = $(event.target).closest('tr').find('.colCalenderID').text()||0; // table row ID
+      
+        let calenderName = $(this).closest('tr').find('.colPayCalendarName').text()||'';
+    
+        $('#selectColDeleteLineID').val(targetID);
+        $('#selectCalenderName').val(targetID);
+        $('#deleteCalenderLineModal').modal('toggle');
     });
 
     $(document).on('click', '.colDeleteDeductions', function() {
@@ -2083,7 +5682,67 @@ Template.payrollrules.onRendered(function() {
         $('#deleteDeductionLineModal').modal('toggle');
     });
 
+    $(document).on('click', '.colDeleterei', function() {
+        event.stopPropagation();
+    
+        var targetID = $(event.target).closest('tr').find('.colReimbursementID').text()||0; // table row ID
+       
+        $('#seleclReiName').val(targetID);     
+        $('#selectColReiDeleteLineID').val(targetID); 
+      
+        $('#deletebReiumbursementLineModal').modal('toggle');
+    });
+
+    $(document).on('click', '.colDeletepaidrem', function() {
+        event.stopPropagation();
+    
+        var targetID = $(event.target).closest('tr').find('.colLeaveID').text()||0; // table row ID
+        var Type = $(event.target).closest('tr').find('.colLeavePaidLeave').text()||0;
+       
+        $('#selectLeaveName').val(targetID);     
+        $('#selectLeaveDeleteLineID').val(targetID); 
+
+        if(Type == true)
+        {
+             $('#leave_type').val(true); 
+
+        }
+        else{
+            $('#leave_type').val(false); 
+
+        }
+      
+        $('#deleteLeaveLineModal').modal('toggle');
+    });
+
+    $(document).on('click', '.colDeletesup', function() {
+        event.stopPropagation();
+    
+        var targetID = $(event.target).closest('tr').find('.colSuperannuationID').text()||0; // table row ID
+        var Name = $(event.target).closest('tr').find('.colSuperannuationName').text()||0;
+       
+        $('#selectSuperannuationDeleteLineID').val(targetID);     
+        $('#selectSuperannuationName').val(targetID);  
+   
+        $('#deleteSuperannuationLineModal').modal('toggle');
+    });
+
+    $(document).on('click', '.colHolidayDelete', function() {
+        event.stopPropagation();
+    
+        var targetID = $(event.target).closest('tr').find('.colHolidayID').text()||0; // table row ID
+        var Name = $(event.target).closest('tr').find('.colPayCalendarName').text()||0;
+       
+        $('#selectholidayDeleteLineID').val(targetID);     
+        $('#selectholidayName').val(targetID);  
+   
+        $('#deleteHolidayLineModal').modal('toggle');
+    });
+
+
+
     $(document).ready(function() {
+    
       $('#edtAllowanceType').editableSelect();
       $('#edtAllowanceType').editableSelect('add','Car');
       $('#edtAllowanceType').editableSelect('add','JobKeeper');
@@ -2107,48 +5766,15 @@ Template.payrollrules.onRendered(function() {
       $('#payperiod').editableSelect('add','Four Weekly');
       $('#payperiod').editableSelect('add','Monthly');
       $('#payperiod').editableSelect('add','Quarterly');
-
-      $('#edtRateType').editableSelect('add',"Fixed Amount");
-      $('#edtRateType').editableSelect('add',"Multiple of employee's ordinary earnings rate");
-      $('#edtRateType').editableSelect('add',"Rate Per unit");
-
-      $('#edtRateTypeOvertime').editableSelect('add',"Fixed Amount");
-      $('#edtRateTypeOvertime').editableSelect('add',"Multiple of employee's ordinary earnings rate");
-      $('#edtRateTypeOvertime').editableSelect('add',"Rate Per unit");
-
-      $('#edtRateTypeTermnination').editableSelect('add',"Fixed Amount");
-      $('#edtRateTypeTermnination').editableSelect('add',"Multiple of employee's ordinary earnings rate");
-      $('#edtRateTypeTermnination').editableSelect('add',"Rate Per unit");
-      
-      $('#edtRateTypeLumpSumE').editableSelect('add',"Fixed Amount");
-      $('#edtRateTypeLumpSumE').editableSelect('add',"Multiple of employee's ordinary earnings rate");
-      $('#edtRateTypeLumpSumE').editableSelect('add',"Rate Per unit");
-
-
-      $('#edtRateTypeBonusesCommissions').editableSelect('add',"Fixed Amount");
-      $('#edtRateTypeBonusesCommissions').editableSelect('add',"Multiple of employee's ordinary earnings rate");
-      $('#edtRateTypeBonusesCommissions').editableSelect('add',"Rate Per unit");
-
-      $('#edtRateTypeLumpSumW').editableSelect('add',"Fixed Amount");
-      $('#edtRateTypeLumpSumW').editableSelect('add',"Multiple of employee's ordinary earnings rate");
-      $('#edtRateTypeLumpSumW').editableSelect('add',"Rate Per unit");
-
-      $('#edtRateTypeDirectorsFees').editableSelect('add',"Fixed Amount");
-      $('#edtRateTypeDirectorsFees').editableSelect('add',"Multiple of employee's ordinary earnings rate");
-      $('#edtRateTypeDirectorsFees').editableSelect('add',"Rate Per unit");
-
       $('#edtTypeOfUnits').editableSelect('add','Hours');
       $('#edtTypeOfUnits').editableSelect('add','Days');
       $('#edtTypeOfUnits').editableSelect('add','Weeks');
       $('#edtTypeOfUnits').editableSelect('add','Monthly');
-
       $('#edtUnpaidTypeOfUnits').editableSelect('add','Hours');
       $('#edtUnpaidTypeOfUnits').editableSelect('add','Days');
       $('#edtUnpaidTypeOfUnits').editableSelect('add','Weeks');
       $('#edtUnpaidTypeOfUnits').editableSelect('add','Monthly');
-
       $('#edtExpenseAccountAllowance').editableSelect();
-
       $('#editbankaccount').editableSelect();
       $('#editpaygbankaccount').editableSelect();
       $('#edtReimbursementAccount').editableSelect();
@@ -2156,7 +5782,6 @@ Template.payrollrules.onRendered(function() {
       $('#editwagespaybankaccount').editableSelect();
       $('#editsuperliabbankaccount').editableSelect();
       $('#editsuperexpbankaccount').editableSelect();
-
       $('#edtExpenseAccountDirectorsFees').editableSelect();
       $('#edtExpenseAccountTermnination').editableSelect();
       $('#edtExpenseAccount').editableSelect();
@@ -2164,12 +5789,18 @@ Template.payrollrules.onRendered(function() {
       $('#edtExpenseAccountLumpSumE').editableSelect();
       $('#edtExpenseAccountBonusesCommissions').editableSelect();
       $('#edtExpenseAccountLumpSumW').editableSelect();
-
       $('#edtDeductionAccount').editableSelect();
+      $('#edtRateTypeOvertime').editableSelect();
+      $('#edtRateType').editableSelect();
+      $('#edtRateTypeTermnination').editableSelect();
+      $('#edtRateTypeLumpSumE').editableSelect();
+      $('#edtRateTypeBonusesCommissions').editableSelect();
+      $('#edtRateTypeDirectorsFees').editableSelect();
+      $('#edtRateTypeLumpSumW').editableSelect();
 
     });
 
-    $('#editbankaccount').editableSelect().on('click.editable-select', function (e, li) {
+     $('#editbankaccount').editableSelect().on('click.editable-select', function (e, li) {
         var $earch = $(this);
         var offset = $earch.offset();
         let accountService = new AccountService();
@@ -6490,7 +10121,7 @@ Template.payrollrules.onRendered(function() {
                  } else {
                      let data = JSON.parse(dataObject[0].data);
                      let useData = data.taccountvs1;
-                       var added=false;
+                    var added=false;
                      let lineItems = [];
                      let lineItemObj = {};
                      let fullAccountTypeName = '';
@@ -6509,6 +10140,7 @@ Template.payrollrules.onRendered(function() {
                                  if (data.taccountvs1[a].fields.AccountTypeName === accountTypeList[h].accounttypename) {
   
                                      fullAccountTypeName = accountTypeList[h].description || '';
+                                   
   
                                  }
                              }
@@ -6598,6 +10230,8 @@ Template.payrollrules.onRendered(function() {
                              }
   
                          }
+
+                       
   
                           var accountid = data.taccountvs1[0].fields.ID || '';
                           var accounttype = fullAccountTypeName || data.taccountvs1[0].fields.AccountTypeName;
@@ -7149,7 +10783,7 @@ Template.payrollrules.onRendered(function() {
   
       });
 
-    $('#edtExpenseAccountBonusesCommissions').editableSelect().on('click.editable-select', function (e, li) {
+     $('#edtExpenseAccountBonusesCommissions').editableSelect().on('click.editable-select', function (e, li) {
         var $earch = $(this);
         var offset = $earch.offset();
         let accountService = new AccountService();
@@ -7537,7 +11171,7 @@ Template.payrollrules.onRendered(function() {
         var offset = $earch.offset();
         let accountService = new AccountService();
         const accountTypeList = [];
-        var accountDataName = e.target.value ||'';
+        var   accountDataName = e.target.value ||'';
   
         if (e.pageX > offset.left + $earch.width() - 8) { // X button 16px wide?
           $('#selectLineID').val('edtExpenseAccountLumpSumW');
@@ -7914,7 +11548,6 @@ Template.payrollrules.onRendered(function() {
   
   
       });
-
 
     $('#edtDeductionAccount').editableSelect().on('click.editable-select', function (e, li) {
       var $earch = $(this);
@@ -8298,6 +11931,1473 @@ Template.payrollrules.onRendered(function() {
 
 
     });
+    
+    $('#edtRateTypeOvertime').editableSelect().on('click.editable-select', function (e, li) {
+       
+        var $earch = $(this);
+        var offset = $earch.offset();
+        let ratetypeService = new RateTypeService();
+        const ratetypelist = [];
+         var  Description = e.target.value ||'';
+
+        if (e.pageX > offset.left + $earch.width() - 8) { // X button 16px wide?
+          $('#selectRateLineID').val('edtRateTypeOvertime');
+          $('#rateTypeListModel').modal();
+          $('#tblratetypelist_filter .form-control-sm').focus();
+          $('#tblratetypelist_filter .form-control-sm').val();
+          $('#tblratetypelist_filter .form-control-sm').trigger("input");
+          setTimeout(function () {
+             var datatable = $('#tblratetypelist').DataTable();
+             datatable.draw();   
+             $('#tblratetypelist_filter .form-control-sm').trigger("input");       
+          }, 500);
+         }else{
+           if(Description.replace(/\s/g, '') != ''){
+             getVS1Data('TRateTypes').then(function (dataObject) {
+              if (dataObject.length == 0) {
+                     ratetypeService.getOneRateTypeByName(Description).then(function (data) {
+                     let lineItems = [];
+                     let lineItemObj = {};
+                     let fullDescriptionname = '';
+                      $('#add-rateype-title').text('Edit Rate Type Details');
+            
+                     if (ratetypelist) {
+                         for (var h = 0; h < ratetypelist.length; h++) {
+  
+                             if (data.tpayratetype[0].fields.Description === ratetypelist[h].description) {
+  
+                                fullDescriptionname = ratetypelist[h].description || '';
+  
+                             }
+                         }
+  
+                     }
+  
+                      var ratetypeid = data.tpayratetype[0].fields.ID || '';
+                      var description = fullDescriptionname || data.tpayratetype[0].fields.Description;
+                   
+            
+                      $('#edtRateID').val(ratetypeid);
+                      $('#edtRateDescription').val(description);
+               
+                      
+                      setTimeout(function () {
+                          $('#addRateModel').modal('show');
+                      }, 500);
+  
+                   }).catch(function (err) {
+                       $('.fullScreenSpin').css('display','none');
+                   });
+                 } else {
+                     let data = JSON.parse(dataObject[0].data);
+                     let useData = data.tpayratetype;
+                     var added=false;
+                     let lineItems = [];
+                     let lineItemObj = {};
+                     let fullDescriptionname = '';
+                  
+                     $('#add-rateype-title').text('Edit Rate Type Details');
+                     $('#edtRateID').attr('readonly', true);
+                     $('#edtRateDescription').attr('readonly', true);
+            
+                     for (let a = 0; a < data.tpayratetype.length; a++) {
+  
+                       if((data.tpayratetype[a].fields.Description) === Description){
+                         added = true;
+                         if (ratetypelist) {
+                             for (var h = 0; h < ratetypelist.length; h++) {
+  
+                                 if (data.tpayratetype[a].fields.Description === ratetypelist[h].Description) {
+  
+                                    fullDescriptionname = ratetypelist[h].Description || '';
+
+                                     console.log('Description '+fullDescriptionname);
+  
+                                 }
+                             }
+  
+                         }
+  
+  
+  
+                  var ratetypeid = data.tpayratetype[a].fields.ID || '';
+                  var ratetypedescription = fullDescriptionname || data.tpayratetype[a].fields.Description;
+             
+                  $('#edtRateID').val(ratetypeid);
+                  $('#edtRateDescription').val(ratetypedescription);
+                  
+                  setTimeout(function () {
+                      $('#addRateModel').modal('show');
+                       }, 500); } }
+
+                     if(!added) {
+                        ratetypeService.getOneRateTypeByName(Description).then(function (data) {
+                         let lineItems = [];
+                         let lineItemObj = {};
+                         let fullAccountTypeName = '';
+                      
+                         $('#add-rateype-title').text('Edit Rate Type Details');                  
+                         $('#edtRateID').attr('readonly', true);
+                         $('#edtRateDescription').attr('readonly', true);
+                         if (ratetypelist) {
+                             for (var h = 0; h < ratetypelist.length; h++) {
+  
+                                 if (data.tpayratetype[0].fields.Description === ratetypelist[h].Description) {
+  
+                                     fullAccountTypeName = ratetypelist[h].description || '';
+  
+                                 }
+                             }
+  
+                         }
+
+                          var ratetypeid = data.tpayratetype[0].fields.ID || '';
+                          var ratetypedescription = fullAccountTypeName || data.tpayratetype[0].fields.Description;
+                         
+                          $('#edtRateID').val(ratetypeid);
+                          $('#edtRateDescription').val(ratetypedescription);
+
+                          setTimeout(function () {
+                              $('#addRateModel').modal('show');
+                          }, 500);
+  
+                       }).catch(function (err) {
+                           $('.fullScreenSpin').css('display','none');
+                       });
+                     }
+  
+                 }
+             }).catch(function (err) {
+                ratetypeService.getOneRateTypeByName(Description).then(function (data) {
+                 let lineItems = [];
+                 let lineItemObj = {};
+                 let fullAccountTypeName = '';
+              
+                 $('#add-rateype-title').text('Edit Rate Type Details');                  
+                 $('#edtRateID').attr('readonly', true);
+                 $('#edtRateDescription').attr('readonly', true);
+
+                 if (ratetypelist) {
+                    for (var h = 0; h < ratetypelist.length; h++) {
+
+                        if (data.tpayratetype[a].fields.Description === ratetypelist[h].Description) {
+                            fullDescriptionname = ratetypelist[h].Description || '';
+                            console.log('Description '+fullDescriptionname);
+                        }
+                    }
+
+                }
+  
+                 var ratetypeid = data.tpayratetype[0].fields.ID || '';
+                 var ratetypedescription = fullAccountTypeName || data.tpayratetype[0].fields.Description;
+                         
+                          $('#edtRateID').val(ratetypeid);
+                          $('#edtRateDescription').val(ratetypedescription);
+
+                          setTimeout(function () {
+                              $('#addRateModel').modal('show');
+                          }, 500);
+  
+  
+               }).catch(function (err) {
+                   $('.fullScreenSpin').css('display','none');
+               });
+  
+               });
+               $('#addRateModel').modal('toggle');
+           }else{
+             $('#selectRateLineID').val('edtRateTypeOvertime');
+             $('#rateTypeListModel').modal();
+             setTimeout(function () {
+                  var datatable = $('#tblratetypelist').DataTable();
+                 datatable.draw();
+               
+             }, 500);
+           }
+         }
+  
+      });
+    
+    $('#edtRateType').editableSelect().on('click.editable-select', function (e, li) {
+       
+        var $earch = $(this);
+        var offset = $earch.offset();
+        let ratetypeService = new RateTypeService();
+        const ratetypelist = [];
+         var  Description = e.target.value ||'';
+
+        if (e.pageX > offset.left + $earch.width() - 8) { // X button 16px wide?
+          $('#selectRateLineID').val('edtRateType');
+          $('#rateTypeListModel').modal();
+          $('#tblratetypelist_filter .form-control-sm').focus();
+          $('#tblratetypelist_filter .form-control-sm').val();
+          $('#tblratetypelist_filter .form-control-sm').trigger("input");
+          setTimeout(function () {
+             var datatable = $('#tblratetypelist').DataTable();
+             datatable.draw();   
+             $('#tblratetypelist_filter .form-control-sm').trigger("input");       
+          }, 500);
+         }else{
+           if(Description.replace(/\s/g, '') != ''){
+             getVS1Data('TRateTypes').then(function (dataObject) {
+              if (dataObject.length == 0) {
+                     ratetypeService.getOneRateTypeByName(Description).then(function (data) {
+                     let lineItems = [];
+                     let lineItemObj = {};
+                     let fullDescriptionname = '';
+                      $('#add-rateype-title').text('Edit Rate Type Details');
+            
+                     if (ratetypelist) {
+                         for (var h = 0; h < ratetypelist.length; h++) {
+  
+                             if (data.tpayratetype[0].fields.Description === ratetypelist[h].description) {
+  
+                                fullDescriptionname = ratetypelist[h].description || '';
+  
+                             }
+                         }
+  
+                     }
+  
+                      var ratetypeid = data.tpayratetype[0].fields.ID || '';
+                      var description = fullDescriptionname || data.tpayratetype[0].fields.Description;
+                   
+            
+                      $('#edtRateID').val(ratetypeid);
+                      $('#edtRateDescription').val(description);
+               
+                      
+                      setTimeout(function () {
+                          $('#addRateModel').modal('show');
+                      }, 500);
+  
+                   }).catch(function (err) {
+                       $('.fullScreenSpin').css('display','none');
+                   });
+                 } else {
+                     let data = JSON.parse(dataObject[0].data);
+                     let useData = data.tpayratetype;
+                     var added=false;
+                     let lineItems = [];
+                     let lineItemObj = {};
+                     let fullDescriptionname = '';
+                  
+                     $('#add-rateype-title').text('Edit Rate Type Details');
+                     $('#edtRateID').attr('readonly', true);
+                     $('#edtRateDescription').attr('readonly', true);
+            
+                     for (let a = 0; a < data.tpayratetype.length; a++) {
+  
+                       if((data.tpayratetype[a].fields.Description) === Description){
+                         added = true;
+                         if (ratetypelist) {
+                             for (var h = 0; h < ratetypelist.length; h++) {
+  
+                                 if (data.tpayratetype[a].fields.Description === ratetypelist[h].Description) {
+  
+                                    fullDescriptionname = ratetypelist[h].Description || '';
+
+                                     console.log('Description '+fullDescriptionname);
+  
+                                 }
+                             }
+  
+                         }
+  
+  
+  
+                  var ratetypeid = data.tpayratetype[a].fields.ID || '';
+                  var ratetypedescription = fullDescriptionname || data.tpayratetype[a].fields.Description;
+             
+                  $('#edtRateID').val(ratetypeid);
+                  $('#edtRateDescription').val(ratetypedescription);
+                  
+                  setTimeout(function () {
+                      $('#addRateModel').modal('show');
+                       }, 500); } }
+
+                     if(!added) {
+                        ratetypeService.getOneRateTypeByName(Description).then(function (data) {
+                         let lineItems = [];
+                         let lineItemObj = {};
+                         let fullAccountTypeName = '';
+                      
+                         $('#add-rateype-title').text('Edit Rate Type Details');                  
+                         $('#edtRateID').attr('readonly', true);
+                         $('#edtRateDescription').attr('readonly', true);
+                         if (ratetypelist) {
+                             for (var h = 0; h < ratetypelist.length; h++) {
+  
+                                 if (data.tpayratetype[0].fields.Description === ratetypelist[h].Description) {
+  
+                                     fullAccountTypeName = ratetypelist[h].description || '';
+  
+                                 }
+                             }
+  
+                         }
+
+                          var ratetypeid = data.tpayratetype[0].fields.ID || '';
+                          var ratetypedescription = fullAccountTypeName || data.tpayratetype[0].fields.Description;
+                         
+                          $('#edtRateID').val(ratetypeid);
+                          $('#edtRateDescription').val(ratetypedescription);
+
+                          setTimeout(function () {
+                              $('#addRateModel').modal('show');
+                          }, 500);
+  
+                       }).catch(function (err) {
+                           $('.fullScreenSpin').css('display','none');
+                       });
+                     }
+  
+                 }
+             }).catch(function (err) {
+                ratetypeService.getOneRateTypeByName(Description).then(function (data) {
+                 let lineItems = [];
+                 let lineItemObj = {};
+                 let fullAccountTypeName = '';
+              
+                 $('#add-rateype-title').text('Edit Rate Type Details');                  
+                 $('#edtRateID').attr('readonly', true);
+                 $('#edtRateDescription').attr('readonly', true);
+
+                 if (ratetypelist) {
+                    for (var h = 0; h < ratetypelist.length; h++) {
+
+                        if (data.tpayratetype[a].fields.Description === ratetypelist[h].Description) {
+                            fullDescriptionname = ratetypelist[h].Description || '';
+                            console.log('Description '+fullDescriptionname);
+                        }
+                    }
+
+                }
+  
+                 var ratetypeid = data.tpayratetype[0].fields.ID || '';
+                 var ratetypedescription = fullAccountTypeName || data.tpayratetype[0].fields.Description;
+                         
+                          $('#edtRateID').val(ratetypeid);
+                          $('#edtRateDescription').val(ratetypedescription);
+
+                          setTimeout(function () {
+                              $('#addRateModel').modal('show');
+                          }, 500);
+  
+  
+               }).catch(function (err) {
+                   $('.fullScreenSpin').css('display','none');
+               });
+  
+               });
+               $('#addRateModel').modal('toggle');
+           }else{
+             $('#selectRateLineID').val('edtRateType');
+             $('#rateTypeListModel').modal();
+             setTimeout(function () {
+                  var datatable = $('#tblratetypelist').DataTable();
+                 datatable.draw();
+               
+             }, 500);
+           }
+         }
+  
+      });
+    
+    $('#edtRateTypeTermnination').editableSelect().on('click.editable-select', function (e, li) {
+       
+        var $earch = $(this);
+        var offset = $earch.offset();
+        let ratetypeService = new RateTypeService();
+        const ratetypelist = [];
+         var  Description = e.target.value ||'';
+
+        if (e.pageX > offset.left + $earch.width() - 8) { // X button 16px wide?
+          $('#selectRateLineID').val('edtRateTypeTermnination');
+          $('#rateTypeListModel').modal();
+          $('#tblratetypelist_filter .form-control-sm').focus();
+          $('#tblratetypelist_filter .form-control-sm').val();
+          $('#tblratetypelist_filter .form-control-sm').trigger("input");
+          setTimeout(function () {
+             var datatable = $('#tblratetypelist').DataTable();
+             datatable.draw();   
+             $('#tblratetypelist_filter .form-control-sm').trigger("input");       
+          }, 500);
+         }else{
+           if(Description.replace(/\s/g, '') != ''){
+             getVS1Data('TRateTypes').then(function (dataObject) {
+              if (dataObject.length == 0) {
+                     ratetypeService.getOneRateTypeByName(Description).then(function (data) {
+                     let lineItems = [];
+                     let lineItemObj = {};
+                     let fullDescriptionname = '';
+                      $('#add-rateype-title').text('Edit Rate Type Details');
+            
+                     if (ratetypelist) {
+                         for (var h = 0; h < ratetypelist.length; h++) {
+  
+                             if (data.tpayratetype[0].fields.Description === ratetypelist[h].description) {
+  
+                                fullDescriptionname = ratetypelist[h].description || '';
+  
+                             }
+                         }
+  
+                     }
+  
+                      var ratetypeid = data.tpayratetype[0].fields.ID || '';
+                      var description = fullDescriptionname || data.tpayratetype[0].fields.Description;
+                   
+            
+                      $('#edtRateID').val(ratetypeid);
+                      $('#edtRateDescription').val(description);
+               
+                      
+                      setTimeout(function () {
+                          $('#addRateModel').modal('show');
+                      }, 500);
+  
+                   }).catch(function (err) {
+                       $('.fullScreenSpin').css('display','none');
+                   });
+                 } else {
+                     let data = JSON.parse(dataObject[0].data);
+                     let useData = data.tpayratetype;
+                     var added=false;
+                     let lineItems = [];
+                     let lineItemObj = {};
+                     let fullDescriptionname = '';
+                  
+                     $('#add-rateype-title').text('Edit Rate Type Details');
+                     $('#edtRateID').attr('readonly', true);
+                     $('#edtRateDescription').attr('readonly', true);
+            
+                     for (let a = 0; a < data.tpayratetype.length; a++) {
+  
+                       if((data.tpayratetype[a].fields.Description) === Description){
+                         added = true;
+                         if (ratetypelist) {
+                             for (var h = 0; h < ratetypelist.length; h++) {
+  
+                                 if (data.tpayratetype[a].fields.Description === ratetypelist[h].Description) {
+  
+                                    fullDescriptionname = ratetypelist[h].Description || '';
+
+                                     console.log('Description '+fullDescriptionname);
+  
+                                 }
+                             }
+  
+                         }
+  
+  
+  
+                  var ratetypeid = data.tpayratetype[a].fields.ID || '';
+                  var ratetypedescription = fullDescriptionname || data.tpayratetype[a].fields.Description;
+             
+                  $('#edtRateID').val(ratetypeid);
+                  $('#edtRateDescription').val(ratetypedescription);
+                  
+                  setTimeout(function () {
+                      $('#addRateModel').modal('show');
+                       }, 500); } }
+
+                     if(!added) {
+                        ratetypeService.getOneRateTypeByName(Description).then(function (data) {
+                         let lineItems = [];
+                         let lineItemObj = {};
+                         let fullAccountTypeName = '';
+                      
+                         $('#add-rateype-title').text('Edit Rate Type Details');                  
+                         $('#edtRateID').attr('readonly', true);
+                         $('#edtRateDescription').attr('readonly', true);
+                         if (ratetypelist) {
+                             for (var h = 0; h < ratetypelist.length; h++) {
+  
+                                 if (data.tpayratetype[0].fields.Description === ratetypelist[h].Description) {
+  
+                                     fullAccountTypeName = ratetypelist[h].description || '';
+  
+                                 }
+                             }
+  
+                         }
+
+                          var ratetypeid = data.tpayratetype[0].fields.ID || '';
+                          var ratetypedescription = fullAccountTypeName || data.tpayratetype[0].fields.Description;
+                         
+                          $('#edtRateID').val(ratetypeid);
+                          $('#edtRateDescription').val(ratetypedescription);
+
+                          setTimeout(function () {
+                              $('#addRateModel').modal('show');
+                          }, 500);
+  
+                       }).catch(function (err) {
+                           $('.fullScreenSpin').css('display','none');
+                       });
+                     }
+  
+                 }
+             }).catch(function (err) {
+                ratetypeService.getOneRateTypeByName(Description).then(function (data) {
+                 let lineItems = [];
+                 let lineItemObj = {};
+                 let fullAccountTypeName = '';
+              
+                 $('#add-rateype-title').text('Edit Rate Type Details');                  
+                 $('#edtRateID').attr('readonly', true);
+                 $('#edtRateDescription').attr('readonly', true);
+
+                 if (ratetypelist) {
+                    for (var h = 0; h < ratetypelist.length; h++) {
+
+                        if (data.tpayratetype[a].fields.Description === ratetypelist[h].Description) {
+                            fullDescriptionname = ratetypelist[h].Description || '';
+                            console.log('Description '+fullDescriptionname);
+                        }
+                    }
+
+                }
+  
+                 var ratetypeid = data.tpayratetype[0].fields.ID || '';
+                 var ratetypedescription = fullAccountTypeName || data.tpayratetype[0].fields.Description;
+                         
+                          $('#edtRateID').val(ratetypeid);
+                          $('#edtRateDescription').val(ratetypedescription);
+
+                          setTimeout(function () {
+                              $('#addRateModel').modal('show');
+                          }, 500);
+  
+  
+               }).catch(function (err) {
+                   $('.fullScreenSpin').css('display','none');
+               });
+  
+               });
+               $('#addRateModel').modal('toggle');
+           }else{
+             $('#selectRateLineID').val('edtRateTypeTermnination');
+             $('#rateTypeListModel').modal();
+             setTimeout(function () {
+                  var datatable = $('#tblratetypelist').DataTable();
+                 datatable.draw();
+               
+             }, 500);
+           }
+         }
+  
+      });
+
+    $('#edtRateTypeLumpSumE').editableSelect().on('click.editable-select', function (e, li) {
+       
+        var $earch = $(this);
+        var offset = $earch.offset();
+        let ratetypeService = new RateTypeService();
+        const ratetypelist = [];
+         var  Description = e.target.value ||'';
+
+        if (e.pageX > offset.left + $earch.width() - 8) { // X button 16px wide?
+          $('#selectRateLineID').val('edtRateTypeLumpSumE');
+          $('#rateTypeListModel').modal();
+          $('#tblratetypelist_filter .form-control-sm').focus();
+          $('#tblratetypelist_filter .form-control-sm').val();
+          $('#tblratetypelist_filter .form-control-sm').trigger("input");
+          setTimeout(function () {
+             var datatable = $('#tblratetypelist').DataTable();
+             datatable.draw();   
+             $('#tblratetypelist_filter .form-control-sm').trigger("input");       
+          }, 500);
+         }else{
+           if(Description.replace(/\s/g, '') != ''){
+             getVS1Data('TRateTypes').then(function (dataObject) {
+              if (dataObject.length == 0) {
+                     ratetypeService.getOneRateTypeByName(Description).then(function (data) {
+                     let lineItems = [];
+                     let lineItemObj = {};
+                     let fullDescriptionname = '';
+                      $('#add-rateype-title').text('Edit Rate Type Details');
+            
+                     if (ratetypelist) {
+                         for (var h = 0; h < ratetypelist.length; h++) {
+  
+                             if (data.tpayratetype[0].fields.Description === ratetypelist[h].description) {
+  
+                                fullDescriptionname = ratetypelist[h].description || '';
+  
+                             }
+                         }
+  
+                     }
+  
+                      var ratetypeid = data.tpayratetype[0].fields.ID || '';
+                      var description = fullDescriptionname || data.tpayratetype[0].fields.Description;
+                   
+            
+                      $('#edtRateID').val(ratetypeid);
+                      $('#edtRateDescription').val(description);
+               
+                      
+                      setTimeout(function () {
+                          $('#addRateModel').modal('show');
+                      }, 500);
+  
+                   }).catch(function (err) {
+                       $('.fullScreenSpin').css('display','none');
+                   });
+                 } else {
+                     let data = JSON.parse(dataObject[0].data);
+                     let useData = data.tpayratetype;
+                     var added=false;
+                     let lineItems = [];
+                     let lineItemObj = {};
+                     let fullDescriptionname = '';
+                  
+                     $('#add-rateype-title').text('Edit Rate Type Details');
+                     $('#edtRateID').attr('readonly', true);
+                     $('#edtRateDescription').attr('readonly', true);
+            
+                     for (let a = 0; a < data.tpayratetype.length; a++) {
+  
+                       if((data.tpayratetype[a].fields.Description) === Description){
+                         added = true;
+                         if (ratetypelist) {
+                             for (var h = 0; h < ratetypelist.length; h++) {
+  
+                                 if (data.tpayratetype[a].fields.Description === ratetypelist[h].Description) {
+  
+                                    fullDescriptionname = ratetypelist[h].Description || '';
+
+                                     console.log('Description '+fullDescriptionname);
+  
+                                 }
+                             }
+  
+                         }
+  
+  
+  
+                  var ratetypeid = data.tpayratetype[a].fields.ID || '';
+                  var ratetypedescription = fullDescriptionname || data.tpayratetype[a].fields.Description;
+             
+                  $('#edtRateID').val(ratetypeid);
+                  $('#edtRateDescription').val(ratetypedescription);
+                  
+                  setTimeout(function () {
+                      $('#addRateModel').modal('show');
+                       }, 500); } }
+
+                     if(!added) {
+                        ratetypeService.getOneRateTypeByName(Description).then(function (data) {
+                         let lineItems = [];
+                         let lineItemObj = {};
+                         let fullAccountTypeName = '';
+                      
+                         $('#add-rateype-title').text('Edit Rate Type Details');                  
+                         $('#edtRateID').attr('readonly', true);
+                         $('#edtRateDescription').attr('readonly', true);
+                         if (ratetypelist) {
+                             for (var h = 0; h < ratetypelist.length; h++) {
+  
+                                 if (data.tpayratetype[0].fields.Description === ratetypelist[h].Description) {
+  
+                                     fullAccountTypeName = ratetypelist[h].description || '';
+  
+                                 }
+                             }
+  
+                         }
+
+                          var ratetypeid = data.tpayratetype[0].fields.ID || '';
+                          var ratetypedescription = fullAccountTypeName || data.tpayratetype[0].fields.Description;
+                         
+                          $('#edtRateID').val(ratetypeid);
+                          $('#edtRateDescription').val(ratetypedescription);
+
+                          setTimeout(function () {
+                              $('#addRateModel').modal('show');
+                          }, 500);
+  
+                       }).catch(function (err) {
+                           $('.fullScreenSpin').css('display','none');
+                       });
+                     }
+  
+                 }
+             }).catch(function (err) {
+                ratetypeService.getOneRateTypeByName(Description).then(function (data) {
+                 let lineItems = [];
+                 let lineItemObj = {};
+                 let fullAccountTypeName = '';
+              
+                 $('#add-rateype-title').text('Edit Rate Type Details');                  
+                 $('#edtRateID').attr('readonly', true);
+                 $('#edtRateDescription').attr('readonly', true);
+
+                 if (ratetypelist) {
+                    for (var h = 0; h < ratetypelist.length; h++) {
+
+                        if (data.tpayratetype[a].fields.Description === ratetypelist[h].Description) {
+                            fullDescriptionname = ratetypelist[h].Description || '';
+                            console.log('Description '+fullDescriptionname);
+                        }
+                    }
+
+                }
+  
+                 var ratetypeid = data.tpayratetype[0].fields.ID || '';
+                 var ratetypedescription = fullAccountTypeName || data.tpayratetype[0].fields.Description;
+                         
+                          $('#edtRateID').val(ratetypeid);
+                          $('#edtRateDescription').val(ratetypedescription);
+
+                          setTimeout(function () {
+                              $('#addRateModel').modal('show');
+                          }, 500);
+  
+  
+               }).catch(function (err) {
+                   $('.fullScreenSpin').css('display','none');
+               });
+  
+               });
+               $('#addRateModel').modal('toggle');
+           }else{
+             $('#selectRateLineID').val('edtRateTypeLumpSumE');
+             $('#rateTypeListModel').modal();
+             setTimeout(function () {
+                  var datatable = $('#tblratetypelist').DataTable();
+                 datatable.draw();
+               
+             }, 500);
+           }
+         }
+  
+      });
+    
+    $('#edtRateTypeBonusesCommissions').editableSelect().on('click.editable-select', function (e, li) {
+       
+        var $earch = $(this);
+        var offset = $earch.offset();
+        let ratetypeService = new RateTypeService();
+        const ratetypelist = [];
+         var  Description = e.target.value ||'';
+
+        if (e.pageX > offset.left + $earch.width() - 8) { // X button 16px wide?
+          $('#selectRateLineID').val('edtRateTypeBonusesCommissions');
+          $('#rateTypeListModel').modal();
+          $('#tblratetypelist_filter .form-control-sm').focus();
+          $('#tblratetypelist_filter .form-control-sm').val();
+          $('#tblratetypelist_filter .form-control-sm').trigger("input");
+          setTimeout(function () {
+             var datatable = $('#tblratetypelist').DataTable();
+             datatable.draw();   
+             $('#tblratetypelist_filter .form-control-sm').trigger("input");       
+          }, 500);
+         }else{
+           if(Description.replace(/\s/g, '') != ''){
+             getVS1Data('TRateTypes').then(function (dataObject) {
+              if (dataObject.length == 0) {
+                     ratetypeService.getOneRateTypeByName(Description).then(function (data) {
+                     let lineItems = [];
+                     let lineItemObj = {};
+                     let fullDescriptionname = '';
+                      $('#add-rateype-title').text('Edit Rate Type Details');
+            
+                     if (ratetypelist) {
+                         for (var h = 0; h < ratetypelist.length; h++) {
+  
+                             if (data.tpayratetype[0].fields.Description === ratetypelist[h].description) {
+  
+                                fullDescriptionname = ratetypelist[h].description || '';
+  
+                             }
+                         }
+  
+                     }
+  
+                      var ratetypeid = data.tpayratetype[0].fields.ID || '';
+                      var description = fullDescriptionname || data.tpayratetype[0].fields.Description;
+                   
+            
+                      $('#edtRateID').val(ratetypeid);
+                      $('#edtRateDescription').val(description);
+               
+                      
+                      setTimeout(function () {
+                          $('#addRateModel').modal('show');
+                      }, 500);
+  
+                   }).catch(function (err) {
+                       $('.fullScreenSpin').css('display','none');
+                   });
+                 } else {
+                     let data = JSON.parse(dataObject[0].data);
+                     let useData = data.tpayratetype;
+                     var added=false;
+                     let lineItems = [];
+                     let lineItemObj = {};
+                     let fullDescriptionname = '';
+                  
+                     $('#add-rateype-title').text('Edit Rate Type Details');
+                     $('#edtRateID').attr('readonly', true);
+                     $('#edtRateDescription').attr('readonly', true);
+            
+                     for (let a = 0; a < data.tpayratetype.length; a++) {
+  
+                       if((data.tpayratetype[a].fields.Description) === Description){
+                         added = true;
+                         if (ratetypelist) {
+                             for (var h = 0; h < ratetypelist.length; h++) {
+  
+                                 if (data.tpayratetype[a].fields.Description === ratetypelist[h].Description) {
+  
+                                    fullDescriptionname = ratetypelist[h].Description || '';
+
+                                     console.log('Description '+fullDescriptionname);
+  
+                                 }
+                             }
+  
+                         }
+  
+  
+  
+                  var ratetypeid = data.tpayratetype[a].fields.ID || '';
+                  var ratetypedescription = fullDescriptionname || data.tpayratetype[a].fields.Description;
+             
+                  $('#edtRateID').val(ratetypeid);
+                  $('#edtRateDescription').val(ratetypedescription);
+                  
+                  setTimeout(function () {
+                      $('#addRateModel').modal('show');
+                       }, 500); } }
+
+                     if(!added) {
+                        ratetypeService.getOneRateTypeByName(Description).then(function (data) {
+                         let lineItems = [];
+                         let lineItemObj = {};
+                         let fullAccountTypeName = '';
+                      
+                         $('#add-rateype-title').text('Edit Rate Type Details');                  
+                         $('#edtRateID').attr('readonly', true);
+                         $('#edtRateDescription').attr('readonly', true);
+                         if (ratetypelist) {
+                             for (var h = 0; h < ratetypelist.length; h++) {
+  
+                                 if (data.tpayratetype[0].fields.Description === ratetypelist[h].Description) {
+  
+                                     fullAccountTypeName = ratetypelist[h].description || '';
+  
+                                 }
+                             }
+  
+                         }
+
+                          var ratetypeid = data.tpayratetype[0].fields.ID || '';
+                          var ratetypedescription = fullAccountTypeName || data.tpayratetype[0].fields.Description;
+                         
+                          $('#edtRateID').val(ratetypeid);
+                          $('#edtRateDescription').val(ratetypedescription);
+
+                          setTimeout(function () {
+                              $('#addRateModel').modal('show');
+                          }, 500);
+  
+                       }).catch(function (err) {
+                           $('.fullScreenSpin').css('display','none');
+                       });
+                     }
+  
+                 }
+             }).catch(function (err) {
+                ratetypeService.getOneRateTypeByName(Description).then(function (data) {
+                 let lineItems = [];
+                 let lineItemObj = {};
+                 let fullAccountTypeName = '';
+              
+                 $('#add-rateype-title').text('Edit Rate Type Details');                  
+                 $('#edtRateID').attr('readonly', true);
+                 $('#edtRateDescription').attr('readonly', true);
+
+                 if (ratetypelist) {
+                    for (var h = 0; h < ratetypelist.length; h++) {
+
+                        if (data.tpayratetype[a].fields.Description === ratetypelist[h].Description) {
+                            fullDescriptionname = ratetypelist[h].Description || '';
+                            console.log('Description '+fullDescriptionname);
+                        }
+                    }
+
+                }
+  
+                 var ratetypeid = data.tpayratetype[0].fields.ID || '';
+                 var ratetypedescription = fullAccountTypeName || data.tpayratetype[0].fields.Description;
+                         
+                          $('#edtRateID').val(ratetypeid);
+                          $('#edtRateDescription').val(ratetypedescription);
+
+                          setTimeout(function () {
+                              $('#addRateModel').modal('show');
+                          }, 500);
+  
+  
+               }).catch(function (err) {
+                   $('.fullScreenSpin').css('display','none');
+               });
+  
+               });
+               $('#addRateModel').modal('toggle');
+           }else{
+             $('#selectRateLineID').val('edtRateTypeBonusesCommissions');
+             $('#rateTypeListModel').modal();
+             setTimeout(function () {
+                  var datatable = $('#tblratetypelist').DataTable();
+                 datatable.draw();
+               
+             }, 500);
+           }
+         }
+  
+      });
+
+    $('#edtRateTypeDirectorsFees').editableSelect().on('click.editable-select', function (e, li) {
+       
+        var $earch = $(this);
+        var offset = $earch.offset();
+        let ratetypeService = new RateTypeService();
+        const ratetypelist = [];
+         var  Description = e.target.value ||'';
+
+        if (e.pageX > offset.left + $earch.width() - 8) { // X button 16px wide?
+          $('#selectRateLineID').val('edtRateTypeDirectorsFees');
+          $('#rateTypeListModel').modal();
+          $('#tblratetypelist_filter .form-control-sm').focus();
+          $('#tblratetypelist_filter .form-control-sm').val();
+          $('#tblratetypelist_filter .form-control-sm').trigger("input");
+          setTimeout(function () {
+             var datatable = $('#tblratetypelist').DataTable();
+             datatable.draw();   
+             $('#tblratetypelist_filter .form-control-sm').trigger("input");       
+          }, 500);
+         }else{
+           if(Description.replace(/\s/g, '') != ''){
+             getVS1Data('TRateTypes').then(function (dataObject) {
+              if (dataObject.length == 0) {
+                     ratetypeService.getOneRateTypeByName(Description).then(function (data) {
+                     let lineItems = [];
+                     let lineItemObj = {};
+                     let fullDescriptionname = '';
+                      $('#add-rateype-title').text('Edit Rate Type Details');
+            
+                     if (ratetypelist) {
+                         for (var h = 0; h < ratetypelist.length; h++) {
+  
+                             if (data.tpayratetype[0].fields.Description === ratetypelist[h].description) {
+  
+                                fullDescriptionname = ratetypelist[h].description || '';
+  
+                             }
+                         }
+  
+                     }
+  
+                      var ratetypeid = data.tpayratetype[0].fields.ID || '';
+                      var description = fullDescriptionname || data.tpayratetype[0].fields.Description;
+                   
+            
+                      $('#edtRateID').val(ratetypeid);
+                      $('#edtRateDescription').val(description);
+               
+                      
+                      setTimeout(function () {
+                          $('#addRateModel').modal('show');
+                      }, 500);
+  
+                   }).catch(function (err) {
+                       $('.fullScreenSpin').css('display','none');
+                   });
+                 } else {
+                     let data = JSON.parse(dataObject[0].data);
+                     let useData = data.tpayratetype;
+                     var added=false;
+                     let lineItems = [];
+                     let lineItemObj = {};
+                     let fullDescriptionname = '';
+                  
+                     $('#add-rateype-title').text('Edit Rate Type Details');
+                     $('#edtRateID').attr('readonly', true);
+                     $('#edtRateDescription').attr('readonly', true);
+            
+                     for (let a = 0; a < data.tpayratetype.length; a++) {
+  
+                       if((data.tpayratetype[a].fields.Description) === Description){
+                         added = true;
+                         if (ratetypelist) {
+                             for (var h = 0; h < ratetypelist.length; h++) {
+  
+                                 if (data.tpayratetype[a].fields.Description === ratetypelist[h].Description) {
+  
+                                    fullDescriptionname = ratetypelist[h].Description || '';
+
+                                     console.log('Description '+fullDescriptionname);
+  
+                                 }
+                             }
+  
+                         }
+  
+  
+  
+                  var ratetypeid = data.tpayratetype[a].fields.ID || '';
+                  var ratetypedescription = fullDescriptionname || data.tpayratetype[a].fields.Description;
+             
+                  $('#edtRateID').val(ratetypeid);
+                  $('#edtRateDescription').val(ratetypedescription);
+                  
+                  setTimeout(function () {
+                      $('#addRateModel').modal('show');
+                       }, 500); } }
+
+                     if(!added) {
+                        ratetypeService.getOneRateTypeByName(Description).then(function (data) {
+                         let lineItems = [];
+                         let lineItemObj = {};
+                         let fullAccountTypeName = '';
+                      
+                         $('#add-rateype-title').text('Edit Rate Type Details');                  
+                         $('#edtRateID').attr('readonly', true);
+                         $('#edtRateDescription').attr('readonly', true);
+                         if (ratetypelist) {
+                             for (var h = 0; h < ratetypelist.length; h++) {
+  
+                                 if (data.tpayratetype[0].fields.Description === ratetypelist[h].Description) {
+  
+                                     fullAccountTypeName = ratetypelist[h].description || '';
+  
+                                 }
+                             }
+  
+                         }
+
+                          var ratetypeid = data.tpayratetype[0].fields.ID || '';
+                          var ratetypedescription = fullAccountTypeName || data.tpayratetype[0].fields.Description;
+                         
+                          $('#edtRateID').val(ratetypeid);
+                          $('#edtRateDescription').val(ratetypedescription);
+
+                          setTimeout(function () {
+                              $('#addRateModel').modal('show');
+                          }, 500);
+  
+                       }).catch(function (err) {
+                           $('.fullScreenSpin').css('display','none');
+                       });
+                     }
+  
+                 }
+             }).catch(function (err) {
+                ratetypeService.getOneRateTypeByName(Description).then(function (data) {
+                 let lineItems = [];
+                 let lineItemObj = {};
+                 let fullAccountTypeName = '';
+              
+                 $('#add-rateype-title').text('Edit Rate Type Details');                  
+                 $('#edtRateID').attr('readonly', true);
+                 $('#edtRateDescription').attr('readonly', true);
+
+                 if (ratetypelist) {
+                    for (var h = 0; h < ratetypelist.length; h++) {
+
+                        if (data.tpayratetype[a].fields.Description === ratetypelist[h].Description) {
+                            fullDescriptionname = ratetypelist[h].Description || '';
+                            console.log('Description '+fullDescriptionname);
+                        }
+                    }
+
+                }
+  
+                 var ratetypeid = data.tpayratetype[0].fields.ID || '';
+                 var ratetypedescription = fullAccountTypeName || data.tpayratetype[0].fields.Description;
+                         
+                          $('#edtRateID').val(ratetypeid);
+                          $('#edtRateDescription').val(ratetypedescription);
+
+                          setTimeout(function () {
+                              $('#addRateModel').modal('show');
+                          }, 500);
+  
+  
+               }).catch(function (err) {
+                   $('.fullScreenSpin').css('display','none');
+               });
+  
+               });
+               $('#addRateModel').modal('toggle');
+           }else{
+             $('#selectRateLineID').val('edtRateTypeDirectorsFees');
+             $('#rateTypeListModel').modal();
+             setTimeout(function () {
+                  var datatable = $('#tblratetypelist').DataTable();
+                 datatable.draw();
+               
+             }, 500);
+           }
+         }
+  
+      });
+    
+    $('#edtRateTypeLumpSumW').editableSelect().on('click.editable-select', function (e, li) {
+       
+        var $earch = $(this);
+        var offset = $earch.offset();
+        let ratetypeService = new RateTypeService();
+        const ratetypelist = [];
+         var  Description = e.target.value ||'';
+
+        if (e.pageX > offset.left + $earch.width() - 8) { // X button 16px wide?
+          $('#selectRateLineID').val('edtRateTypeLumpSumW');
+          $('#rateTypeListModel').modal();
+          $('#tblratetypelist_filter .form-control-sm').focus();
+          $('#tblratetypelist_filter .form-control-sm').val();
+          $('#tblratetypelist_filter .form-control-sm').trigger("input");
+          setTimeout(function () {
+             var datatable = $('#tblratetypelist').DataTable();
+             datatable.draw();   
+             $('#tblratetypelist_filter .form-control-sm').trigger("input");       
+          }, 500);
+         }else{
+           if(Description.replace(/\s/g, '') != ''){
+             getVS1Data('TRateTypes').then(function (dataObject) {
+              if (dataObject.length == 0) {
+                     ratetypeService.getOneRateTypeByName(Description).then(function (data) {
+                     let lineItems = [];
+                     let lineItemObj = {};
+                     let fullDescriptionname = '';
+                      $('#add-rateype-title').text('Edit Rate Type Details');
+            
+                     if (ratetypelist) {
+                         for (var h = 0; h < ratetypelist.length; h++) {
+  
+                             if (data.tpayratetype[0].fields.Description === ratetypelist[h].description) {
+  
+                                fullDescriptionname = ratetypelist[h].description || '';
+  
+                             }
+                         }
+  
+                     }
+  
+                      var ratetypeid = data.tpayratetype[0].fields.ID || '';
+                      var description = fullDescriptionname || data.tpayratetype[0].fields.Description;
+                   
+            
+                      $('#edtRateID').val(ratetypeid);
+                      $('#edtRateDescription').val(description);
+               
+                      
+                      setTimeout(function () {
+                          $('#addRateModel').modal('show');
+                      }, 500);
+  
+                   }).catch(function (err) {
+                       $('.fullScreenSpin').css('display','none');
+                   });
+                 } else {
+                     let data = JSON.parse(dataObject[0].data);
+                     let useData = data.tpayratetype;
+                     var added=false;
+                     let lineItems = [];
+                     let lineItemObj = {};
+                     let fullDescriptionname = '';
+                  
+                     $('#add-rateype-title').text('Edit Rate Type Details');
+                     $('#edtRateID').attr('readonly', true);
+                     $('#edtRateDescription').attr('readonly', true);
+            
+                     for (let a = 0; a < data.tpayratetype.length; a++) {
+  
+                       if((data.tpayratetype[a].fields.Description) === Description){
+                         added = true;
+                         if (ratetypelist) {
+                             for (var h = 0; h < ratetypelist.length; h++) {
+  
+                                 if (data.tpayratetype[a].fields.Description === ratetypelist[h].Description) {
+  
+                                    fullDescriptionname = ratetypelist[h].Description || '';
+
+                                     console.log('Description '+fullDescriptionname);
+  
+                                 }
+                             }
+  
+                         }
+  
+  
+  
+                  var ratetypeid = data.tpayratetype[a].fields.ID || '';
+                  var ratetypedescription = fullDescriptionname || data.tpayratetype[a].fields.Description;
+             
+                  $('#edtRateID').val(ratetypeid);
+                  $('#edtRateDescription').val(ratetypedescription);
+                  
+                  setTimeout(function () {
+                      $('#addRateModel').modal('show');
+                       }, 500); } }
+
+                     if(!added) {
+                        ratetypeService.getOneRateTypeByName(Description).then(function (data) {
+                         let lineItems = [];
+                         let lineItemObj = {};
+                         let fullAccountTypeName = '';
+                      
+                         $('#add-rateype-title').text('Edit Rate Type Details');                  
+                         $('#edtRateID').attr('readonly', true);
+                         $('#edtRateDescription').attr('readonly', true);
+                         if (ratetypelist) {
+                             for (var h = 0; h < ratetypelist.length; h++) {
+  
+                                 if (data.tpayratetype[0].fields.Description === ratetypelist[h].Description) {
+  
+                                     fullAccountTypeName = ratetypelist[h].description || '';
+  
+                                 }
+                             }
+  
+                         }
+
+                          var ratetypeid = data.tpayratetype[0].fields.ID || '';
+                          var ratetypedescription = fullAccountTypeName || data.tpayratetype[0].fields.Description;
+                         
+                          $('#edtRateID').val(ratetypeid);
+                          $('#edtRateDescription').val(ratetypedescription);
+
+                          setTimeout(function () {
+                              $('#addRateModel').modal('show');
+                          }, 500);
+  
+                       }).catch(function (err) {
+                           $('.fullScreenSpin').css('display','none');
+                       });
+                     }
+  
+                 }
+             }).catch(function (err) {
+                ratetypeService.getOneRateTypeByName(Description).then(function (data) {
+                 let lineItems = [];
+                 let lineItemObj = {};
+                 let fullAccountTypeName = '';
+              
+                 $('#add-rateype-title').text('Edit Rate Type Details');                  
+                 $('#edtRateID').attr('readonly', true);
+                 $('#edtRateDescription').attr('readonly', true);
+
+                 if (ratetypelist) {
+                    for (var h = 0; h < ratetypelist.length; h++) {
+
+                        if (data.tpayratetype[a].fields.Description === ratetypelist[h].Description) {
+                            fullDescriptionname = ratetypelist[h].Description || '';
+                            console.log('Description '+fullDescriptionname);
+                        }
+                    }
+
+                }
+  
+                 var ratetypeid = data.tpayratetype[0].fields.ID || '';
+                 var ratetypedescription = fullAccountTypeName || data.tpayratetype[0].fields.Description;
+                         
+                          $('#edtRateID').val(ratetypeid);
+                          $('#edtRateDescription').val(ratetypedescription);
+
+                          setTimeout(function () {
+                              $('#addRateModel').modal('show');
+                          }, 500);
+  
+  
+               }).catch(function (err) {
+                   $('.fullScreenSpin').css('display','none');
+               });
+  
+               });
+               $('#addRateModel').modal('toggle');
+           }else{
+             $('#selectRateLineID').val('edtRateTypeLumpSumW');
+             $('#rateTypeListModel').modal();
+             setTimeout(function () {
+                  var datatable = $('#tblratetypelist').DataTable();
+                 datatable.draw();
+               
+             }, 500);
+           }
+         }
+  
+      });
+
+    $(document).on("click", "#tblratetypelist tbody tr", function(e) {
+
+        let selectLineID = $('#selectRateLineID').val()||'edtRateTypeOvertime';
+       
+        var table = $(this);
+        let description = table.find(".thDescription").text();
+        let ratetypeid = table.find(".thRateID").text()||0;
+        $('#rateTypeListModel').modal('toggle');
+
+          if(selectLineID == 'edtRateTypeOvertime'){          
+           $('#edtRateDescription').val(description);
+           $('#edtRateID').val(ratetypeid);
+           $('#edtRateTypeOvertime').val(description);
+           $('#add-rateype-title').text('Edit Rate Type Details');
+
+          }
+
+        $('#tblratetypelist_filter .form-control-sm').val('');
+        setTimeout(function () {
+            $('.btnRefreshRateType').trigger('click');
+            $('.fullScreenSpin').css('display', 'none');
+        }, 1000);
+    });
+
+    $(document).on("click", "#tblratetypelist tbody tr", function(e) {
+
+        let selectLineID = $('#selectRateLineID').val()||'edtRateType';
+       
+        var table = $(this);
+        let description = table.find(".thDescription").text();
+        let ratetypeid = table.find(".thRateID").text()||0;
+        $('#rateTypeListModel').modal('toggle');
+
+          if(selectLineID == 'edtRateType'){          
+           $('#edtRateDescription').val(description);
+           $('#edtRateID').val(ratetypeid);
+           $('#edtRateType').val(description);
+           $('#add-rateype-title').text('Edit Rate Type Details');
+
+          }
+
+        $('#tblratetypelist_filter .form-control-sm').val('');
+        setTimeout(function () {
+            $('.btnRefreshRateType').trigger('click');
+            $('.fullScreenSpin').css('display', 'none');
+        }, 1000);
+    });
+
+    $(document).on("click", "#tblratetypelist tbody tr", function(e) {
+
+        let selectLineID = $('#selectRateLineID').val()||'edtRateTypeTermnination';
+       
+        var table = $(this);
+        let description = table.find(".thDescription").text();
+        let ratetypeid = table.find(".thRateID").text()||0;
+        $('#rateTypeListModel').modal('toggle');
+
+          if(selectLineID == 'edtRateTypeTermnination'){                            
+           $('#edtRateDescription').val(description);
+           $('#edtRateID').val(ratetypeid);
+           $('#edtRateTypeTermnination').val(description);
+           $('#add-rateype-title').text('Edit Rate Type Details');
+
+          }
+
+        $('#tblratetypelist_filter .form-control-sm').val('');
+        setTimeout(function () {
+            $('.btnRefreshRateType').trigger('click');
+            $('.fullScreenSpin').css('display', 'none');
+        }, 1000);
+    });
+    $(document).on("click", "#tblratetypelist tbody tr", function(e) {
+
+        let selectLineID = $('#selectRateLineID').val()||'edtRateTypeLumpSumE';
+       
+        var table = $(this);
+        let description = table.find(".thDescription").text();
+        let ratetypeid = table.find(".thRateID").text()||0;
+        $('#rateTypeListModel').modal('toggle');
+
+          if(selectLineID == 'edtRateTypeLumpSumE'){          
+           $('#edtRateDescription').val(description);
+           $('#edtRateID').val(ratetypeid);
+           $('#edtRateTypeLumpSumE').val(description);
+           $('#add-rateype-title').text('Edit Rate Type Details');
+
+          }
+
+        $('#tblratetypelist_filter .form-control-sm').val('');
+        setTimeout(function () {
+            $('.btnRefreshRateType').trigger('click');
+            $('.fullScreenSpin').css('display', 'none');
+        }, 1000);
+    });
+    $(document).on("click", "#tblratetypelist tbody tr", function(e) {
+
+        let selectLineID = $('#selectRateLineID').val()||'edtRateTypeBonusesCommissions';
+       
+        var table = $(this);
+        let description = table.find(".thDescription").text();
+        let ratetypeid = table.find(".thRateID").text()||0;
+        $('#rateTypeListModel').modal('toggle');
+
+          if(selectLineID == 'edtRateTypeBonusesCommissions'){          
+           $('#edtRateDescription').val(description);
+           $('#edtRateID').val(ratetypeid);
+           $('#edtRateTypeBonusesCommissions').val(description);
+           $('#add-rateype-title').text('Edit Rate Type Details');
+
+          }
+
+        $('#tblratetypelist_filter .form-control-sm').val('');
+        setTimeout(function () {
+            $('.btnRefreshRateType').trigger('click');
+            $('.fullScreenSpin').css('display', 'none');
+        }, 1000);
+    });
+    $(document).on("click", "#tblratetypelist tbody tr", function(e) {
+
+        let selectLineID = $('#selectRateLineID').val()||'edtRateTypeLumpSumW';
+       
+        var table = $(this);
+        let description = table.find(".thDescription").text();
+        let ratetypeid = table.find(".thRateID").text()||0;
+        $('#rateTypeListModel').modal('toggle');
+
+          if(selectLineID == 'edtRateTypeLumpSumW'){          
+           $('#edtRateDescription').val(description);
+           $('#edtRateID').val(ratetypeid);
+           $('#edtRateTypeLumpSumW').val(description);
+           $('#add-rateype-title').text('Edit Rate Type Details');
+
+          }
+
+        $('#tblratetypelist_filter .form-control-sm').val('');
+        setTimeout(function () {
+            $('.btnRefreshRateType').trigger('click');
+            $('.fullScreenSpin').css('display', 'none');
+        }, 1000);
+    });
+    $(document).on("click", "#tblratetypelist tbody tr", function(e) {
+
+        let selectLineID = $('#selectRateLineID').val()||'edtRateTypeDirectorsFees';
+       
+        var table = $(this);
+        let description = table.find(".thDescription").text();
+        let ratetypeid = table.find(".thRateID").text()||0;
+        $('#rateTypeListModel').modal('toggle');
+
+          if(selectLineID == 'edtRateTypeDirectorsFees'){          
+           $('#edtRateDescription').val(description);
+           $('#edtRateID').val(ratetypeid);
+           $('#edtRateTypeDirectorsFees').val(description);
+           $('#add-rateype-title').text('Edit Rate Type Details');
+
+          }
+
+        $('#tblratetypelist_filter .form-control-sm').val('');
+        setTimeout(function () {
+            $('.btnRefreshRateType').trigger('click');
+            $('.fullScreenSpin').css('display', 'none');
+        }, 1000);
+    });
+
 
     $(document).on("click", "#tblAccount tbody tr", function(e) {
         let selectLineID = $('#selectLineID').val()||'edtExpenseAccountAllowance';
@@ -8323,23 +13423,24 @@ Template.payrollrules.onRendered(function() {
     $(document).on("click", "#tblAccount tbody tr", function(e) {
         let selectLineID = $('#selectLineID').val()||'edtExpenseAccountDirectorsFees';
         var table = $(this);
-          let accountname = table.find(".productName").text();
-          let accountID = table.find(".colAccountID").text()||0;
-          $('#accountListModal').modal('toggle');
+        let accountname = table.find(".productName").text();
+        let accountID = table.find(".colAccountID").text()||0;
+        $('#accountListModal').modal('toggle');
 
-          if(selectLineID == 'edtExpenseAccountDirectorsFees'){
+        if(selectLineID == 'edtExpenseAccountDirectorsFees'){
           $('#edtExpenseAccountDirectorsFees').val(accountname);
           $('#edtExpenseAccountID').val(accountID);
-          }else if(selectLineID == 'edtDeductionAccount'){
+        }else if(selectLineID == 'edtDeductionAccount'){
             $('#edtDeductionAccount').val(accountname);
             $('#edtDeductionAccountID').val(accountID);
-          }
+        }
 
         $('#tblAccount_filter .form-control-sm').val('');
         setTimeout(function () {
             $('.btnRefreshAccount').trigger('click');
             $('.fullScreenSpin').css('display', 'none');
         }, 1000);
+        
     });
     $(document).on("click", "#tblAccount tbody tr", function(e) {
         let selectLineID = $('#selectLineID').val()||'edtExpenseAccountTermnination';
@@ -8354,6 +13455,7 @@ Template.payrollrules.onRendered(function() {
           }else if(selectLineID == 'edtDeductionAccount'){
             $('#edtDeductionAccount').val(accountname);
             $('#edtDeductionAccountID').val(accountID);
+            
           }
 
         $('#tblAccount_filter .form-control-sm').val('');
@@ -8387,6 +13489,7 @@ Template.payrollrules.onRendered(function() {
 
     $(document).on("click", "#tblAccount tbody tr", function(e) {
         let selectLineID = $('#selectLineID').val()||'edtExpenseAccountOvertime';
+     
         var table = $(this);
           let accountname = table.find(".productName").text();
           let accountID = table.find(".colAccountID").text()||0;
@@ -8705,6 +13808,159 @@ Template.payrollrules.events({
         document.getElementById("ruleModifierDay").style.display = "inline-flex";
     },
 
+    'click .addholiday':function(){
+        
+        let templateObject = Template.instance();
+        $('.fullScreenSpin').css('display','inline-block');
+        let taxRateService = new TaxRateService();
+        let holidayname = $('#holidayname').val() || '';
+        let edtHolidayDate = $('#edtHolidayDate').val() || '';
+        let holidaygroup = $('#holidaygroup').val() || '';
+      
+    
+        if (holidayname === '') {
+            $('.fullScreenSpin').css('display','none');
+            swal('Holiday name has not been selected!', '', 'warning');
+            e.preventDefault();
+         }
+         else {
+          
+                    // if(Session.get('holidayname'))
+                    // {
+                    //     let output  = Session.get('holidayname');
+                    //     objDetails = {
+                    //         type: "Tholiday",
+                    //         fields: {
+                    //             ID: '325523',
+                    //             holidayname:holidayname,
+                    //             holidaydate:edtHolidayDate,
+                    //             holidaygroup:holidaygroup,
+                                  
+                    //         }
+                    //     };
+
+                    //     output.push(objDetails);
+                    //     Session.set('holidayname',output);
+
+                    // }
+                    // else
+                    // {
+                    //     let object_array = [];
+                    //     objDetails = {
+                    //         type: "Tholiday",
+                    //         fields: {
+                               
+                    //             holidayname:holidayname,
+                    //             holidaydate:edtHolidayDate,
+                    //             holidaygroup:holidaygroup,
+                                  
+                    //         }
+                    //     };
+
+
+                    //     object_array.push(objDetails);
+                    //     Session.set('holidayname',object_array);
+
+                    // }
+
+
+                    // let output  = Session.get('holidayname');
+
+                    // Meteor._reload.reload()
+
+                    $('.fullScreenSpin').css('display','inline-block');
+                    taxRateService.checkHolidaybyName(holidayname).then(function (data) {
+                    
+                    holidayid = data.Tpayrollholidays[0].Id;
+                    objDetails = {
+                       type: "Tpayrollholidays",
+                       fields: {
+                           ID: parseInt(holidayid),
+                           PayrollHolidaysName:holidayname,
+                           PayrollHolidaysGroupName:holidaygroup,
+                           PayrollHolidaysDate:moment(edtHolidayDate,'DD/MM/YYYY').format('YYYY-MM-DD'),
+                           PayrollHolidaysActive:true     
+                       }
+                   };
+        
+                  taxRateService.saveHoliday(objDetails).then(function (objDetails) {
+                     sideBarService.getHolidayData().then(function(dataReload) {
+                        addVS1Data('TPayrollHolidays',JSON.stringify(dataReload)).then(function (datareturn) {
+                          Meteor._reload.reload();
+                        }).catch(function (err) {
+                          Meteor._reload.reload();
+                        });
+                      }).catch(function(err) {
+                        Meteor._reload.reload();
+                      });
+                    }).catch(function (err) {
+                      swal({
+                      title: 'Oooops...',
+                      text: err,
+                      type: 'error',
+                      showCancelButton: false,
+                      confirmButtonText: 'Try Again'
+                      }).then((result) => {
+                      if (result.value) {
+                        Meteor._reload.reload();
+                      } else if (result.dismiss === 'cancel') {
+        
+                      }
+                      });
+                      
+                      $('.fullScreenSpin').css('display','none');
+                      });
+                      }).catch(function (err) {
+                        objDetails = {
+                        type: "Tpayrollholidays",
+                        fields: {
+                            PayrollHolidaysName:holidayname,
+                            PayrollHolidaysGroupName:holidaygroup,
+                            PayrollHolidaysDate:moment(edtHolidayDate,'DD/MM/YYYY').format('YYYY-MM-DD'),
+                            PayrollHolidaysActive:true          
+                       }
+                    };
+        
+                    taxRateService.saveHoliday(objDetails).then(function (objDetails) {
+                    sideBarService.getHolidayData().then(function(dataReload) {
+                        addVS1Data('TPayrollHolidays',JSON.stringify(dataReload)).then(function (datareturn) {
+                          Meteor._reload.reload();
+                        }).catch(function (err) {
+                          Meteor._reload.reload();
+                        });
+                      }).catch(function(err) {
+                        Meteor._reload.reload();
+                      });
+                    }).catch(function (err) {
+                     swal({
+                     title: 'Oooops...',
+                     text: err,
+                     type: 'error',
+                     showCancelButton: false,
+                     confirmButtonText: 'Try Again'
+                     }).then((result) => {
+                     if (result.value) {
+                      Meteor._reload.reload();
+                     } else if (result.dismiss === 'cancel') {
+        
+                     }
+                     });
+                       $('.fullScreenSpin').css('display','none');
+                   });
+                  });
+                 
+
+
+
+
+
+         }
+
+
+
+
+    },
+
     'click .btnSaveAllowance': function(){
         let templateObject = Template.instance();
         $('.fullScreenSpin').css('display','inline-block');
@@ -8907,6 +14163,142 @@ Template.payrollrules.events({
 
         }
     },
+
+    'click .btnSaveRatePOP': function(){
+        let templateObject = Template.instance();
+        $('.fullScreenSpin').css('display','inline-block');
+   
+        let taxRateService = new TaxRateService();
+
+        let rateTypeId = $('#edtRateID').val()|| 0;
+        let ratetypedescription = $('#edtRateDescription').val()||'';
+
+        if (ratetypedescription === '') {
+            $('.fullScreenSpin').css('display','none');
+            swal('Rate type description can not be blank !', '', 'warning');
+            e.preventDefault();
+        } else {
+          $('.fullScreenSpin').css('display','inline-block');
+          if(rateTypeId == ""){
+            
+            taxRateService.checkRateTypeByName(ratetypedescription).then(function (data) {
+             rateTypeId = data.tpayratetype[0].Id;
+              objDetails = {
+                 type: "TPayRateType",
+                 fields: {
+                     ID: parseInt(rateTypeId),                   
+                     Description: ratetypedescription,
+                    
+                 }
+             };
+
+             taxRateService.saveRateType(objDetails).then(function (objDetails) {
+               sideBarService.getRateListVS1().then(function(dataReload) {
+                  addVS1Data('TRateTypes',JSON.stringify(dataReload)).then(function (datareturn) {
+                    Meteor._reload.reload();
+                  }).catch(function (err) {
+                    Meteor._reload.reload();
+                  });
+                }).catch(function(err) {
+                  Meteor._reload.reload();
+                });
+             }).catch(function (err) {
+               swal({
+               title: 'Oooops...',
+               text: err,
+               type: 'error',
+               showCancelButton: false,
+               confirmButtonText: 'Try Again'
+               }).then((result) => {
+               if (result.value) {
+                Meteor._reload.reload();
+               } else if (result.dismiss === 'cancel') {
+
+               }
+               });
+                 $('.fullScreenSpin').css('display','none');
+             });
+            }).catch(function (err) {
+                objDetails = {
+                    type: "TPayRateType",
+                    fields: {
+                        ID: parseInt(rateTypeId),                   
+                        Description: ratetypedescription,
+                      }
+                       
+                    };
+
+             taxRateService.saveRateType(objDetails).then(function (objDetails) {
+               sideBarService.getRateListVS1().then(function(dataReload) {
+                  addVS1Data('TRateTypes',JSON.stringify(dataReload)).then(function (datareturn) {
+                    Meteor._reload.reload();
+                  }).catch(function (err) {
+                    Meteor._reload.reload();
+                  });
+                }).catch(function(err) {
+                  Meteor._reload.reload();
+                });
+             }).catch(function (err) {
+               swal({
+               title: 'Oooops...',
+               text: err,
+               type: 'error',
+               showCancelButton: false,
+               confirmButtonText: 'Try Again'
+               }).then((result) => {
+               if (result.value) {
+                Meteor._reload.reload();
+               } else if (result.dismiss === 'cancel') {
+
+               }
+               });
+                 $('.fullScreenSpin').css('display','none');
+             });
+            });
+
+         }else{
+            objDetails = {
+                type: "TPayRateType",
+                fields: {
+                    ID: parseInt(rateTypeId),                   
+                    Description: ratetypedescription,
+                  }
+                   
+                };
+
+          taxRateService.saveRateType(objDetails).then(function (objDetails) {
+            sideBarService.getRateListVS1().then(function(dataReload) {
+                  addVS1Data('TRateTypes',JSON.stringify(dataReload)).then(function (datareturn) {
+                    Meteor._reload.reload();
+                  }).catch(function (err) {
+                    Meteor._reload.reload();
+                  });
+                }).catch(function(err) {
+                  Meteor._reload.reload();
+                });
+          }).catch(function (err) {
+            swal({
+            title: 'Oooops...',
+            text: err,
+            type: 'error',
+            showCancelButton: false,
+            confirmButtonText: 'Try Again'
+            }).then((result) => {
+            if (result.value) {
+             Meteor._reload.reload();
+            } else if (result.dismiss === 'cancel') {
+
+            }
+            });
+              $('.fullScreenSpin').css('display','none');
+          });
+         }
+
+
+        }
+    },
+
+
 
     'click .btnSaveDeduction': function(){
         let templateObject = Template.instance();
@@ -9128,7 +14520,7 @@ Template.payrollrules.events({
             e.preventDefault();
          }
          else {
-           
+          
             $('.fullScreenSpin').css('display','inline-block');
             taxRateService.checkCalenderName(calender_name).then(function (data) {
                 calenderID = data.tpayrollcalendars[0].Id;
@@ -9138,8 +14530,8 @@ Template.payrollrules.events({
                        ID: parseInt(calenderID),
                        PayrollCalendarPayPeriod:payperiod,
                        PayrollCalendarName:calender_name,
-                       PayrollCalendarStartDate:startdate,
-                       PayrollCalendarFirstPaymentDate:FirstPaymentDate,
+                       PayrollCalendarStartDate:moment(startdate).format('YYYY-MM-DD'),
+                       PayrollCalendarFirstPaymentDate:moment(FirstPaymentDate).format('YYYY-MM-DD'),
                        PayrollCalendarActive :true,              
                    }
                };
@@ -9147,7 +14539,25 @@ Template.payrollrules.events({
               taxRateService.saveCalender(objDetails).then(function (objDetails) {
                  sideBarService.getCalender().then(function(dataReload) {
                     addVS1Data('TPayrollCalendars',JSON.stringify(dataReload)).then(function (datareturn) {
-                      Meteor._reload.reload();
+                      
+                      swal({
+                                  title: 'Success',
+                                  text: 'success',
+                                  type: 'success',
+                                  showCancelButton: false,
+                                  confirmButtonText: 'Done'
+    
+                     }).then((result) => {
+                     if (result.value) {
+                                    Meteor._reload.reload();
+                     }else if (result.dismiss === 'cancel') {
+                    
+                     }
+                     });
+                                  
+                     $('.fullScreenSpin').css('display','none');
+
+
                     }).catch(function (err) {
                       Meteor._reload.reload();
                     });
@@ -9177,8 +14587,8 @@ Template.payrollrules.events({
                     fields: {
                         PayrollCalendarPayPeriod:payperiod,
                         PayrollCalendarName:calender_name,
-                        PayrollCalendarStartDate:startdate,
-                        PayrollCalendarFirstPaymentDate:FirstPaymentDate,
+                        PayrollCalendarStartDate:moment(startdate).format('YYYY-MM-DD'),
+                        PayrollCalendarFirstPaymentDate:moment(FirstPaymentDate).format('YYYY-MM-DD'),
                         PayrollCalendarActive :true, 
                    }
                 };
@@ -9186,7 +14596,22 @@ Template.payrollrules.events({
                 taxRateService.saveCalender(objDetails).then(function (objDetails) {
                  sideBarService.getCalender().then(function(dataReload) {
                     addVS1Data('TPayrollCalendars',JSON.stringify(dataReload)).then(function (datareturn) {
-                      Meteor._reload.reload();
+
+                        swal({
+                            title: 'Success',
+                            text: 'success',
+                            type: 'success',
+                            showCancelButton: false,
+                            confirmButtonText: 'Done'
+
+                        }).then((result) => {
+                        if (result.value) {
+                                        Meteor._reload.reload();
+                        }else if (result.dismiss === 'cancel') {
+                        
+                        }
+                        });
+                     
                     }).catch(function (err) {
                       Meteor._reload.reload();
                     });
@@ -9220,6 +14645,136 @@ Template.payrollrules.events({
 
     },
 
+   'click .btnSaveDefaultTax':function(){
+
+        let templateObject = Template.instance();
+        $('.fullScreenSpin').css('display','inline-block');
+        let taxRateService = new TaxRateService();
+        let editbankaccount = $('#editbankaccount').val() || '';
+        let editpaygbankaccount = $('#editpaygbankaccount').val() || '';
+        let editwagesexpbankaccount = $('#editwagesexpbankaccount').val() || '';
+        let editwagespaybankaccount = $('#editwagespaybankaccount').val() || '';
+        let editsuperliabbankaccount = $('#editsuperliabbankaccount').val() || '';
+        let editsuperexpbankaccount = $('#editsuperexpbankaccount').val() || '';
+        let employegroup = $('#employegroup').val() || '';
+        let timesheetcat = $('#timesheetcat').val() || '';
+        let swtShowAnnualSalary = false;
+        let swtShowEmploymentBasis = false;
+        let uploadedImage = $('#uploadedImage').attr('src');
+
+        let payrollsettingor = $('#payrollsettingor').val() || 0;
+        
+        if($('#swtShowAnnualSalary').is(':checked')){
+            swtShowAnnualSalary = true;
+        }else{
+            swtShowAnnualSalary = false;
+        }
+
+        if($('#payrollsettingor').val() == '')
+        {
+            payrollsettingor = 0;
+        }
+
+        if($('#swtShowEmploymentBasis').is(':checked')){
+            swtShowEmploymentBasis = true;
+        }else{
+            swtShowEmploymentBasis = false;
+        }
+
+    
+         if (editbankaccount === '') {
+            $('.fullScreenSpin').css('display','none');
+            swal('Bank account has not been selected!', '', 'warning');
+            e.preventDefault();
+         }
+         else if(editpaygbankaccount === '')
+         { 
+             $('.fullScreenSpin').css('display','none');
+             swal('PAYG Liability Account has not been selected!', '', 'warning');
+             e.preventDefault();
+
+         }
+         else if(editwagesexpbankaccount === '')
+         { 
+             $('.fullScreenSpin').css('display','none');
+             swal('Wages Expense Account has not been selected!', '', 'warning');
+             e.preventDefault();
+
+         }
+         else if(editwagespaybankaccount === '')
+         { 
+             $('.fullScreenSpin').css('display','none');
+             swal('Wages Payable Account has not been selected!', '', 'warning');
+             e.preventDefault();
+
+         }
+         else if(editsuperliabbankaccount === '')
+         { 
+             $('.fullScreenSpin').css('display','none');
+             swal('Superannuation Liability Account has not been selected!', '', 'warning');
+             e.preventDefault();
+
+         }
+         else if(editsuperexpbankaccount === '')
+         { 
+             $('.fullScreenSpin').css('display','none');
+             swal('Superannuation Expense Account has not been selected!', '', 'warning');
+             e.preventDefault();
+
+         }
+         else 
+         {
+            $('.fullScreenSpin').css('display','inline-block');
+
+            objDetails = {
+                type: "Tpayrollorganization",
+                fields: {
+                    ID: parseInt(payrollsettingor),
+                    PayrollBankAccount:editbankaccount,
+                    PayrollEmployeeGroup:employegroup,
+                    PayrollPaygLiabilityAccount:editpaygbankaccount,
+                    PayrollShowAnnualSalary:swtShowAnnualSalary,
+                    PayrollShowEmploymentBasis :swtShowEmploymentBasis, 
+                    PayrollSuperannuationLiabilityAccount:editsuperliabbankaccount,
+                    PayrollSuperannuationPayableAccount:editsuperexpbankaccount,
+                    PayrollTimesheetCategories:timesheetcat,
+                    PayrollWagesExpenseAccount:editwagesexpbankaccount,
+                    PayrollWagesPayableAccount:editwagespaybankaccount             
+                }
+            };
+
+            taxRateService.savePayOrganization(objDetails).then(function (objDetails){
+                
+                swal({
+                    title: 'Success',
+                    text: 'success',
+                    type: 'success',
+                    showCancelButton: false,
+                    confirmButtonText: 'Done'
+            
+                }).then((result) => {
+                if (result.value) {
+               
+                 
+                    
+                  Meteor._reload.reload();
+                             
+                }else if (result.dismiss === 'cancel') {
+                
+                }
+                });
+
+                $('.fullScreenSpin').css('display','none')
+
+            });
+
+
+
+        
+         }
+       
+    },
+
    'click .saveSuperannuation': function(){
       
         let templateObject = Template.instance();
@@ -9235,6 +14790,69 @@ Template.payrollrules.events({
             e.preventDefault();
          }
          else {
+
+            // if(Session.get('supperannuation'))
+            // {
+            //       let output  = Session.get('supperannuation');
+            //       objDetails = {
+            //         type: "TSuperannuation",
+            //         fields: {
+            //             ID: '2144234523',
+            //             SuperannuationType:fundType,
+            //             SuperannuationName:fundName,
+            //             SuperannuationEmployerNumber:employeNumber,
+            //             SuperannuationSpin:'',
+            //             SuperannuationsUsi :'',     
+            //             SuperannuationsAutoMigratedFund:true,
+            //             SuperannuationActive:true,         
+            //         }
+            //     };
+
+            //     output.push(objDetails);
+            //     Session.set('supperannuation',output);
+
+            // }
+            // else
+            // {
+            //     let object_array = [];
+            //     objDetails = {
+            //         type: "TSuperannuation",
+            //         fields: {
+            //             ID: '2144234523',
+            //             SuperannuationType:fundType,
+            //             SuperannuationName:fundName,
+            //             SuperannuationEmployerNumber:employeNumber,
+            //             SuperannuationSpin:'',
+            //             SuperannuationsUsi :'',     
+            //             SuperannuationsAutoMigratedFund:true,
+            //             SuperannuationActive:true,         
+            //         }
+            //     };
+
+            //     object_array.push(objDetails);
+            //     Session.set('supperannuation',object_array);
+
+            // }
+          
+           
+            // let output  = Session.get('supperannuation');
+            // $('.fullScreenSpin').css('display','inline-block')
+            // swal({
+            //           title: 'Success',
+            //           text: 'success',
+            //           type: 'success',
+            //           showCancelButton: false,
+            //           confirmButtonText: 'Done'
+
+            //      }).then((result) => {
+            //           if (result.value) {
+            //             Meteor._reload.reload();
+            //           } else if (result.dismiss === 'cancel') {
+        
+            //           }
+            //           });
+                      
+            //           $('.fullScreenSpin').css('display','none');
            
             $('.fullScreenSpin').css('display','inline-block');
             taxRateService.checkSuperannuationName(fundName).then(function (data) {
@@ -9243,13 +14861,14 @@ Template.payrollrules.events({
                    type: "TSuperannuation",
                    fields: {
                        ID: parseInt(supperannuationId),
-                       SuperannuationType:fundType,
-                       SuperannuationName:fundName,
-                       SuperannuationEmployerNumber:employeNumber,
-                       SuperannuationSpin:'',
-                       SuperannuationsUsi :'',     
-                       SuperannuationsAutoMigratedFund:true,
-                       SuperannuationActive:true,         
+                       Superfund:fundName,
+                       Employeeid:employeNumber,
+                       KeyStringFieldName:fundType,                     
+                    //    SuperannuationSpin:'',
+                    //    SuperannuationsUsi :'',     
+                    //    SuperannuationsAutoMigratedFund:true,
+                        
+                          
                    }
                };
   
@@ -9284,19 +14903,16 @@ Template.payrollrules.events({
                     objDetails = {
                     type: "TSuperannuation",
                     fields: {
-                        SuperannuationType:fundType,
-                        SuperannuationName:fundName,
-                        SuperannuationEmployerNumber:employeNumber,
-                        SuperannuationSpin:'',
-                        SuperannuationsUsi :'',     
-                        SuperannuationsAutoMigratedFund:true,
-                        SuperannuationActive:true,   
+                        Superfund:fundName,
+                        Employeeid:employeNumber,
+                        KeyStringFieldName:fundType,    
+                        
                    }
                 };
-  
+          
                 taxRateService.saveSuperannuation(objDetails).then(function (objDetails) {
-                 sideBarService.getSuperannuation().then(function(dataReload) {
-                    addVS1Data('TSuperannuation',JSON.stringify(dataReload)).then(function (datareturn) {
+                 sideBarService.getSuperannuation().then(function(objDetails) {
+                    addVS1Data('TSuperannuation',JSON.stringify(objDetails)).then(function (datareturn) {
                       Meteor._reload.reload();
                     }).catch(function (err) {
                       Meteor._reload.reload();
@@ -9345,6 +14961,61 @@ Template.payrollrules.events({
             e.preventDefault();
          }
          else {
+            
+            //     if(Session.get('reimbursement'))
+            //    {
+            //         let output  = Session.get('supperannuation');
+            //         objDetails = {
+            //             type: "TReimbursement",
+            //             fields: {
+            //                 ID: 955662665,
+            //                 PayItemsReiumbursementName:reimbursementname,
+            //                 PayItemsReiumbursementAccount:account,
+            //                 PayItemsReiumbursementActive:true,         
+            //             }
+            //         };
+
+            //             output.push(objDetails);
+            //             Session.set('reimbursement',output);
+
+            //     }
+            //     else
+            //     {
+            //         let object_array = [];
+            //         objDetails = {
+            //             type: "TReimbursement",
+            //             fields: {
+            //                 ID: 955662665,
+            //                 PayItemsReiumbursementName:reimbursementname,
+            //                 PayItemsReiumbursementAccount:account,
+            //                 PayItemsReiumbursementActive:true,         
+            //             }
+            //         };
+
+            //         object_array.push(objDetails);
+            //         Session.set('reimbursement',object_array);
+
+            //     }
+               
+                // let output  = Session.get('reimbursement');
+                // $('.fullScreenSpin').css('display','inline-block')
+                // swal({
+                //           title: 'Success',
+                //           text: 'success',
+                //           type: 'success',
+                //           showCancelButton: false,
+                //           confirmButtonText: 'Done'
+
+                //      }).then((result) => {
+                //           if (result.value) {
+                //             Meteor._reload.reload();
+                //           } else if (result.dismiss === 'cancel') {
+            
+                //           }
+                //           });
+                          
+                //           $('.fullScreenSpin').css('display','none');
+
            
             $('.fullScreenSpin').css('display','inline-block');
             taxRateService.checkReimbursementByName(reimbursementname).then(function (data) {
@@ -9353,9 +15024,9 @@ Template.payrollrules.events({
                    type: "TReimbursement",
                    fields: {
                        ID: parseInt(TReimbursementid),
-                       PayItemsReiumbursementName:reimbursementname,
-                       PayItemsReiumbursementAccount:account,
-                       PayItemsReiumbursementActive:true,         
+                       ReimbursementName:reimbursementname,
+                       ReimbursementAccount:account,
+                       ReimbursementActive:true, 
                    }
                };
   
@@ -9390,9 +15061,9 @@ Template.payrollrules.events({
                     objDetails = {
                     type: "TReimbursement",
                     fields: {
-                        PayItemsReiumbursementName:reimbursementname,
-                        PayItemsReiumbursementAccount:account,
-                        PayItemsReiumbursementActive:true,     
+                        ReimbursementName:reimbursementname,
+                        ReimbursementAccount:account,
+                        ReimbursementActive:true,    
                    }
                 };
   
@@ -9459,6 +15130,68 @@ Template.payrollrules.events({
          }
          else {
            
+            // if(Session.get('paidleave'))
+            // {
+            //       let output  = Session.get('paidleave');
+            //       objDetails = {
+            //         type: "TPaidLeave",
+            //         fields: {
+            //             ID: 463654464,
+            //             PayItemsLeavePaidName:Leavename,
+            //             PayItemsLeavePaidUnits:Typeofunit,
+            //             PayItemsLeavePaidLeaveLoadingRate:edtLeaveLoadingRate,
+            //             PayItemsLeavePaidNormalEntitlement:edtNormalEntitlement,
+            //             PayItemsLeavePaidShowBalanceOnPayslip:payonslip,
+            //             PayItemsLeavePaidActive:true,        
+            //         }
+            //     };
+            
+            //     output.push(objDetails);
+            //     Session.set('paidleave',output);
+            
+            // }
+            // else
+            // {
+            //     let object_array = [];
+            //     objDetails = {
+            //         type: "TPaidLeave",
+            //         fields: {
+            //             ID: 463654464,
+            //             PayItemsLeavePaidName:Leavename,
+            //             PayItemsLeavePaidUnits:Typeofunit,
+            //             PayItemsLeavePaidLeaveLoadingRate:edtLeaveLoadingRate,
+            //             PayItemsLeavePaidNormalEntitlement:edtNormalEntitlement,
+            //             PayItemsLeavePaidShowBalanceOnPayslip:payonslip,
+            //             PayItemsLeavePaidActive:true,        
+            //         }
+            //     };
+            
+            //     object_array.push(objDetails);
+            //     Session.set('paidleave',object_array);
+            
+            // }
+            
+            
+            // let output  = Session.get('paidleave');
+            // $('.fullScreenSpin').css('display','inline-block')
+            // swal({
+            //           title: 'Success',
+            //           text: 'success',
+            //           type: 'success',
+            //           showCancelButton: false,
+            //           confirmButtonText: 'Done'
+
+            //      }).then((result) => {
+            //           if (result.value) {
+            //             Meteor._reload.reload();
+            //           } else if (result.dismiss === 'cancel') {
+        
+            //           }
+            //           });
+                      
+            //           $('.fullScreenSpin').css('display','none');
+
+
             $('.fullScreenSpin').css('display','inline-block');
             taxRateService.checkPaidLeaveByName(Leavename).then(function (data) {
                 paidleaveid = data.tpaidleave[0].Id;
@@ -9466,12 +15199,12 @@ Template.payrollrules.events({
                    type: "TPaidLeave",
                    fields: {
                        ID: parseInt(paidleaveid),
-                       PayItemsLeavePaidName:Leavename,
-                       PayItemsLeavePaidUnits:Typeofunit,
-                       PayItemsLeavePaidLeaveLoadingRate:edtLeaveLoadingRate,
-                       PayItemsLeavePaidNormalEntitlement:edtNormalEntitlement,
-                       PayItemsLeavePaidShowBalanceOnPayslip:payonslip,
-                       PayItemsLeavePaidActive:true,        
+                       LeavePaidName:Leavename,
+                       LeavePaidUnits:Typeofunit,
+                       LeavePaidLeaveLoadingRate:edtLeaveLoadingRate,
+                       LeavePaidNormalEntitlement:edtNormalEntitlement,
+                       LeavePaidShowBalanceOnPayslip:payonslip,
+                       LeavePaidActive:true,        
                    }
                };
   
@@ -9506,12 +15239,12 @@ Template.payrollrules.events({
                     objDetails = {
                     type: "TPaidLeave",
                     fields: {
-                        PayItemsLeavePaidName:Leavename,
-                        PayItemsLeavePaidUnits:Typeofunit,
-                        PayItemsLeavePaidLeaveLoadingRate:edtLeaveLoadingRate,
-                        PayItemsLeavePaidNormalEntitlement:edtNormalEntitlement,
-                        PayItemsLeavePaidShowBalanceOnPayslip:payonslip,
-                        PayItemsLeavePaidActive:true,    
+                        LeavePaidName:Leavename,
+                        LeavePaidUnits:Typeofunit,
+                        LeavePaidLeaveLoadingRate:edtLeaveLoadingRate,
+                        LeavePaidNormalEntitlement:edtNormalEntitlement,
+                        LeavePaidShowBalanceOnPayslip:payonslip,
+                        LeavePaidActive:true,     
                    }
                 };
   
@@ -9577,20 +15310,85 @@ Template.payrollrules.events({
             e.preventDefault();
          }
          else {
+
+
+            // if(Session.get('leave'))
+            // {
+            //       let output  = Session.get('leave');
+            //       objDetails = {
+            //         type: "TUnpaidLeave",
+            //         fields: {
+            //             ID: 353242432432,
+            //             PayItemsLeaveUnpaidName:Leavename,
+            //             PayItemsLeaveUnpaidUnits:Typeofunit,
+            //             PayItemsLeaveUnpaidLeaveLoadingRate:edtLeaveLoadingRate,
+            //             PayItemsLeaveUnpaidNormalEntitlement:edtNormalEntitlement,
+            //             PayItemsLeaveUnpaidShowBalanceOnPayslip:payonslip,
+            //             PayItemsLeaveUnpaidActive:true,        
+            //         }
+            //     };
+            
+            //     output.push(objDetails);
+            //     Session.set('leave',output);
+            
+            // }
+            // else
+            // {
+            //     let object_array = [];
+            //     objDetails = {
+            //         type: "TUnpaidLeave",
+            //         fields: {
+            //             ID: 353242432432,
+            //             PayItemsLeaveUnpaidName:Leavename,
+            //             PayItemsLeaveUnpaidUnits:Typeofunit,
+            //             PayItemsLeaveUnpaidLeaveLoadingRate:edtLeaveLoadingRate,
+            //             PayItemsLeaveUnpaidNormalEntitlement:edtNormalEntitlement,
+            //             PayItemsLeaveUnpaidShowBalanceOnPayslip:payonslip,
+            //             PayItemsLeaveUnpaidActive:true,        
+            //         }
+            //     };
+            
+            //     object_array.push(objDetails);
+            //     Session.set('leave',object_array);
+            
+            // }
+            
+            
+            // let output  = Session.get('leave');
+            // $('.fullScreenSpin').css('display','inline-block')
+            //  swal({
+            //                   title: 'Success',
+            //                   text: 'success',
+            //                   type: 'success',
+            //                   showCancelButton: false,
+            //                   confirmButtonText: 'Done'
+
+            //    }).then((result) => {
+            //                   if (result.value) {
+            //                     Meteor._reload.reload();
+            //                    } else if (result.dismiss === 'cancel') {
+                
+            //    }
+             
+            //  });
+                              
+            // $('.fullScreenSpin').css('display','none');
            
             $('.fullScreenSpin').css('display','inline-block');
             taxRateService.checkunPaidLeaveByName(Leavename).then(function (data) {
-                paidleaveid = data.tunpaidleave[0].Id;
+                paidleaveid = data.tupaidleave[0].Id;
                 objDetails = {
                    type: "TUnpaidLeave",
                    fields: {
                        ID: parseInt(paidleaveid),
-                       PayItemsLeaveUnpaidName:Leavename,
-                       PayItemsLeaveUnpaidUnits:Typeofunit,
-                       PayItemsLeaveUnpaidLeaveLoadingRate:edtLeaveLoadingRate,
-                       PayItemsLeaveUnpaidNormalEntitlement:edtNormalEntitlement,
-                       PayItemsLeaveUnpaidShowBalanceOnPayslip:payonslip,
-                       PayItemsLeaveUnpaidActive:true,        
+                
+                       LeaveUnPaidName:Leavename,
+                       LeaveUnPaidUnits:Typeofunit,
+                       LeaveUnPaidLeaveLoadingRate:edtLeaveLoadingRate,
+                       LeaveUnPaidNormalEntitlement:edtNormalEntitlement,
+                       LeaveUnPaidShowBalanceOnPayslip:payonslip,
+                       LeaveUnPaidActive:true,    
+                      
                    }
                };
   
@@ -9625,12 +15423,13 @@ Template.payrollrules.events({
                     objDetails = {
                     type: "TUnpaidLeave",
                     fields: {
-                        PayItemsLeaveUnpaidName:Leavename,
-                        PayItemsLeaveUnpaidUnits:Typeofunit,
-                        PayItemsLeaveUnpaidLeaveLoadingRate:edtLeaveLoadingRate,
-                        PayItemsLeaveUnpaidNormalEntitlement:edtNormalEntitlement,
-                        PayItemsLeaveUnpaidShowBalanceOnPayslip:payonslip,
-                        PayItemsLeaveUnpaidActive:true,        
+                        LeaveUnPaidName:Leavename,
+                        LeaveUnPaidUnits:Typeofunit,
+                        LeaveUnPaidLeaveLoadingRate:edtLeaveLoadingRate,
+                        LeaveUnPaidNormalEntitlement:edtNormalEntitlement,
+                        LeaveUnPaidShowBalanceOnPayslip:payonslip,
+                        LeaveUnPaidActive:true,    
+                          
                    }
                 };
   
@@ -9665,9 +15464,6 @@ Template.payrollrules.events({
 
 
          }
-
-
-
 
 
      },
@@ -9709,22 +15505,88 @@ Template.payrollrules.events({
         e.preventDefault();
      }
      else {
+
+            // if(Session.get('ExemptReportable'))
+            // {
+            //     let output  = Session.get('ExemptReportable');
+            //     objDetails = {
+            //         type: "TOrdinaryTimeEarnings",
+            //         fields: {
+            //             ID: 5999899,
+            //             PayItemsEarningsOrdinaryTimeEarningsName:edtEarningsName,
+            //             PayItemsEarningsOrdinaryTimeEarningsDisplayName:edtDisplayName,
+            //             PayItemsEarningsOrdinaryTimeEarningsRateType:edtRateType,
+            //             PayItemsEarningsOrdinaryTimeEarningsExpenseAccount:edtExpenseAccount,
+            //             PayItemsEarningsOrdinaryTimeEarningsExemptPaygWithholding:ExemptPAYGp,
+            //             PayItemsEarningsOrdinaryTimeEarningsExemptSuperannuationGuaranteeCont:ExemptSuperannuation,
+            //             PayItemsEarningsOrdinaryTimeEarningsReportableW1onActivityStatement:ExemptReportable,
+            //             PayItemsEarningsOrdinaryTimeEarningsActive:true     
+            //         }
+            //     };
+
+            //     output.push(objDetails);
+            //     Session.set('ExemptReportable',output);
+
+            // }
+            // else
+            // {
+            //     let object_array = [];
+            //     objDetails = {
+            //         type: "TOrdinaryTimeEarnings",
+            //         fields: {
+            //             ID: 89599895,
+            //             PayItemsEarningsOrdinaryTimeEarningsName:edtEarningsName,
+            //             PayItemsEarningsOrdinaryTimeEarningsDisplayName:edtDisplayName,
+            //             PayItemsEarningsOrdinaryTimeEarningsRateType:edtRateType,
+            //             PayItemsEarningsOrdinaryTimeEarningsExpenseAccount:edtExpenseAccount,
+            //             PayItemsEarningsOrdinaryTimeEarningsExemptPaygWithholding:ExemptPAYGp,
+            //             PayItemsEarningsOrdinaryTimeEarningsExemptSuperannuationGuaranteeCont:ExemptSuperannuation,
+            //             PayItemsEarningsOrdinaryTimeEarningsReportableW1onActivityStatement:ExemptReportable,
+            //             PayItemsEarningsOrdinaryTimeEarningsActive:true     
+            //         }
+            //     };
+
+            //     object_array.push(objDetails);
+            //     Session.set('ExemptReportable',object_array);
+
+            // }
+
+
+            // let output  = Session.get('ExemptReportable');
+            // $('.fullScreenSpin').css('display','inline-block')
+            // swal({
+            //           title: 'Success',
+            //           text: 'success',
+            //           type: 'success',
+            //           showCancelButton: false,
+            //           confirmButtonText: 'Done'
+
+            //      }).then((result) => {
+            //           if (result.value) {
+            //             Meteor._reload.reload();
+            //           } else if (result.dismiss === 'cancel') {
+        
+            //           }
+            //           });
+                      
+            //           $('.fullScreenSpin').css('display','none');
        
-        $('.fullScreenSpin').css('display','inline-block');
-        taxRateService.checkordinaryEarningByName(edtEarningsName).then(function (data) {
-            earningid = data.tordinarytimeearnings[0].Id;
-            objDetails = {
+            $('.fullScreenSpin').css('display','inline-block');
+            taxRateService.checkordinaryEarningByName(edtEarningsName).then(function (data) {
+                console.log(data);
+                earningid = data.tordinarytimeearnings[0].Id;
+                objDetails = {
                type: "TOrdinaryTimeEarnings",
-               fields: {
+                fields: {
                    ID: parseInt(earningid),
-                   PayItemsEarningsOrdinaryTimeEarningsName:edtEarningsName,
-                   PayItemsEarningsOrdinaryTimeEarningsDisplayName:edtDisplayName,
-                   PayItemsEarningsOrdinaryTimeEarningsRateType:edtRateType,
-                   PayItemsEarningsOrdinaryTimeEarningsExpenseAccount:edtExpenseAccount,
-                   PayItemsEarningsOrdinaryTimeEarningsExemptPaygWithholding:ExemptPAYGp,
-                   PayItemsEarningsOrdinaryTimeEarningsExemptSuperannuationGuaranteeCont:ExemptSuperannuation,
-                   PayItemsEarningsOrdinaryTimeEarningsReportableW1onActivityStatement:ExemptReportable,
-                   PayItemsEarningsOrdinaryTimeEarningsActive:true     
+                   OrdinaryTimeEarningsName:edtEarningsName,
+                   OrdinaryTimeEarningsDisplayName:edtDisplayName,
+                   OrdinaryTimeEarningsRateType:edtRateType,
+                   OrdinaryTimeEarningsExpenseAccount:edtExpenseAccount,
+                   OrdinaryTimeEarningsExemptPaygWithholding:ExemptPAYGp,
+                   OrdinaryTimeEarningsExemptSuperannuationGuaranteeCont:ExemptSuperannuation,
+                   OrdinaryTimeEarningsReportableW1onActivityStatement:ExemptReportable,
+                   OrdinaryTimeEarningsActive:true     
                }
            };
 
@@ -9759,14 +15621,14 @@ Template.payrollrules.events({
                 objDetails = {
                 type: "TOrdinaryTimeEarnings",
                 fields: {
-                    PayItemsEarningsOrdinaryTimeEarningsName:edtEarningsName,
-                    PayItemsEarningsOrdinaryTimeEarningsDisplayName:edtDisplayName,
-                    PayItemsEarningsOrdinaryTimeEarningsRateType:edtRateType,
-                    PayItemsEarningsOrdinaryTimeEarningsExpenseAccount:edtExpenseAccount,
-                    PayItemsEarningsOrdinaryTimeEarningsExemptPaygWithholding:ExemptPAYGp,
-                    PayItemsEarningsOrdinaryTimeEarningsExemptSuperannuationGuaranteeCont:ExemptSuperannuation,
-                    PayItemsEarningsOrdinaryTimeEarningsReportableW1onActivityStatement:ExemptReportable,
-                    PayItemsEarningsOrdinaryTimeEarningsActive:true         
+                    OrdinaryTimeEarningsName:edtEarningsName,
+                    OrdinaryTimeEarningsDisplayName:edtDisplayName,
+                    OrdinaryTimeEarningsRateType:edtRateType,
+                    OrdinaryTimeEarningsExpenseAccount:edtExpenseAccount,
+                    OrdinaryTimeEarningsExemptPaygWithholding:ExemptPAYGp,
+                    OrdinaryTimeEarningsExemptSuperannuationGuaranteeCont:ExemptSuperannuation,
+                    OrdinaryTimeEarningsReportableW1onActivityStatement:ExemptReportable,
+                    OrdinaryTimeEarningsActive:true           
                }
             };
 
@@ -9844,28 +15706,94 @@ Template.payrollrules.events({
         e.preventDefault();
      }
      else {
+
+        // if(Session.get('ExemptReportableOvertime'))
+        // {
+        //     let output  = Session.get('ExemptReportableOvertime');
+        //     objDetails = {
+        //         type: "TOvertimeEarnigns",
+        //         fields: {
+        //             ID: 897979867565,
+        //             PayItemsEarningsOvertimeEarningsName:edtEarningsName,
+        //             PayItemsEarningsOvertimeEarningsDisplayName:edtDisplayName,
+        //             PayItemsEarningsOvertimeEarningsRateType:edtRateType,
+        //             PayItemsEarningsOvertimeEarningsExpenseAccount:edtExpenseAccount,
+        //             PayItemsEarningsOvertimeEarningsExemptPaygWithholding:ExemptPAYGp,
+        //             PayItemsEarningsOvertimeEarningsExemptSuperannuationGuaranteeCont:ExemptSuperannuation,
+        //             PayItemsEarningsOvertimeEarningsReportableW1onActivityStatement:ExemptReportable,
+        //             PayItemsEarningsOvertimeEarningsActive:true     
+        //         }
+        //     };
+            
+
+        //     output.push(objDetails);
+        //     Session.set('ExemptReportableOvertime',output);
+
+        // }
+        // else
+        // {
+        //     let object_array = [];
+        //     objDetails = {
+        //         type: "TOvertimeEarnigns",
+        //         fields: {
+        //             ID: 897979867565,
+        //             PayItemsEarningsOvertimeEarningsName:edtEarningsName,
+        //             PayItemsEarningsOvertimeEarningsDisplayName:edtDisplayName,
+        //             PayItemsEarningsOvertimeEarningsRateType:edtRateType,
+        //             PayItemsEarningsOvertimeEarningsExpenseAccount:edtExpenseAccount,
+        //             PayItemsEarningsOvertimeEarningsExemptPaygWithholding:ExemptPAYGp,
+        //             PayItemsEarningsOvertimeEarningsExemptSuperannuationGuaranteeCont:ExemptSuperannuation,
+        //             PayItemsEarningsOvertimeEarningsReportableW1onActivityStatement:ExemptReportable,
+        //             PayItemsEarningsOvertimeEarningsActive:true     
+        //         }
+        //     };
+
+        //     object_array.push(objDetails);
+        //     Session.set('ExemptReportableOvertime',object_array);
+
+        // }
+
+
+        // let output  = Session.get('ExemptReportableOvertime');
+        // $('.fullScreenSpin').css('display','inline-block')
+        //             swal({
+        //                       title: 'Success',
+        //                       text: 'success',
+        //                       type: 'success',
+        //                       showCancelButton: false,
+        //                       confirmButtonText: 'Done'
+
+        //                  }).then((result) => {
+        //                       if (result.value) {
+        //                         Meteor._reload.reload();
+        //                       } else if (result.dismiss === 'cancel') {
+                
+        //                       }
+        //                       });
+                              
+        //                       $('.fullScreenSpin').css('display','none');
        
         $('.fullScreenSpin').css('display','inline-block');
         taxRateService.checkExemptReportableOvertime(edtEarningsName).then(function (data) {
             earningid = data.tovertimeEarnigns[0].Id;
             objDetails = {
-               type: "TOvertimeEarnigns",
+               type: "Tovertimeearnings",
                fields: {
                    ID: parseInt(earningid),
-                   PayItemsEarningsOvertimeEarningsName:edtEarningsName,
-                   PayItemsEarningsOvertimeEarningsDisplayName:edtDisplayName,
-                   PayItemsEarningsOvertimeEarningsRateType:edtRateType,
-                   PayItemsEarningsOvertimeEarningsExpenseAccount:edtExpenseAccount,
-                   PayItemsEarningsOvertimeEarningsExemptPaygWithholding:ExemptPAYGp,
-                   PayItemsEarningsOvertimeEarningsExemptSuperannuationGuaranteeCont:ExemptSuperannuation,
-                   PayItemsEarningsOvertimeEarningsReportableW1onActivityStatement:ExemptReportable,
-                   PayItemsEarningsOvertimeEarningsActive:true     
+                   OverTimeEarningsName:edtEarningsName,
+                   OverTimeEarningsDisplayName:edtDisplayName,
+                   OverTimeEarningsRateType:edtRateType,
+                   OverTimeEarningsExpenseAccount:edtExpenseAccount,
+                   OverTimeEarningsExemptPaygWithholding:ExemptPAYGp,
+                   OverTimeEarningsExemptSuperannuationGuaranteeCont:ExemptSuperannuation,
+                   OverTimeEarningsReportableW1onActivityStatement:ExemptReportable,
+                   OverTimeEarningsActive:true     
                }
            };
 
           taxRateService.saveExemptReportableOvertime(objDetails).then(function (objDetails) {
              sideBarService.getExemptReportableOvertime().then(function(dataReload) {
-                addVS1Data('TOvertimeEarnigns',JSON.stringify(dataReload)).then(function (datareturn) {
+                addVS1Data('TOverTimeEarnings',JSON.stringify(dataReload)).then(function (datareturn) {
                   Meteor._reload.reload();
                 }).catch(function (err) {
                   Meteor._reload.reload();
@@ -9892,22 +15820,22 @@ Template.payrollrules.events({
               });
               }).catch(function (err) {
                 objDetails = {
-                type: "TOvertimeEarnigns",
+                type: "Tovertimeearnings",
                 fields: {
-                    PayItemsEarningsOvertimeEarningsName:edtEarningsName,
-                    PayItemsEarningsOvertimeEarningsDisplayName:edtDisplayName,
-                    PayItemsEarningsOvertimeEarningsRateType:edtRateType,
-                    PayItemsEarningsOvertimeEarningsExpenseAccount:edtExpenseAccount,
-                    PayItemsEarningsOvertimeEarningsExemptPaygWithholding:ExemptPAYGp,
-                    PayItemsEarningsOvertimeEarningsExemptSuperannuationGuaranteeCont:ExemptSuperannuation,
-                    PayItemsEarningsOvertimeEarningsReportableW1onActivityStatement:ExemptReportable,
-                    PayItemsEarningsOvertimeEarningsActive:true           
+                    OverTimeEarningsName:edtEarningsName,
+                    OverTimeEarningsDisplayName:edtDisplayName,
+                    OverTimeEarningsRateType:edtRateType,
+                    OverTimeEarningsExpenseAccount:edtExpenseAccount,
+                    OverTimeEarningsExemptPaygWithholding:ExemptPAYGp,
+                    OverTimeEarningsExemptSuperannuationGuaranteeCont:ExemptSuperannuation,
+                    OverTimeEarningsReportableW1onActivityStatement:ExemptReportable,
+                    OverTimeEarningsActive:true            
                }
             };
 
             taxRateService.saveExemptReportableOvertime(objDetails).then(function (objDetails) {
             sideBarService.getExemptReportableOvertime().then(function(dataReload) {
-                addVS1Data('TOvertimeEarnigns',JSON.stringify(dataReload)).then(function (datareturn) {
+                addVS1Data('TOverTimeEarnings',JSON.stringify(dataReload)).then(function (datareturn) {
                   Meteor._reload.reload();
                 }).catch(function (err) {
                   Meteor._reload.reload();
@@ -9975,22 +15903,87 @@ Template.payrollrules.events({
         e.preventDefault();
      }
      else {
+
+        // if(Session.get('ExemptReportableBonusesCommissions'))
+        // {
+        //     let output  = Session.get('ExemptReportableBonusesCommissions');
+        //     objDetails = {
+        //         type: "TEarningsBonusesCommissions",
+        //         fields: {
+        //             ID: 9685565999,
+        //             EarningsBonusesCommissionsName:edtEarningsName,
+        //             EarningsBonusesCommissionsDisplayName:edtDisplayName,
+        //             EarningsBonusesCommissionsRateType:edtRateType,
+        //             EarningsBonusesCommissionsExpenseAccount:edtExpenseAccount,
+        //             EarningsBonusesCommissionsExemptPaygWithholding:ExemptPAYGp,
+        //             EarningsBonusesCommissionsExemptSuperannuationGuaranteeCont:ExemptSuperannuation,
+        //             EarningsBonusesCommissionsReportableW1onActivityStatement:ExemptReportable,
+        //             EarningsBonusesCommissionsActive:true     
+        //         }
+        //     };
+
+        //     output.push(objDetails);
+        //     Session.set('ExemptReportableBonusesCommissions',output);
+
+        // }
+        // else
+        // {
+        //     let object_array = [];
+        //     objDetails = {
+        //         type: "TEarningsBonusesCommissions",
+        //         fields: {
+        //             ID: 9685565999,
+        //             EarningsBonusesCommissionsName:edtEarningsName,
+        //             EarningsBonusesCommissionsDisplayName:edtDisplayName,
+        //             EarningsBonusesCommissionsRateType:edtRateType,
+        //             EarningsBonusesCommissionsExpenseAccount:edtExpenseAccount,
+        //             EarningsBonusesCommissionsExemptPaygWithholding:ExemptPAYGp,
+        //             EarningsBonusesCommissionsExemptSuperannuationGuaranteeCont:ExemptSuperannuation,
+        //             EarningsBonusesCommissionsReportableW1onActivityStatement:ExemptReportable,
+        //             EarningsBonusesCommissionsActive:true     
+        //         }
+        //     };
+
+        //     object_array.push(objDetails);
+        //     Session.set('ExemptReportableBonusesCommissions',object_array);
+
+        // }
+
+
+        // let output  = Session.get('ExemptReportableBonusesCommissions');
+        // $('.fullScreenSpin').css('display','inline-block')
+        // swal({
+        //           title: 'Success',
+        //           text: 'success',
+        //           type: 'success',
+        //           showCancelButton: false,
+        //           confirmButtonText: 'Done'
+
+        //      }).then((result) => {
+        //           if (result.value) {
+        //             Meteor._reload.reload();
+        //           } else if (result.dismiss === 'cancel') {
+    
+        //           }
+        //           });
+                  
+        //           $('.fullScreenSpin').css('display','none');
        
         $('.fullScreenSpin').css('display','inline-block');
         taxRateService.checkSuperannuationBonusesCommissions(edtEarningsName).then(function (data) {
             earningid = data.tearningsbonusescommissions[0].Id;
             objDetails = {
-               type: "TEarningsBonusesCommissions",
+               type: "Tearningsbonusescommissions",
                fields: {
                    ID: parseInt(earningid),
-                   EarningsBonusesCommissionsName:edtEarningsName,
-                   EarningsBonusesCommissionsDisplayName:edtDisplayName,
-                   EarningsBonusesCommissionsRateType:edtRateType,
-                   EarningsBonusesCommissionsExpenseAccount:edtExpenseAccount,
-                   EarningsBonusesCommissionsExemptPaygWithholding:ExemptPAYGp,
-                   EarningsBonusesCommissionsExemptSuperannuationGuaranteeCont:ExemptSuperannuation,
-                   EarningsBonusesCommissionsReportableW1onActivityStatement:ExemptReportable,
-                   EarningsBonusesCommissionsActive:true     
+                   EarningBonusesCommisionsName:edtEarningsName,
+                   EarningBonusesCommisionsDisplayName:edtDisplayName,
+                   EarningBonusesCommisionsRateType:edtRateType,
+                   EarningBonusesCommisionsExpenseAccount:edtExpenseAccount,
+                   EarningBonusesCommisionsExemptPaygWithholding:ExemptPAYGp,
+                   EarningBonusesCommisionsExemptSuperannuationGuaranteeCont:ExemptSuperannuation,
+                   EarningBonusesCommisionsReportableW1onActivityStatement:ExemptReportable,
+                   EarningBonusesCommisionsActive:true     
                }
            };
 
@@ -10023,16 +16016,16 @@ Template.payrollrules.events({
               });
               }).catch(function (err) {
                 objDetails = {
-                type: "TEarningsBonusesCommissions",
+                type: "Tearningsbonusescommissions",
                 fields: {
-                    EarningsBonusesCommissionsName:edtEarningsName,
-                    EarningsBonusesCommissionsDisplayName:edtDisplayName,
-                    EarningsBonusesCommissionsRateType:edtRateType,
-                    EarningsBonusesCommissionsExpenseAccount:edtExpenseAccount,
-                    EarningsBonusesCommissionsExemptPaygWithholding:ExemptPAYGp,
-                    EarningsBonusesCommissionsExemptSuperannuationGuaranteeCont:ExemptSuperannuation,
-                    EarningsBonusesCommissionsReportableW1onActivityStatement:ExemptReportable,
-                    EarningsBonusesCommissionsActive:true            
+                    EarningBonusesCommisionsName:edtEarningsName,
+                    EarningBonusesCommisionsDisplayName:edtDisplayName,
+                    EarningBonusesCommisionsRateType:edtRateType,
+                    EarningBonusesCommisionsExpenseAccount:edtExpenseAccount,
+                    EarningBonusesCommisionsExemptPaygWithholding:ExemptPAYGp,
+                    EarningBonusesCommisionsExemptSuperannuationGuaranteeCont:ExemptSuperannuation,
+                    EarningBonusesCommisionsReportableW1onActivityStatement:ExemptReportable,
+                    EarningBonusesCommisionsActive:true          
                }
             };
 
@@ -10102,12 +16095,80 @@ Template.payrollrules.events({
             e.preventDefault();
          }
          else {
+
+
+            // if(Session.get('ExemptReportableLumpSumE'))
+            // {
+            //     let output  = Session.get('ExemptReportableLumpSumE');
+            //     objDetails = {
+            //         type: "TLumpSumE",
+            //         fields: {
+            //              ID: 15995945889,
+            //              LumpSumEName:edtEarningsName,
+            //              LumpSumEDisplayName:edtDisplayName,
+            //              LumpSumERateType:edtRateType,
+            //              LumpSumEExpenseAccount:edtExpenseAccount,
+            //              LumpSumEExemptPaygWithholding:ExemptPAYGp,
+            //              LumpSumEExemptSuperannuationGuaranteeCont:ExemptSuperannuation,
+            //              LumpSumEReportableW1onActivityStatement:ExemptReportable,
+            //              LumpSumEActive:true        
+            //         }
+            //     };
+    
+            //     output.push(objDetails);
+            //     Session.set('ExemptReportableLumpSumE',output);
+    
+            // }
+            // else
+            // {
+            //     let object_array = [];
+            //     objDetails = {
+            //         type: "TLumpSumE",
+            //         fields: {
+            //              ID: 15995945889,
+            //              LumpSumEName:edtEarningsName,
+            //              LumpSumEDisplayName:edtDisplayName,
+            //              LumpSumERateType:edtRateType,
+            //              LumpSumEExpenseAccount:edtExpenseAccount,
+            //              LumpSumEExemptPaygWithholding:ExemptPAYGp,
+            //              LumpSumEExemptSuperannuationGuaranteeCont:ExemptSuperannuation,
+            //              LumpSumEReportableW1onActivityStatement:ExemptReportable,
+            //              LumpSumEActive:true        
+            //         }
+            //     };
+    
+            //     object_array.push(objDetails);
+            //     Session.set('ExemptReportableLumpSumE',object_array);
+    
+            // }
+    
+    
+            // let output  = Session.get('ExemptReportableLumpSumE');
+            // $('.fullScreenSpin').css('display','inline-block')
+            //         swal({
+            //                   title: 'Success',
+            //                   text: 'success',
+            //                   type: 'success',
+            //                   showCancelButton: false,
+            //                   confirmButtonText: 'Done'
+
+            //              }).then((result) => {
+            //                   if (result.value) {
+            //                     Meteor._reload.reload();
+            //                   } else if (result.dismiss === 'cancel') {
+                
+            //                   }
+            //                   });
+                              
+            //                   $('.fullScreenSpin').css('display','none');
+
+
            
             $('.fullScreenSpin').css('display','inline-block');
             taxRateService.checkExemptReportableLumpSumE(edtEarningsName).then(function (data) {
                 earningid = data.tlumpsume[0].Id;
                 objDetails = {
-                   type: "TLumpSumE",
+                   type: "Tlumpsume",
                    fields: {
                        ID: parseInt(earningid),
                         LumpSumEName:edtEarningsName,
@@ -10150,7 +16211,7 @@ Template.payrollrules.events({
                   });
                   }).catch(function (err) {
                     objDetails = {
-                    type: "TLumpSumE",
+                    type: "Tlumpsume",
                     fields: {
                         LumpSumEName:edtEarningsName,
                         LumpSumEDisplayName:edtDisplayName,
@@ -10236,12 +16297,76 @@ Template.payrollrules.events({
             e.preventDefault();
          }
          else {
+
+            // if(Session.get('ExemptReportableTermnination'))
+            // {
+            //     let output  = Session.get('ExemptReportableTermnination');
+            //     objDetails = {
+            //         type: "TEmployeeTerminations",
+            //         fields: {
+            //              ID: 9809987787897,
+            //              EmployeeTerminationPaymentsName:edtEarningsName,
+            //              EmployeeTerminationPaymentsDisplayName:edtDisplayName,
+            //              EmployeeTerminationPaymentsRateType:edtRateType,
+            //              EmployeeTerminationPaymentsExpenseAccount:edtExpenseAccount,
+            //              EmployeeTerminationPaymentsExemptPaygWithholding:ExemptPAYGp,
+            //              EmployeeTerminationPaymentsExemptSuperannuationGuaranteeCont:ExemptSuperannuation,
+            //              EmployeeTerminationPaymentsReportableW1onActivityStatement:ExemptReportable,
+            //              EmployeeTerminationPaymentsActive:true        
+            //         }
+            //     };
+    
+            //     output.push(objDetails);
+            //     Session.set('ExemptReportableTermnination',output);
+    
+            // }
+            // else
+            // {
+            //     let object_array = [];
+            //     objDetails = {
+            //         type: "TEmployeeTerminations",
+            //         fields: {
+            //              ID: 9809987787897,
+            //              EmployeeTerminationPaymentsName:edtEarningsName,
+            //              EmployeeTerminationPaymentsDisplayName:edtDisplayName,
+            //              EmployeeTerminationPaymentsRateType:edtRateType,
+            //              EmployeeTerminationPaymentsExpenseAccount:edtExpenseAccount,
+            //              EmployeeTerminationPaymentsExemptPaygWithholding:ExemptPAYGp,
+            //              EmployeeTerminationPaymentsExemptSuperannuationGuaranteeCont:ExemptSuperannuation,
+            //              EmployeeTerminationPaymentsReportableW1onActivityStatement:ExemptReportable,
+            //              EmployeeTerminationPaymentsActive:true        
+            //         }
+            //     };
+            //     object_array.push(objDetails);
+            //     Session.set('ExemptReportableTermnination',object_array);
+    
+            // }
+    
+    
+            // let output  = Session.get('ExemptReportableTermnination');
+            // $('.fullScreenSpin').css('display','inline-block')
+            // swal({
+            //                   title: 'Success',
+            //                   text: 'success',
+            //                   type: 'success',
+            //                   showCancelButton: false,
+            //                   confirmButtonText: 'Done'
+
+            // }).then((result) => {
+            //         if (result.value) {
+            //              Meteor._reload.reload();
+            //         } else if (result.dismiss === 'cancel') {
+                
+            //         }
+            //  });
+                              
+            // $('.fullScreenSpin').css('display','none');
            
             $('.fullScreenSpin').css('display','inline-block');
             taxRateService.checkExemptReportableTermnination(edtEarningsName).then(function (data) {
-                earningid = data.temployeeterminations[0].Id;
+                earningid = data.tterminationimple[0].Id;
                 objDetails = {
-                   type: "TEmployeeTerminations",
+                   type: "TTerminationSimple",
                    fields: {
                         ID: parseInt(earningid),
                         EmployeeTerminationPaymentsName:edtEarningsName,
@@ -10251,13 +16376,14 @@ Template.payrollrules.events({
                         EmployeeTerminationPaymentsExemptPaygWithholding:ExemptPAYGp,
                         EmployeeTerminationPaymentsExemptSuperannuationGuaranteeCont:ExemptSuperannuation,
                         EmployeeTerminationPaymentsReportableW1onActivityStatement:ExemptReportable,
-                        EmployeeTerminationPaymentsActive:true        
+                        EmployeeTerminationPaymentsActive:true,
+                      
                    }
                };
     
               taxRateService.saveExemptReportableTermnination(objDetails).then(function (objDetails) {
                  sideBarService.getExemptReportableTermnination().then(function(dataReload) {
-                    addVS1Data('TEmployeeTerminations',JSON.stringify(dataReload)).then(function (datareturn) {
+                    addVS1Data('TTerminationSimple',JSON.stringify(dataReload)).then(function (datareturn) {
                       Meteor._reload.reload();
                     }).catch(function (err) {
                       Meteor._reload.reload();
@@ -10284,7 +16410,7 @@ Template.payrollrules.events({
                   });
                   }).catch(function (err) {
                     objDetails = {
-                    type: "TEmployeeTerminations",
+                    type: "TTerminationSimple",
                     fields: {
                         EmployeeTerminationPaymentsName:edtEarningsName,
                         EmployeeTerminationPaymentsDisplayName:edtDisplayName,
@@ -10293,13 +16419,14 @@ Template.payrollrules.events({
                         EmployeeTerminationPaymentsExemptPaygWithholding:ExemptPAYGp,
                         EmployeeTerminationPaymentsExemptSuperannuationGuaranteeCont:ExemptSuperannuation,
                         EmployeeTerminationPaymentsReportableW1onActivityStatement:ExemptReportable,
-                        EmployeeTerminationPaymentsActive:true         
+                        EmployeeTerminationPaymentsActive:true
+                        
                    }
                 };
     
                 taxRateService.saveExemptReportableTermnination(objDetails).then(function (objDetails) {
                 sideBarService.getExemptReportableTermnination().then(function(dataReload) {
-                    addVS1Data('TEmployeeTerminations',JSON.stringify(dataReload)).then(function (datareturn) {
+                    addVS1Data('TTerminationSimple',JSON.stringify(dataReload)).then(function (datareturn) {
                       Meteor._reload.reload();
                     }).catch(function (err) {
                       Meteor._reload.reload();
@@ -10371,12 +16498,76 @@ Template.payrollrules.events({
             e.preventDefault();
          }
          else {
+
+            // if(Session.get('DirectorFeesaveDirectorFee'))
+            // {
+            //     let output  = Session.get('DirectorFeesaveDirectorFee');
+            //     objDetails = {
+            //         type: "TDirectorsFees",
+            //         fields: {
+            //             ID: 365989559959,
+            //             DirectorsFeesName:edtEarningsName,
+            //             DirectorsFeesDisplayName:edtDisplayName,
+            //             DirectorsFeesRateType:edtRateType,
+            //             DirectorsFeesExpenseAccount:edtExpenseAccount,
+            //             DirectorsFeesExemptPaygWithholding:ExemptPAYGp,
+            //             DirectorsFeesExemptSuperannuationGuaranteeCont:ExemptSuperannuation,
+            //             DirectorsFeesReportableW1onActivityStatement:ExemptReportable,
+            //             DirectorsFeesActive:true     
+            //         }
+            //     };
+    
+            //     output.push(objDetails);
+            //     Session.set('DirectorFeesaveDirectorFee',output);
+    
+            // }
+            // else
+            // {
+            //     let object_array = [];
+            //     objDetails = {
+            //         type: "TDirectorsFees",
+            //         fields: {
+            //             ID: 365989559959,
+            //             DirectorsFeesName:edtEarningsName,
+            //             DirectorsFeesDisplayName:edtDisplayName,
+            //             DirectorsFeesRateType:edtRateType,
+            //             DirectorsFeesExpenseAccount:edtExpenseAccount,
+            //             DirectorsFeesExemptPaygWithholding:ExemptPAYGp,
+            //             DirectorsFeesExemptSuperannuationGuaranteeCont:ExemptSuperannuation,
+            //             DirectorsFeesReportableW1onActivityStatement:ExemptReportable,
+            //             DirectorsFeesActive:true     
+            //         }
+            //     };
+            //     object_array.push(objDetails);
+            //     Session.set('DirectorFeesaveDirectorFee',object_array);
+    
+            // }
+    
+    
+            // let output  = Session.get('DirectorFeesaveDirectorFee');
+            // $('.fullScreenSpin').css('display','inline-block')
+            // swal({
+            //           title: 'Success',
+            //           text: 'success',
+            //           type: 'success',
+            //           showCancelButton: false,
+            //           confirmButtonText: 'Done'
+
+            //      }).then((result) => {
+            //           if (result.value) {
+            //             Meteor._reload.reload();
+            //           } else if (result.dismiss === 'cancel') {
+        
+            //           }
+            //           });
+                      
+            //  $('.fullScreenSpin').css('display','none');
            
             $('.fullScreenSpin').css('display','inline-block');
-            taxRateService.checkDirectorFeesaveDirectorFee(edtEarningsName).then(function (data) {
+            taxRateService.checkDirectorFee(edtEarningsName).then(function (data) {
                 earningid = data.tdirectorsfees[0].Id;
                 objDetails = {
-                   type: "TDirectorsFees",
+                   type: "Tdirectorsfees",
                    fields: {
                        ID: parseInt(earningid),
                        DirectorsFeesName:edtEarningsName,
@@ -10419,7 +16610,7 @@ Template.payrollrules.events({
                   });
                   }).catch(function (err) {
                     objDetails = {
-                    type: "TDirectorsFees",
+                    type: "Tdirectorsfees",
                     fields: {
                         DirectorsFeesName:edtEarningsName,
                         DirectorsFeesDisplayName:edtDisplayName,
@@ -10505,6 +16696,71 @@ Template.payrollrules.events({
             e.preventDefault();
          }
          else {
+
+
+            // if(Session.get('LumpSumW'))
+            // {
+            //     let output  = Session.get('LumpSumW');
+            //      objDetails = {
+            //        type: "TLumpSumW",
+            //        fields: {
+            //            ID: 7956992945455,
+            //            LumpSumWName:edtEarningsName,
+            //            LumpSumWDisplayName:edtDisplayName,
+            //            LumpSumWRateType:edtRateType,
+            //            LumpSumWExpenseAccount:edtExpenseAccount,
+            //            LumpSumWExemptPaygWithholding:ExemptPAYGp,
+            //            LumpSumWExemptSuperannuationGuaranteeCont:ExemptSuperannuation,
+            //            LumpSumWReportableW1onActivityStatement:ExemptReportable,
+            //            LumpSumWActive:true     
+            //        }
+            //    };
+    
+            //     output.push(objDetails);
+            //     Session.set('LumpSumW',output);
+    
+            // }
+            // else
+            // {
+            //     let object_array = [];
+            //     objDetails = {
+            //         type: "TLumpSumW",
+            //         fields: {
+            //             ID: 7956992945455,
+            //             LumpSumWName:edtEarningsName,
+            //             LumpSumWDisplayName:edtDisplayName,
+            //             LumpSumWRateType:edtRateType,
+            //             LumpSumWExpenseAccount:edtExpenseAccount,
+            //             LumpSumWExemptPaygWithholding:ExemptPAYGp,
+            //             LumpSumWExemptSuperannuationGuaranteeCont:ExemptSuperannuation,
+            //             LumpSumWReportableW1onActivityStatement:ExemptReportable,
+            //             LumpSumWActive:true     
+            //         }
+            //     };
+            //     object_array.push(objDetails);
+            //     Session.set('LumpSumW',object_array);
+    
+            // }
+    
+    
+            // let output  = Session.get('LumpSumW');
+            // $('.fullScreenSpin').css('display','inline-block')
+            // swal({
+            //           title: 'Success',
+            //           text: 'success',
+            //           type: 'success',
+            //           showCancelButton: false,
+            //           confirmButtonText: 'Done'
+
+            //      }).then((result) => {
+            //           if (result.value) {
+            //             Meteor._reload.reload();
+            //           } else if (result.dismiss === 'cancel') {
+        
+            //           }
+            //           });
+                      
+            //           $('.fullScreenSpin').css('display','none');
            
             $('.fullScreenSpin').css('display','inline-block');
             taxRateService.checkLumpSumW(edtEarningsName).then(function (data) {
@@ -10603,6 +16859,23 @@ Template.payrollrules.events({
 
     },
 
+    'change #edtFundType':function(){
+     
+        let fundType = $('#edtFundType').val();
+        if(fundType == 'selfmanged')
+        {
+            $('#acountabmandelectronic').css('display','block');
+            $('#accountbsb').css('display','block');
+            $('#account_name').css('display','block');
+        }
+        else{
+            $('#acountabmandelectronic').css('display','none');
+            $('#accountbsb').css('display','none');
+            $('#account_name').css('display','none');
+        }
+
+    },
+
     'change #edtAllowanceAmount, change #edtDeductionAmount': function(event) {
 
         let utilityService = new UtilityService();
@@ -10655,6 +16928,8 @@ Template.payrollrules.events({
           }
       };
 
+
+
       taxRateService.saveAllowance(objDetails).then(function (objDetails) {
         $('.fullScreenSpin').css('display','none');
         sideBarService.getAllowance().then(function(dataReload) {
@@ -10684,6 +16959,323 @@ Template.payrollrules.events({
       });
 
     },
+
+    'click .btnDeleteCalender': function () {
+        let taxRateService = new TaxRateService();
+        let calenderid = $('#selectColDeleteLineID').val()||0;
+        let calendername = $('#selectCalenderName').val()||0;
+        $('.fullScreenSpin').css('display','inline-block');
+     
+        let objDetails = {
+            type: "TPayrollCalendars",
+            fields: {
+                Id: calendername,
+                PayrollCalendarActive: false,          
+            }
+        };
+  
+        if(calendername != 0)
+        {
+            taxRateService.saveCalender(objDetails).then(function (objDetails) {
+                $('.fullScreenSpin').css('display','none');
+                sideBarService.getCalender().then(function(dataReload) {
+                   addVS1Data('TPayrollCalendars',JSON.stringify(dataReload)).then(function (datareturn) {
+                     Meteor._reload.reload();
+                   }).catch(function (err) {
+                     Meteor._reload.reload();
+                   });
+                 }).catch(function(err) {
+                   Meteor._reload.reload();
+                 });
+              }).catch(function (err) {
+                swal({
+                title: 'Oooops...',
+                text: err,
+                type: 'error',
+                showCancelButton: false,
+                confirmButtonText: 'Try Again'
+                }).then((result) => {
+                if (result.value) {
+                 Meteor._reload.reload();
+                } else if (result.dismiss === 'cancel') {
+        
+                }
+                });
+                  $('.fullScreenSpin').css('display','none');
+              });
+
+        }
+        else{
+              alert(calenderid);
+        }
+  
+       
+  
+      },
+
+    'click .btnDeleteLeave': function () {
+        let taxRateService = new TaxRateService();
+        let LeaveId = $('#selectLeaveDeleteLineID').val()||0;
+        let LeaveName = $('#selectLeaveName').val()||0;
+        let Type = $('#selectLeaveType').val()|| '';
+        if(Type == 'paid'){
+           
+            $('.fullScreenSpin').css('display','inline-block');
+            let objDetails = {
+                type: "TPaidLeave",
+                fields: {
+                    Id: LeaveId,
+                    LeavePaidActive: false,          
+                }
+            };
+            if(LeaveName != 0)
+             {
+                taxRateService.savePaidLeave(objDetails).then(function (objDetails) {
+                       $('.fullScreenSpin').css('display','none');
+                       sideBarService.getPaidLeave().then(function(dataReload) {
+                       addVS1Data('TPaidLeave',JSON.stringify(dataReload)).then(function (datareturn) {
+                         Meteor._reload.reload();
+                       }).catch(function (err) {
+                         Meteor._reload.reload();
+                       });
+                       }).catch(function(err) {
+                        Meteor._reload.reload();
+                       });
+                       }).catch(function (err) {
+                        swal({
+                        title: 'Oooops...',
+                        text: err,
+                        type: 'error',
+                        showCancelButton: false,
+                        confirmButtonText: 'Try Again'
+                        }).then((result) => {
+                        if (result.value) {
+                        Meteor._reload.reload();
+                        } else if (result.dismiss === 'cancel') {
+                
+                        }
+                        });
+                        $('.fullScreenSpin').css('display','none');
+                    });
+    
+            }
+            else{
+                  alert(LeaveName);
+            }
+      
+
+        }
+        else{
+
+            $('.fullScreenSpin').css('display','inline-block');
+            let objDetails = {
+                type: "TUnPaidLeave",
+                fields: {
+                    Id: LeaveId,
+                    LeaveUnPaidActive: false,          
+                }
+            };
+            if(LeaveName != 0)
+             {
+                taxRateService.saveUnPaidLeave(objDetails).then(function (objDetails) {
+                       $('.fullScreenSpin').css('display','none');
+                       sideBarService.getUnPaidLeave().then(function(dataReload) {
+                       addVS1Data('TUnPaidLeave',JSON.stringify(dataReload)).then(function (datareturn) {
+                         Meteor._reload.reload();
+                       }).catch(function (err) {
+                         Meteor._reload.reload();
+                       });
+                       }).catch(function(err) {
+                        Meteor._reload.reload();
+                       });
+                       }).catch(function (err) {
+                        swal({
+                        title: 'Oooops...',
+                        text: err,
+                        type: 'error',
+                        showCancelButton: false,
+                        confirmButtonText: 'Try Again'
+                        }).then((result) => {
+                        if (result.value) {
+                        Meteor._reload.reload();
+                        } else if (result.dismiss === 'cancel') {
+                
+                        }
+                        });
+                        $('.fullScreenSpin').css('display','none');
+                    });
+    
+            }
+            else{
+                  alert(LeaveName);
+            }
+
+
+        }
+       
+       
+  
+      },
+
+    'click .btnDeleteHoliday': function () {
+        let taxRateService = new TaxRateService();
+        let holidayid = $('#selectholidayDeleteLineID').val()||0;
+        let holidayname = $('#selectholidayName').val()||0;
+        $('.fullScreenSpin').css('display','inline-block');
+     
+        let objDetails = {
+            type: "TPayrollHolidays",
+            fields: {
+                Id: holidayname,
+                PayrollHolidaysActive: false,          
+            }
+        };
+  
+        if(holidayname != 0)
+        {
+            taxRateService.saveHoliday(objDetails).then(function (objDetails) {
+                $('.fullScreenSpin').css('display','none');
+                sideBarService.getHolidayData().then(function(dataReload) {
+                   addVS1Data('TPayrollHolidays',JSON.stringify(dataReload)).then(function (datareturn) {
+                     Meteor._reload.reload();
+                   }).catch(function (err) {
+                     Meteor._reload.reload();
+                   });
+                 }).catch(function(err) {
+                   Meteor._reload.reload();
+                 });
+              }).catch(function (err) {
+                swal({
+                title: 'Oooops...',
+                text: err,
+                type: 'error',
+                showCancelButton: false,
+                confirmButtonText: 'Try Again'
+                }).then((result) => {
+                if (result.value) {
+                 Meteor._reload.reload();
+                } else if (result.dismiss === 'cancel') {
+        
+                }
+                });
+                  $('.fullScreenSpin').css('display','none');
+              });
+
+        }
+        else{
+              alert(holidayname);
+        }
+  
+       
+  
+      }, 
+      
+
+      'click .btnDeleteSuperannuation': function () {
+        let taxRateService = new TaxRateService();
+        let superannutionid = $('#selectSuperannuationDeleteLineID').val()||0;
+        let superannutionname = $('#selectSuperannuationName').val()||0;
+        
+        $('.fullScreenSpin').css('display','inline-block');
+        let objDetails = {
+            type: "TSuperannuation",
+            fields: {
+                Id: superannutionname,
+                Allclasses: false,          
+            }
+        };
+        if(superannutionname != 0)
+         {
+            taxRateService.saveSuperannuation(objDetails).then(function (objDetails) {
+                   $('.fullScreenSpin').css('display','none');
+                   sideBarService.getSuperannuation().then(function(dataReload) {
+                   addVS1Data('TSuperannuation',JSON.stringify(dataReload)).then(function (datareturn) {
+                     Meteor._reload.reload();
+                   }).catch(function (err) {
+                     Meteor._reload.reload();
+                   });
+                   }).catch(function(err) {
+                    Meteor._reload.reload();
+                   });
+                   }).catch(function (err) {
+                    swal({
+                    title: 'Oooops...',
+                    text: err,
+                    type: 'error',
+                    showCancelButton: false,
+                    confirmButtonText: 'Try Again'
+                    }).then((result) => {
+                    if (result.value) {
+                    Meteor._reload.reload();
+                    } else if (result.dismiss === 'cancel') {
+            
+                    }
+                    });
+                    $('.fullScreenSpin').css('display','none');
+                });
+
+        }
+        else{
+              alert(superannutionname);
+        }
+      
+       
+       
+  
+      },
+
+    'click .btnDeleteReimsument': function () {
+        let taxRateService = new TaxRateService();
+        let reid = $('#selectColReiDeleteLineID').val()||0;
+        let ReiName = $('#seleclReiName').val()||0;
+        $('.fullScreenSpin').css('display','inline-block');
+     
+        let objDetails = {
+            type: "TReimbursement",
+            fields: {
+                Id: ReiName,
+                ReimbursementActive: false,          
+            }
+        };
+  
+        if(ReiName != 0)
+        {
+            taxRateService.saveReimbursement(objDetails).then(function (objDetails) {
+                $('.fullScreenSpin').css('display','none');
+                sideBarService.getReimbursement().then(function(dataReload) {
+                   addVS1Data('TReimbursement',JSON.stringify(dataReload)).then(function (datareturn) {
+                     Meteor._reload.reload();
+                   }).catch(function (err) {
+                     Meteor._reload.reload();
+                   });
+                 }).catch(function(err) {
+                   Meteor._reload.reload();
+                 });
+              }).catch(function (err) {
+                swal({
+                title: 'Oooops...',
+                text: err,
+                type: 'error',
+                showCancelButton: false,
+                confirmButtonText: 'Try Again'
+                }).then((result) => {
+                if (result.value) {
+                 Meteor._reload.reload();
+                } else if (result.dismiss === 'cancel') {
+        
+                }
+                });
+                  $('.fullScreenSpin').css('display','none');
+              });
+
+        }
+        else{
+              alert(reid);
+        }
+  
+       
+  
+      },
 
     'click .btnDeleteDeduction': function () {
 
@@ -10745,33 +17337,80 @@ Template.payrollrules.events({
         });
   
       },
-    'click .btnAddNewDeduction': function(event) {
+     'click .btnAddNewDeduction': function(event) {
         $('.btnAddNewDeduction').attr("data-toggle", "modal");
         $('.btnAddNewDeduction').attr("data-target", "#deductionModal");
         $('#edtDeductionID').val('');
         $('#noneLabel').html("None");
         $('#edtDeductionTitle').val("None");
-    },
-    'click .noneModal': function(event) {
+     },
+     'click .noneModal': function(event) {
         $('.noneModal').attr("data-toggle", "modal");
         $('.noneModal').attr("data-target", "#deductionModal");
         $('#edtDeductionID').val('');
         $('#noneLabel').html("None");
         $('#edtDeductionTitle').val("None");
-    },
-    'click .workplaceGivingModal': function(event) {
+     },
+     'click .workplaceGivingModal': function(event) {
         $('.workplaceGivingModal').attr("data-toggle", "modal");
         $('.workplaceGivingModal').attr("data-target", "#deductionModal");
         $('#edtDeductionID').val('');
         $('#noneLabel').html("Workplace Giving");
         $('#edtDeductionTitle').val("WorkplaceGiving");
-    },
+     },
     'click .unionAssociationFeesModal': function(event) {
         $('.unionAssociationFeesModal').attr("data-toggle", "modal");
         $('.unionAssociationFeesModal').attr("data-target", "#deductionModal");
         $('#edtDeductionID').val('');
         $('#noneLabel').html("Union / Association Fees");
         $('#edtDeductionTitle').val("UnionAssociationFees");
+    },
+
+    'click #uploadImg':function (event) {
+        //let imageData= (localStorage.getItem("Image"));
+        let templateObject = Template.instance();
+        let imageData=templateObject.imageFileData.get();
+        if(imageData!=null && imageData!="")
+        {   
+            console.log(imageData);
+            localStorage.setItem("Image",imageData);
+            $('#uploadedImage').attr('src', imageData);
+            $('#uploadedImage').attr('width','50%');
+            $('#removeLogo').show();
+            $('#changeLogo').show();
+        }
+
+    },
+
+    'change #fileInput' :function (event) {
+        let templateObject = Template.instance();
+        let selectedFile = event.target.files[0];
+        let reader = new FileReader();
+        $(".Choose_file").text('');
+        reader.onload = function(event) {
+
+            $( "#uploadImg" ).prop( "disabled", false );
+            $("#uploadImg").addClass("on-upload-logo");
+            $(".Choose_file").text(selectedFile.name);
+            //$("#uploadImg").css("background-color","yellow");
+            templateObject.imageFileData.set(event.target.result);
+
+            //localStorage.setItem("Image",event.target.result);
+        };
+        reader.readAsDataURL(selectedFile);
+    },
+    'click #removeLogo':function (event) {
+        let templateObject = Template.instance();
+        templateObject.imageFileData.set(null);
+        localStorage.removeItem("Image");
+        // location.reload();
+        Meteor._reload.reload();
+        
+    },
+    'click .btnBack':function(event){
+      event.preventDefault();
+      history.back(1);
+     
     },
     
     'click .btnUploadFile':function(event){

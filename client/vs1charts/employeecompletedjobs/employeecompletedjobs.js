@@ -111,7 +111,7 @@ Template.employeecompletedjobs.onRendered(() => {
                                 }
 
                             },
-                            maintainAspectRatio: true,
+                            maintainAspectRatio: false,
                             responsive: true,
                             tooltips: {
                                 callbacks: {
@@ -249,7 +249,7 @@ Template.employeecompletedjobs.onRendered(() => {
                             }
 
                         },
-                        maintainAspectRatio: true,
+                        maintainAspectRatio: false,
                         responsive: true,
                         tooltips: {
                             callbacks: {
@@ -384,7 +384,7 @@ Template.employeecompletedjobs.onRendered(() => {
                             }
 
                         },
-                        maintainAspectRatio: true,
+                        maintainAspectRatio: false,
                         responsive: true,
                         tooltips: {
                             callbacks: {

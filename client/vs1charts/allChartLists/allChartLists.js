@@ -115,6 +115,8 @@ const saveCharts = async () => {
         })
       );
     });
+    // save into local storage
+    localStorage.setItem(_chartGroup, JSON.stringify(chartList));
     for (const _chart of chartList) {
       // chartList.forEach(async (chart) => {
       //console.log("Saving chart");
@@ -275,7 +277,7 @@ Template.allChartLists.onRendered(function(){
             );
           });
         }
-    
+        
         // Now get user preferences
         const dashboardPreferencesEndpoint = dashboardApis.collection.findByName(
           dashboardApis.collectionNames.Tvs1dashboardpreferences
@@ -296,24 +298,24 @@ Template.allChartLists.onRendered(function(){
     
         const dashboardPreferencesEndpointResponse =
           await dashboardPreferencesEndpoint.fetch(); // here i should get from database all charts to be displayed
-    
+  
         if (dashboardPreferencesEndpointResponse.ok == true) {
-          const dashboardPreferencesEndpointJsonResponse =
+            dashboardPreferencesEndpointJsonResponse =
             await dashboardPreferencesEndpointResponse.json();
+        }
+        let tvs1ChartDashboardPreference = Tvs1ChartDashboardPreference.fromList(
+          dashboardPreferencesEndpointJsonResponse.tvs1dashboardpreferences
+        ).filter((chart) => {
+          if (chart.fields.TabGroup == _tabGroup) {
+            return chart;
+          }
+        });
     
-          let tvs1ChartDashboardPreference = Tvs1ChartDashboardPreference.fromList(
-            dashboardPreferencesEndpointJsonResponse.tvs1dashboardpreferences
-          ).filter((chart) => {
-            if (chart.fields.TabGroup == _tabGroup) {
-              return chart;
-            }
-          });
-    
-          console.log('tvs1ChartDashboardPreference', tvs1ChartDashboardPreference);
+        console.log('tvs1ChartDashboardPreference', tvs1ChartDashboardPreference);
     
           if (tvs1ChartDashboardPreference.length > 0) {
             // if charts to be displayed are specified
-            $(".chart-visibility").removeClass('col-md-6');
+            $(".sortable-chart-widget-js").removeClass('col-md-6');
             tvs1ChartDashboardPreference.forEach((tvs1chart, index) => {
               // setTimeout(() => {
                 // this is good to see how the charts are apearing or not
@@ -336,12 +338,13 @@ Template.allChartLists.onRendered(function(){
                   }
     
                    // This is the ChartHeight saved in the preferences
-                   if (tvs1chart.fields.ChartHeight) {
+                  if (tvs1chart.fields.ChartHeight) {
                     $(`[key='${itemName}'] .ui-resizable`).css(
                       "height",
                       tvs1chart.fields.ChartHeight
                     );
                   }
+                  
                   $(`[key='${itemName}']`).attr(
                     "pref-id",
                     tvs1chart.fields.ID
@@ -413,6 +416,11 @@ Template.allChartLists.onRendered(function(){
                 buildPositions();
               }
             }
+          } else {
+            // This made to fix the charts display if char
+            //$(".sortable-chart-widget-js").removeClass('col-md-6');
+            //$(".sortable-chart-widget-js ").css('width', "50%");
+            $(".sortable-chart-widget-js canvas").css('height', "320px"); // default height
           }
           // let sortableWidgets = $('.sortable-chart-widget-js');
           // // and now we need to sort
@@ -431,9 +439,9 @@ Template.allChartLists.onRendered(function(){
           // for (var i = 0; i < sortableWidgets.length; i++) {
           //   sortableWidgets[i].parentNode.appendChild(sortableWidgets[i]);
           // }
-    
-         
-        }
+          
+            /// after everything will add the nessecary css to let the chart adjust in the 
+            $(".chart-area").addClass('responsive-chart');
     };
     templateObject.deactivateDraggable = () => {
         draggableCharts.disable();
@@ -445,6 +453,8 @@ Template.allChartLists.onRendered(function(){
     };    
     templateObject.checkChartToDisplay(); // we run this so we load the correct charts to diplay
     templateObject.activateDraggable(); // this will enable charts resiable features
+
+   
 
 });
 
