@@ -1,7 +1,9 @@
 import {ReactiveVar} from 'meteor/reactive-var';
 import { SMSService } from '../../js/sms-settings-service';
+import { SideBarService } from '../../js/sidebar-service';
 import '../../lib/global/indexdbstorage.js';
 
+let sideBarService = new SideBarService();
 let smsService = new SMSService();
 
 Template.smssettings.onCreated(() => {
@@ -34,7 +36,13 @@ Template.smssettings.onCreated(() => {
           }
         };
       }
-      smsService.saveSMSSettings(settingObject).then((res) => resolve({success: true, ...res})).catch(err => resolve({success: false, ...error}));
+      smsService.saveSMSSettings(settingObject).then((res) => {
+        sideBarService.getGlobalSettings().then(function(data) {
+          addVS1Data('TERPPreference', JSON.stringify(data)).then(() => {
+            resolve({success: true, ...res});
+          }).catch(function (err) {resolve({success: false, ...err})});
+        });
+      }).catch(err => resolve({success: false, ...err}));
     });
   }
 });
