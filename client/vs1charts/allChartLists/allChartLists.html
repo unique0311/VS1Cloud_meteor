@@ -1,5 +1,8 @@
 <template name="allChartLists">
     <style>
+        #connectedSortable{
+            margin: 0 auto;
+        }
         .portlet-placeholder {
             border: 1px dotted black;
             margin: 0 1em 1em 0;
@@ -26,7 +29,7 @@
         }
 
     </style>
-    <div class="charts row connectedSortable" id="connectedSortable" data-chartgroup="{{ chartGroup }}" data-tabgroup="{{ tabGroupID }}">
+    <div class="charts row connectedChartSortable connectedSortable" id="connectedSortable" data-key="chart" data-chartgroup="{{ chartGroup }}" data-tabgroup="{{ tabGroupID }}">
         <div class="col-auto col-md-6 sortable-chart-widget-js hideelement" id="monthylprofiteandlosscol" key="dashboard__monthyl_profit_and_loss">
             {{> monthlyprofitandloss}}
         </div>
@@ -90,13 +93,13 @@
         </div>
     </div>
     <div class="row no-gutters justify-content-center">
-        <button class="btn btn-primary float-right hideelement" id="resetcharts" type="button" style="margin:16px;margin-top: 0px;">
+        <button class="btn btn-warning float-right hideelement" id="resetcharts" type="button" style="margin:0 8px 16px;">
             <i class="fas fa-rotate-right" style="margin-right: 5px;"></i>Reset Charts
         </button>
-        <button class="btn btn-success float-right hideelement" id="btnDone" type="button" style="margin:16px;margin-top: 0px;">
+        <button class="btn btn-success float-right hideelement" id="btnDone" type="button" style="margin:0 8px 16px;">
             <i class="fa fa-save" style="margin-right: 5px;"></i>Save Changes
         </button>
-        <button class="btn btn-secondary float-right hideelement" id="btnCancel" type="button" style="margin:16px;margin-left: 0px;margin-top: 0px;">
+        <button class="btn btn-secondary float-right hideelement" id="btnCancel" type="button" style="margin:0 8px 16px;">
             <i class="fa fa-close" style="margin-right: 5px;"></i>Cancel
         </button>
     </div>

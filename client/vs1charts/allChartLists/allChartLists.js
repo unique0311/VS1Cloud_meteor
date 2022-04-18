@@ -230,6 +230,11 @@ Template.allChartLists.onRendered(function(){
               chart.fields.ID
             );
 
+            if( _chartGroup == 'Contacts' ){
+              $(`[key='${chart.fields._chartSlug}']`).removeClass('col-md-6');
+              $(`[key='${chart.fields._chartSlug}']`).addClass('col-md-4');
+            }
+
             if( chart.fields.ChartGroup == _chartGroup ){
               // Default charts
               defaultChartList.push(chart.fields._chartSlug);
@@ -315,7 +320,7 @@ Template.allChartLists.onRendered(function(){
     
           if (tvs1ChartDashboardPreference.length > 0) {
             // if charts to be displayed are specified
-            $(".sortable-chart-widget-js").removeClass('col-md-6');
+            $(".sortable-chart-widget-js").removeClass('col-md-6 col-md-4');
             tvs1ChartDashboardPreference.forEach((tvs1chart, index) => {
               // setTimeout(() => {
                 // this is good to see how the charts are apearing or not
@@ -385,7 +390,7 @@ Template.allChartLists.onRendered(function(){
               // }, index * 100);
             });
             // Handle sorting
-            let $chartWrappper = $('.connectedSortable');
+            let $chartWrappper = $('.connectedChartSortable');
             $chartWrappper.find('.sortable-chart-widget-js').sort(function(a, b) {
                 return +a.getAttribute('position') - +b.getAttribute('position');
             }).appendTo($chartWrappper);

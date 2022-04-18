@@ -30,7 +30,7 @@ export default class resizableCharts {
 
           $(ui.element[0])
             .parents(".sortable-chart-widget-js")
-            .removeClass("col-md-6"); // when you'll star resizing, it will remove its size
+            .removeClass("col-md-6 col-md-4"); // when you'll star resizing, it will remove its size
 
           // if ($(ui.element[0]).parents(".sortable-chart-widget-js").attr("key") != "purchases__expenses_breakdown") {
 
