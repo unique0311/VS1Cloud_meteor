@@ -32,12 +32,13 @@ export default class resizableCharts {
             .parents(".sortable-chart-widget-js")
             .removeClass("col-md-6 col-md-4"); // when you'll star resizing, it will remove its size
 
-          // if ($(ui.element[0]).parents(".sortable-chart-widget-js").attr("key") != "purchases__expenses_breakdown") {
+          if ($(ui.element[0]).parents(".sortable-chart-widget-js").attr("key") != "purchases__expenses_breakdown") {
 
           // will not apply on Expenses breakdown
           $(ui.element[0]).find("canvas").css("width", chartWidth);
           $(ui.element[0]).find("canvas").css("height", chartHeight);
-          // } else {
+          } 
+          // else {
           //   $(ui.element[0]).css('height', '');
           //   $(ui.element[0]).find("canvas").css('width', '100%');
           // }
