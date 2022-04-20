@@ -49,14 +49,15 @@
             </div>
         </div>
         <div class="card-body">
-            <div class="row align-items-center no-gutters">
+            <div class="row align-items-center no-gutters" style="position: fixed; display: flow-root;" >
                 <div class="col mr-2">
                     <div class="text-dark font-weight-bold h5 mb-0"><span style="font-size: 24px;"
                             class="spExpenseTotal">0.00</span></div>
                 </div>
-            </div><span>Current Month</span>
+                <span>Current Month</span>
+            </div>
             <div style="filter: blur(0px) grayscale(0%) hue-rotate(0deg);margin-top: 5px;">
-                <canvas id="expensebreakdownchart" name="expensebreakdownchart"></canvas>
+                <canvas id="expensebreakdownchart" name="expensebreakdownchart" height="320" style="height:320px"></canvas>
             </div>
         </div>
     </div>

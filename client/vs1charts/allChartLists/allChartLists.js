@@ -348,7 +348,19 @@ Template.allChartLists.onRendered(function(){
                       "height",
                       tvs1chart.fields.ChartHeight
                     );
+
+                    //$(`[key='${itemName}'] canvas`).attr('height', tvs1chart.fields.ChartHeight);
+                    //$(`[key='${itemName}'] canvas`).css('height', `${tvs1chart.fields.ChartHeight}px`);
                   }
+
+
+                  // This the default size if ever it zero
+                  if($(`[key='${itemName}'] canvas`).attr('height') == 0) {
+                    const height =  $(`[key='${itemName}'] .card-body`).height() - 20;
+                    console.log(height);
+                     $(`[key='${itemName}'] canvas`).attr('height', height);
+                     $(`[key='${itemName}'] canvas`).css('height', `${height}px`);
+                   }
                   
                   $(`[key='${itemName}']`).attr(
                     "pref-id",
@@ -425,8 +437,13 @@ Template.allChartLists.onRendered(function(){
             // This made to fix the charts display if char
             //$(".sortable-chart-widget-js").removeClass('col-md-6');
             //$(".sortable-chart-widget-js ").css('width', "50%");
+           // $('.expense-widget').css('width', "50%");
             $(".sortable-chart-widget-js canvas").css('height', "320px"); // default height
           }
+          // $('[key=purchases__expenses_breakdown]').css('width', "50%");
+          // $('#expensebreakdownchart').css('height', '320px');
+          // $('#expensebreakdownchart').attr('height', "320");
+
           // let sortableWidgets = $('.sortable-chart-widget-js');
           // // and now we need to sort
           // var sort_by_position = function (a, b) {
