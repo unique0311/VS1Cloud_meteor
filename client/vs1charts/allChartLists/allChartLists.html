@@ -27,8 +27,17 @@
             height: 100%;
             width: 100%;
         }
-        #expensebreakdownchart {
-            height: calc(100% - 40px) !important;
+        .canvasHeight100 {
+            height: 100% !important;
+        }
+        .canvasParentDiv {
+            display: inline-block;
+            width: 100%;
+            height: calc(100% - 44px);
+            position: relative;
+        }
+        .canvasParentDiv canvas {
+            height: 100% !important;
             object-fit: contain;
         }
     </style>
