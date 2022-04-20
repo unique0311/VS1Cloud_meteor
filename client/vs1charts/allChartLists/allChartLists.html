@@ -27,7 +27,10 @@
             height: 100%;
             width: 100%;
         }
-
+        #expensebreakdownchart {
+            height: calc(100% - 40px) !important;
+            object-fit: contain;
+        }
     </style>
     <div class="charts row connectedChartSortable connectedSortable" id="connectedSortable" data-key="chart" data-chartgroup="{{ chartGroup }}" data-tabgroup="{{ tabGroupID }}">
         <div class="col-auto col-md-6 sortable-chart-widget-js hideelement" id="monthylprofiteandlosscol" key="dashboard__monthyl_profit_and_loss">
