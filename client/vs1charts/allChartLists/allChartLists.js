@@ -352,10 +352,10 @@ Template.allChartLists.onRendered(function () {
           );
         }
 
-        // // This the default size if ever it zero
-        // if ($(`[key='${itemName}'] .ui-resizable`).width() < 150) {
-        //   $(`[key='${itemName}'] .ui-resizable`).css("width", "500px");
-        // }
+        // This the default size if ever it zero
+        if ($(`[key='${itemName}'] .ui-resizable`).width() < 150) {
+          $(`[key='${itemName}'] .ui-resizable`).css("width", "500px");
+        }
 
         // This is the ChartHeight saved in the preferences
         if (tvs1chart.fields.ChartHeight) {
@@ -368,14 +368,15 @@ Template.allChartLists.onRendered(function () {
           //$(`[key='${itemName}'] canvas`).css('height', `${tvs1chart.fields.ChartHeight}px`);
         }
 
-        // // This the default size if ever it zero
-        // if ($(`[key='${itemName}'] .ui-resizable`).height() < 150) {
-        //   $(`[key='${itemName}'] .ui-resizable`).css("height", "350px");
-        //   const height = $(`[key='${itemName}'] .card-body`).height();
-        //   console.log(height);
-        //   $(`[key='${itemName}'] canvas`).attr("height", height);
-        //   $(`[key='${itemName}'] canvas`).css("height", `${height}px`);
-        // }
+        // This the default size if ever it zero
+        if ($(`[key='${itemName}'] .ui-resizable`).height() < 150) {
+          $(`[key='${itemName}'] .ui-resizable`).css("height", "350px");
+          
+          const height = $(`[key='${itemName}'] .card-body`).height();
+          console.log(height);
+          $(`[key='${itemName}'] canvas`).attr("height", height);
+          $(`[key='${itemName}'] canvas`).css("height", `${height}px`);
+        }
 
         $(`[key='${itemName}']`).attr("pref-id", tvs1chart.fields.ID);
         $(`[key='${itemName}']`).attr("position", tvs1chart.fields.Position);
