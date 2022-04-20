@@ -353,12 +353,12 @@ Template.allChartLists.onRendered(function () {
         }
 
         // This the default size if ever it zero
-        if ($(`[key='${itemName}'] .ui-resizable`).width() < 150) {
-          $(`[key='${itemName}'] .ui-resizable`).css("width", "500px");
-        }
+        // if ($(`[key='${itemName}'] .ui-resizable`).width() < 150) {
+        //   $(`[key='${itemName}'] .ui-resizable`).css("width", "500px");
+        // }
 
         // This is the ChartHeight saved in the preferences
-        if (tvs1chart.fields.ChartHeight) {
+        if (parseInt( tvs1chart.fields.ChartHeight ) > 150) {
           $(`[key='${itemName}'] .ui-resizable`).css(
             "height",
             tvs1chart.fields.ChartHeight
@@ -369,14 +369,14 @@ Template.allChartLists.onRendered(function () {
         }
 
         // This the default size if ever it zero
-        if ($(`[key='${itemName}'] .ui-resizable`).height() < 150) {
-          $(`[key='${itemName}'] .ui-resizable`).css("height", "350px");
+        // if ($(`[key='${itemName}'] .ui-resizable`).height() < 150) {
+        //   $(`[key='${itemName}'] .ui-resizable`).css("height", "350px");
           
-          const height = $(`[key='${itemName}'] .card-body`).height();
-          console.log(height);
-          $(`[key='${itemName}'] canvas`).attr("height", height);
-          $(`[key='${itemName}'] canvas`).css("height", `${height}px`);
-        }
+        //   const height = $(`[key='${itemName}'] .card-body`).height();
+        //   console.log(height);
+        //   $(`[key='${itemName}'] canvas`).attr("height", height);
+        //   $(`[key='${itemName}'] canvas`).css("height", `${height}px`);
+        // }
 
         $(`[key='${itemName}']`).attr("pref-id", tvs1chart.fields.ID);
         $(`[key='${itemName}']`).attr("position", tvs1chart.fields.Position);
@@ -454,7 +454,7 @@ Template.allChartLists.onRendered(function () {
       //$(".sortable-chart-widget-js").removeClass('col-md-6');
       //$(".sortable-chart-widget-js ").css('width', "50%");
       // $('.expense-widget').css('width', "50%");
-      $(".sortable-chart-widget-js canvas").css("height", "320px"); // default height
+      // $(".sortable-chart-widget-js canvas").css("height", "320px"); // default height
     }
     // $('[key=purchases__expenses_breakdown]').css('width', "50%");
     // $('#expensebreakdownchart').css('height', '320px');

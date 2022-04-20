@@ -40,6 +40,14 @@
             height: 100% !important;
             object-fit: contain;
         }
+        .minHeight100 {
+            height: 100%;
+            position: relative;
+        }
+        .minHeight100 .canvasHeight100 {
+            position: relative;
+            /* min-height: 200px; */
+        }
     </style>
     <div class="charts row connectedChartSortable connectedSortable" id="connectedSortable" data-key="chart" data-chartgroup="{{ chartGroup }}" data-tabgroup="{{ tabGroupID }}">
         <div class="col-auto col-md-6 sortable-chart-widget-js hideelement" id="monthylprofiteandlosscol" key="dashboard__monthyl_profit_and_loss">

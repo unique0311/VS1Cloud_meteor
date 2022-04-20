@@ -35,8 +35,8 @@ export default class resizableCharts {
           if ($(ui.element[0]).parents(".sortable-chart-widget-js").attr("key") != "purchases__expenses_breakdown") {
 
           // will not apply on Expenses breakdown
-          $(ui.element[0]).find("canvas").css("width", chartWidth);
-          $(ui.element[0]).find("canvas").css("height", chartHeight);
+            $(ui.element[0]).find("canvas").css("width", chartWidth);
+            $(ui.element[0]).find("canvas").css("height", chartHeight);
           } 
           // else {
           //   $(ui.element[0]).css('height', '');
