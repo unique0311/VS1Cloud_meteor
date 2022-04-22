@@ -11,6 +11,7 @@ import EmployeePayrollApi from "../js/Api/EmployeePayrollApi";
 import { Random } from 'meteor/random';
 import { AppointmentService } from '../appointments/appointment-service';
 import '../lib/global/indexdbstorage.js';
+import EmployeePaySettings from "../js/Api/Model/EmployeePaySettings";
 let sideBarService = new SideBarService();
 let utilityService = new UtilityService();
 let edtProductSelect = "";
@@ -2765,7 +2766,15 @@ Template.employeescard.onRendered(function () {
             if (allEmployeePaysetting.ok == true) {
                 const data = await allEmployeePaysetting.json();
                 console.log('TEmployeepaysettings', data);
+               
                 let useData = data.temployeepaysettings;
+
+                let employeeSettings = new EmployeePaySettings(useData[0]);
+
+
+                console.log(useData);
+                console.log(employeeSettings);
+
                 for (let i = 0; i < useData.length; i++) {
                     if (parseInt(useData[i].fields.Employeeid) === parseInt(employeeID)) {
                         let payInfo = {
