@@ -40,9 +40,8 @@ export default class ChartHandler {
       }
       return heightPercentage;
   }
-
-  static buildCardPositions() {
-    const charts = $(".card-visibility");
+  
+  static buildCardPositions(charts = $(".card-visibility")) {
     for (let i = 0; i <= charts.length; i++) {
       $(charts[i]).attr("position", i);
     }
