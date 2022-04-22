@@ -1,3 +1,5 @@
+import EmployeeModel from "./Employee";
+
 /**
  * @type {{type: string, fields: EmployeePaySettingsFields}}
  */
@@ -8,6 +10,9 @@ export default class EmployeePaySettings {
   }
 }
 
+/**
+ * @type {{Employee: EmployeeModel}}
+ */
 export class EmployeePaySettingsFields {
   constructor({
     Abn,
@@ -46,7 +51,11 @@ export class EmployeePaySettingsFields {
   }) {
     this.Abn = Abn;
     this.DateLastActuallyPaid = DateLastActuallyPaid;
-    this.Employee = Employee;
+    if (Employee instanceof EmployeeModel) {
+      this.Employee = Employee;
+    } else {
+      this.Employee = new EmployeeModel(Employee);
+    }
     this.Employeeid = Employeeid;
     this.Employeepaynotes = Employeepaynotes;
     this.FirstPayDate = FirstPayDate;
