@@ -1383,18 +1383,17 @@
                                                                 <div class="row mb-1">
                                                                     <div class="col-12 col-md-3">
                                                                         <div class="form-group" style="margin: 4px;">
-                                                                            <label>Employment Basis</label>
+                                                                            <label>Employment Basis {{employeePaySetting.EmploymentBasis}}</label>
                                                                             <!-- <input type="text" class="form-control" id="edtEmploymentBasis" name="edtEmploymentBasis"> -->
                                                                             <select class="form-control" id="edtEmploymentBasis" name="edtEmploymentBasis" style="cursor: pointer;">
+                                                                
                                                                                 <option value="Full-time employment">Full-time employment</option>
                                                                                 <option value="Part-time employment">Part-time employment</option>
                                                                                 <option value="Casual employment">Casual employment</option>
                                                                                 <option value="Labour hire">Labour hire</option>
                                                                                 <option value="Superannuation income stream">Superannuation income stream</option>
                                                                             </select>
-                                                                            <script>
-                                                                                $("#edtEmploymentBasis option[value='{{employeePaySetting.EmploymentBasis}}']").attr('selected', 'selected');
-                                                                            </script>
+                                                                        
                                                                         </div>
                                                                     </div>
                                                                     <div class="col-12 col-md-3">
@@ -1405,9 +1404,7 @@
                                                                                 <option value="Foreign Resident">Foreign Resident</option>
                                                                                 <option value="Working Holiday Maker">Working Holiday Maker</option>
                                                                             </select>
-                                                                            <script>
-                                                                                $("#edtResidencyStatus option[value='{{employeePaySetting.ResidencyStatus}}']").attr('selected', 'selected');
-                                                                            </script>
+                                                                        
                                                                         </div>
                                                                     </div>
                                                                 </div>

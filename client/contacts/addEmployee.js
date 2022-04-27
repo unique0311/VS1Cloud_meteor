@@ -2794,6 +2794,12 @@ Template.employeescard.onRendered(function () {
 
                 $('#annualSalaryValue').text( employeePaySettings.fields.Employee.fields.Wages * 12 )
                 templateObject.employeePayInfos.set(employeePaySettings);
+
+                $(`#edtTfnExemption option[value='${objEmployeePaySettings.TFNExemption}']`).attr('selected', 'selected');
+                $(`#edtEmploymentBasis option[value='${objEmployeePaySettings.EmploymentBasis}']`).attr('selected', 'selected');
+                $(`#edtResidencyStatus option[value='${objEmployeePaySettings.ResidencyStatus}']`).attr('selected', 'selected');
+
+
                 // console.log('employeePayInfos', templateObject.employeePayInfos.get());
                     
                     //Looping method to set employeePayInfos 
@@ -3878,15 +3884,12 @@ Template.employeescard.events({
             
             useData.push(employeePaySettings);
 
+
+
             /**
              * Saving employeePaySettings Object in localDB
             */
-            
-            // console.log('useData', useData)
-            EmployeepaysettingsData.temployeepaysettings = useData;
-
-            await addVS1Data('TEmployeepaysettings', JSON.stringify(EmployeepaysettingsData));            
-            $('.fullScreenSpin').css('display', 'none');
+          
             return false;
 
             
