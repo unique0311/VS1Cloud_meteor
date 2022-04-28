@@ -1849,26 +1849,21 @@
                                                                             font-size: 30px;
                                                                         }
                                                                     </style>
-                                                                    <div class="col-12 col-md-3">
-                                                                        <div class="card shadow" style="width: 100%">
-                                                                            <div class="card-body">
-                                                                                <h3>Annual Leave</h3>
-                                                                                <p class="annualLeave" style="color: #00a3de; font-size: 20px; margin-bottom: 0px; margin-top: 16px;">
-                                                                                    3.0769 Hours
-                                                                                </p>
+                                                                    <!-- assignLeaveTypes -->
+                                                                    {{#if assignLeaveTypeInfo}}
+                                                                        {{#each item in assignLeaveTypeInfo}}
+                                                                        <div class="col-12 col-md-3">
+                                                                            <div class="card shadow" style="width: 100%">
+                                                                                <div class="card-body">
+                                                                                    <h3>{{ item.fields.LeaveType }}</h3>
+                                                                                    <p class="annualLeave" style="color: #00a3de; font-size: 20px; margin-bottom: 0px; margin-top: 16px;">
+                                                                                        {{ item.fields.HoursLeave }} Hours
+                                                                                    </p>
+                                                                                </div>
                                                                             </div>
                                                                         </div>
-                                                                    </div>
-                                                                    <div class="col-12 col-md-4">
-                                                                        <div class="card shadow" style="width: 100%">
-                                                                            <div class="card-body">
-                                                                                <h3 class="specialHeader">Personal/Carer's Leave</h3>
-                                                                                <p class="personalCarerLeave" style="color: #00a3de; font-size: 20px; margin-bottom: 0px; margin-top: 16px;">
-                                                                                    1.5385 Hours
-                                                                                </p>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
+                                                                        {{/each}}
+                                                                    {{/if}}
                                                                 </div>
                                                                 <div class="row mb-2 mt-2">
                                                                     <div class="col-12">
@@ -1898,13 +1893,19 @@
                                                                                     <div class="col-12">
                                                                                         <div class="form-group">
                                                                                             <label>Type of Request</label>
-                                                                                            <input type="text" class="form-control" id="">
+                                                                                            <select class="form-control" id="edtLeaveTypeofRequest" name="edtLeaveTypeofRequest" style="cursor: pointer;">
+                                                                                                {{#if assignLeaveTypeInfo}}
+                                                                                                    {{#each item in assignLeaveTypeInfo}}
+                                                                                                        <option value="{{item.fields.LeaveType}}">{{ item.fields.LeaveType }}</option>
+                                                                                                    {{/each}}
+                                                                                                {{/if}}    
+                                                                                            </select>
                                                                                         </div>
                                                                                     </div>
                                                                                     <div class="col-12">
                                                                                         <div class="form-group">
                                                                                             <label>Description</label>
-                                                                                            <input type="text" class="form-control" id="">
+                                                                                            <input type="text" class="form-control" id="edtLeaveDescription" name="edtLeaveDescription">
                                                                                         </div>
                                                                                     </div>
                                                                                     <div class="col-6">
@@ -1932,19 +1933,19 @@
                                                                                     <div class="col-8">
                                                                                         <div class="form-group">
                                                                                             <label>Pay Period</label>
-                                                                                            <input type="text" class="form-control" id="">
+                                                                                            <input type="text" class="form-control" id="edtLeavePayPeriod" name="edtLeavePayPeriod">
                                                                                         </div>
                                                                                     </div>
                                                                                     <div class="col-4">
                                                                                         <div class="form-group">
                                                                                             <label>Hours</label>
-                                                                                            <input type="text" class="form-control" id="">
+                                                                                            <input type="text" class="form-control" id="edtLeaveHours" name="edtLeaveHours">
                                                                                         </div>
                                                                                     </div>
                                                                                 </div>
                                                                             </div>
                                                                             <div class="modal-footer">
-                                                                                <button type="button" class="btn btn-success"><i class="fa fa-save" style="margin-right: 5px;"></i>Save</button>
+                                                                                <button type="button" id="btnSaveLeaveRequest" class="btn btn-success"><i class="fa fa-save" style="margin-right: 5px;"></i>Save</button>
                                                                                 <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="fa fa-close" style="margin-right: 5px;"></i>Close</button>
                                                                             </div>
                                                                         </div>
@@ -1974,12 +1975,17 @@
                                                                                     </tr>
                                                                                 </thead>
                                                                                 <tbody>
-                                                                                    <tr class="dnd-moved" id="{{item.id}}" style="cursor: pointer;">
-                                                                                        <td contenteditable="false" class="colDescription"></td>
-                                                                                        <td contenteditable="false" class="colLeavePeriod"></td>
-                                                                                        <td contenteditable="false" class="colLeaveType"></td>
-                                                                                        <td contenteditable="false" class="colStatus"></td>
-                                                                                    </tr>
+                                                                                    {{#if leaveRequestInfo}}
+                                                                                        {{#each item in leaveRequestInfo}}
+                                                                                            <option value="{{item.fields.LeaveType}}">{{ item.fields.LeaveType }}</option>
+                                                                                            <tr class="dnd-moved" id="{{item.id}}" style="cursor: pointer;">
+                                                                                                <td contenteditable="false" class="colDescription">{{item.fields.Description}}</td>
+                                                                                                <td contenteditable="false" class="colLeavePeriod">{{item.fields.PayPeriod}}</td>
+                                                                                                <td contenteditable="false" class="colLeaveType">{{item.fields.TypeofRequest}}</td>
+                                                                                                <td contenteditable="false" class="colStatus">{{item.fields.Status}}</td>
+                                                                                            </tr>
+                                                                                        {{/each}}
+                                                                                    {{/if}} 
                                                                                 </tbody>
 
                                                                             </table>
