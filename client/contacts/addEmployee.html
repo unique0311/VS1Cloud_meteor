@@ -2372,16 +2372,26 @@
                                                                             margin-left: 16px;
                                                                         }
                                                                     }
+                                                                    .earningRateNewDiv label {
+                                                                        display: inline-block;
+                                                                        width: 100%;
+                                                                    }
+                                                                    .ordanryHoursDiv {
+                                                                        display: inline-block;
+                                                                        min-height: 38px;
+                                                                    }
                                                                 </style>
                                                                 <div class="row mb-3">
                                                                     <div class="col-12">
                                                                         <div class="card shadow" style="padding: 8px 16px;">
-                                                                            <div class="earningLinesContainer">
+                                                                            <div class="earningLinesContainer earningRateNewDiv">
                                                                                 <div class="row align-items-end ">
                                                                                     <div class="col-6 col-md-7">
                                                                                         <div class="form-group">
                                                                                             <label>Earnings Rate</label>
-                                                                                            <input type="text" class="form-control" id="">
+                                                                                            <div class="ordanryHoursDiv">
+                                                                                                <a href="javascript:void(0)">Ordinary Hours</a>
+                                                                                            </div>
                                                                                         </div>
                                                                                     </div>
                                                                                     <div class="col-5 col-md-2">
@@ -2415,11 +2425,11 @@
                                                                                                                 <label>Earnings Rate</label>
                                                                                                                 <!-- <input type="text" class="form-control" id=""> -->
                                                                                                                 <select class="form-control" id="earningRateSelect" style="cursor: pointer;">
-                                                                                                                    <option>Allowances exempt from tax withholding and super</option>
-                                                                                                                    <option>Allowances subject to tax withholding and super</option>
-                                                                                                                    <option>JobKeeper Payment top up</option>
-                                                                                                                    <option>Ordinary Hours</option>
-                                                                                                                    <option>Overtime Hours (exempt from super)</option>
+                                                                                                                    <option value="Allowances exempt from tax withholding and super">Allowances exempt from tax withholding and super</option>
+                                                                                                                    <option value="Allowances subject to tax withholding and super">Allowances subject to tax withholding and super</option>
+                                                                                                                    <option value="JobKeeper Payment top up">JobKeeper Payment top up</option>
+                                                                                                                    <option value="Ordinary Hours">Ordinary Hours</option>
+                                                                                                                    <option value="Overtime Hours (exempt from super)">Overtime Hours (exempt from super)</option>
                                                                                                                 </select>
                                                                                                             </div>
                                                                                                         </div>
