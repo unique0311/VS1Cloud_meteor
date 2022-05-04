@@ -15,6 +15,8 @@ import EmployeePaySettings from "../js/Api/Model/EmployeePaySettings";
 import EmployeePaySettingFields from "../js/Api/Model/EmployeePaySettingFields";
 import AssignLeaveType from "../js/Api/Model/AssignLeaveType";
 import AssignLeaveTypeFields from "../js/Api/Model/AssignLeaveTypeFields";
+import PayTemplateEarningLine from "../js/Api/Model/PayTemplateEarningLine";
+import PayTemplateEarningLineFields from "../js/Api/Model/PayTemplateEarningLineFields";
 import ApiService from "../js/Api/Module/ApiService";
 import LeaveRequest from "../js/Api/Model/LeaveRequest";
 import LeaveRequestFields from "../js/Api/Model/LeaveRequestFields";
@@ -24,6 +26,7 @@ let edtProductSelect = "";
 Template.employeescard.onCreated(function () {
     const templateObject = Template.instance();
     templateObject.records = new ReactiveVar();
+    templateObject.payTemplateEarningLineInfo = new ReactiveVar();
     templateObject.employeePayInfos = new ReactiveVar();
     templateObject.employeePaySettings = new ReactiveVar();
     templateObject.leaveTypesDrpDown = new ReactiveVar();
@@ -2757,7 +2760,6 @@ Template.employeescard.onRendered(function () {
     }
 
     templateObject.getLeaveRequests = async () => {
-        // TO DO
         let TLeaveRequests = await getVS1Data('TLeaveRequest');
         if( TLeaveRequests.length ){
             let TLeaveRequestsData = JSON.parse(TLeaveRequests[0].data);
@@ -3755,7 +3757,6 @@ Template.employeescard.events({
     },
     // Save LeaveRequest Popup    
     'click #btnSaveLeaveRequest': async function(event) {
-        // TO DO
         $('.fullScreenSpin').css('display', 'block');
         let templateObject = Template.instance();
         let currentId = FlowRouter.current().queryParams;
@@ -3865,6 +3866,66 @@ Template.employeescard.events({
         $('#assignLeaveTypeModal').modal('hide');   
         $('.fullScreenSpin').css('display', 'none');
     },
+
+    // Pay Template Tab
+    'click #addEarningsLine': function(){
+        // TO DO
+        let templateObject = Template.instance();
+        let currentId = FlowRouter.current().queryParams;
+        let employeeID = ( !isNaN(currentId.id) )? currentId.id : 0;
+        let EarningRate = $('#earningRateSelect').val();
+        let CalculationType = $('input[name=calculationType]:checked').val();
+        let ExpenseAccount = $('#expenseAccount').val();
+        let payEarningLinesTemp = [];
+        let payEarningLinesTempExist = templateObject.payTemplateEarningLineInfo.get();
+        if( Array.isArray( payEarningLinesTempExist ) ){
+            payEarningLinesTemp = payEarningLinesTempExist
+        }
+        console.log('payEarningLinesTemp', payEarningLinesTemp)
+        payEarningLinesTemp.push(        
+            new PayTemplateEarningLine({
+                type: 'TPayTemplateEarningLine',
+                fields: new PayTemplateEarningLineFields({
+                    ID: 0,
+                    EmployeeID: employeeID,
+                    EarningRate: EarningRate,
+                    CalculationType: CalculationType,
+                    ExpenseAccount: ExpenseAccount,
+                    HoursPerWeek: 0,
+                    AnnualSalary: 0,
+                    FixedAmount: 0,
+                    Hours: 0,
+                    Rate: 0,
+                    Total: 0
+                })
+            })
+        )
+        console.log('useData', payEarningLinesTemp)
+        templateObject.payTemplateEarningLineInfo.set(payEarningLinesTemp);
+    },
+
+    // Pay Template Earning Line Drop Down
+    'click #earningRateSelect': function(){
+        let earningRate = $('#earningRateSelect').val();
+        $('.calculationType').removeAttr("checked");
+        switch( earningRate ){
+            case 'JobKeeper Payment top up':
+                $('#CalculationType1').attr('disabled', true)
+                $('#CalculationType2').attr('disabled', false)
+                $('#CalculationType3').attr('disabled', true)
+            break;
+            case 'Overtime Hours (exempt from super)':
+                $('#CalculationType1').attr('disabled', false)
+                $('#CalculationType2').attr('disabled', true)
+                $('#CalculationType3').attr('disabled', true)
+            break;
+            default:
+                $('#CalculationType1').attr('disabled', true)
+                $('#CalculationType2').attr('disabled', false)
+                $('#CalculationType3').attr('disabled', false)
+            break;
+        }
+    }, 
 
     // Save active tab data
     'click #btnSaveEmployeePayroll': async function(event) {
@@ -5708,10 +5769,16 @@ Template.employeescard.events({
             $('.superannuationGuaranteeCont').addClass('hideelement')
         }
     }
-
 });
 
 Template.employeescard.helpers({
+    checkForAllowance: function ( EarningRate ) {
+        // equals item.fields.EarningRate "Allowances exempt from tax withholding and super"
+        if( EarningRate == "Allowances exempt from tax withholding and super" || EarningRate == "Allowances subject to tax withholding and super" ){
+            return true
+        }
+        return false
+    },
     isCloudUserPass: () => {
         return Template.instance().isCloudUserPass.get();
     },
@@ -5736,6 +5803,9 @@ Template.employeescard.helpers({
     bankAccountList: () => {
         return Template.instance().bankAccList.get();
     },
+    payTemplateEarningLines: () => {
+        return Template.instance().payTemplateEarningLineInfo.get();
+    },     
     extraUserPrice: () => {
         return addExtraUserPrice || '$35';
     },

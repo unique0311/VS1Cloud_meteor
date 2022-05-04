@@ -2372,39 +2372,84 @@
                                                                             margin-left: 16px;
                                                                         }
                                                                     }
+                                                                    .earningRateNewDiv .form-group {
+                                                                        white-space: normal;
+                                                                    }
                                                                     .earningRateNewDiv label {
                                                                         display: inline-block;
                                                                         width: 100%;
+                                                                        padding-bottom: 3px;
                                                                     }
                                                                     .ordanryHoursDiv {
                                                                         display: inline-block;
                                                                         min-height: 38px;
+                                                                        width: 100%;
+                                                                    }
+                                                                    .borderBottom1 {
+                                                                        border-bottom: 1px solid #f1f1f1;
+                                                                    }
+                                                                    .ordanryHoursDiv a {
+                                                                        color: #00a3d3 !important;
                                                                     }
                                                                 </style>
                                                                 <div class="row mb-3">
                                                                     <div class="col-12">
                                                                         <div class="card shadow" style="padding: 8px 16px;">
-                                                                            <div class="earningLinesContainer earningRateNewDiv">
-                                                                                <div class="row align-items-end ">
-                                                                                    <div class="col-6 col-md-7">
-                                                                                        <div class="form-group">
-                                                                                            <label>Earnings Rate</label>
-                                                                                            <div class="ordanryHoursDiv">
-                                                                                                <a href="javascript:void(0)">Ordinary Hours</a>
+                                                                            {{#if payTemplateEarningLines}}
+                                                                                {{#each item in payTemplateEarningLines}}
+                                                                                    <div class="earningLinesContainer earningRateNewDiv">
+                                                                                        <div class="row align-items-end ">
+                                                                                            <div class="col-6 col-md-7">
+                                                                                                <div class="form-group">
+                                                                                                    <label class="borderBottom1">Earnings Rate</label>
+                                                                                                    <div class="ordanryHoursDiv">
+                                                                                                        <a href="javascript:void(0)">{{ item.fields.EarningRate }}</a>
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                            {{#if checkForAllowance item.fields.EarningRate true}}
+                                                                                                {{#if equals item.fields.CalculationType "enterrate"}}
+                                                                                                <div class="col-5 col-md-2">
+                                                                                                    <div class="form-group">
+                                                                                                        <label>Fixed Amount</label>
+                                                                                                        <input type="text" class="form-control" id="">
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                                <div class="col-5 col-md-2">
+                                                                                                    <div class="form-group">
+                                                                                                        <label>Rate</label>
+                                                                                                        <input type="text" class="form-control" id="">
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                                <div class="col-5 col-md-2">
+                                                                                                    <div class="form-group">
+                                                                                                        <label>Total</label>
+                                                                                                        <input type="text" class="form-control" id="">
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                                {{/if}}
+                                                                                            {{/if}}
+                                                                                            {{#if equals item.fields.CalculationType "annualsalary"}} 
+                                                                                            <div class="col-5 col-md-2">
+                                                                                                <div class="form-group">
+                                                                                                    <label>Fixed Amount</label>
+                                                                                                    <input type="text" class="form-control" id="">
+                                                                                                </div>
+                                                                                            </div>
+                                                                                            <div class="col-5 col-md-2">
+                                                                                                <div class="form-group">
+                                                                                                    <label>Annual Salary</label>
+                                                                                                    <input type="text" class="form-control" id="">
+                                                                                                </div>
+                                                                                            </div>
+                                                                                            {{/if}}
+                                                                                            <div class="col-1 col-md-1" style="padding-left: 0px;">
+                                                                                                <button type="button" class="btn btn-danger btn-rounded btn-sm" style="margin-bottom: 24px;"><i class="fa fa-remove"></i></button>
                                                                                             </div>
                                                                                         </div>
                                                                                     </div>
-                                                                                    <div class="col-5 col-md-2">
-                                                                                        <div class="form-group">
-                                                                                            <label>Hours</label>
-                                                                                            <input type="text" class="form-control" id="">
-                                                                                        </div>
-                                                                                    </div>
-                                                                                    <div class="col-1 col-md-1" style="padding-left: 0px;">
-                                                                                        <button type="button" class="btn btn-danger btn-rounded btn-sm" style="margin-bottom: 24px;"><i class="fa fa-remove"></i></button>
-                                                                                    </div>
-                                                                                </div>
-                                                                            </div>
+                                                                                {{/each}}
+                                                                            {{/if}} 
                                                                             <div class="row mb-2">
                                                                                 <div class="col-12">
                                                                                     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addEarningsLineModal"><i class="fas fa-plus" style="margin-right: 5px;"></i> Add
@@ -2437,15 +2482,15 @@
                                                                                                             <div class="form-group">
                                                                                                                 <label>Calculation Type</label><br />
                                                                                                                 <div class="form-check form-check-inline">
-                                                                                                                    <input class="form-check-input" type="radio" name="calculationType" id="CalculationType1" value="useearningsrate">
+                                                                                                                    <input class="form-check-input calculationType" disabled type="radio" name="calculationType" id="CalculationType1" value="useearningsrate">
                                                                                                                     <label class="form-check-label" for="CalculationType1">Use Earnings Rate</label>
                                                                                                                 </div>
                                                                                                                 <div class="form-check form-check-inline">
-                                                                                                                    <input class="form-check-input" type="radio" name="calculationType" id="CalculationType2" value="enterrate">
+                                                                                                                    <input class="form-check-input calculationType" type="radio" name="calculationType" id="CalculationType2" value="enterrate">
                                                                                                                     <label class="form-check-label" for="CalculationType2">Enter Rate</label>
                                                                                                                 </div>
                                                                                                                 <div class="form-check form-check-inline">
-                                                                                                                    <input class="form-check-input" type="radio" name="calculationType" id="CalculationType3" value="annualsalary">
+                                                                                                                    <input class="form-check-input calculationType" type="radio" name="calculationType" id="CalculationType3" value="annualsalary">
                                                                                                                     <label class="form-check-label" for="CalculationType3">Annual Salary</label>
                                                                                                                 </div>
                                                                                                             </div>
@@ -2453,13 +2498,13 @@
                                                                                                         <div class="col-12">
                                                                                                             <div class="form-group">
                                                                                                                 <label>Expense Account</label>
-                                                                                                                <input type="text" class="form-control" id="expenseAccount">
+                                                                                                                <input type="text" class="form-control" id="expenseAccount" name="expenseAccount">
                                                                                                             </div>
                                                                                                         </div>
                                                                                                     </div>
                                                                                                 </div>
                                                                                                 <div class="modal-footer">
-                                                                                                    <button type="button" class="btn btn-success"><i class="fa fa-save" style="margin-right: 5px;"></i>Save</button>
+                                                                                                    <button type="button" id="addEarningsLine" class="btn btn-success"><i class="fa fa-save" style="margin-right: 5px;"></i>Save</button>
                                                                                                     <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="fa fa-close" style="margin-right: 5px;"></i>Close</button>
                                                                                                 </div>
                                                                                             </div>
