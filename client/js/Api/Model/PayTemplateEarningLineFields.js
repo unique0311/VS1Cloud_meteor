@@ -1,4 +1,4 @@
-export default class LeaveRequestFields {
+export default class PayTemplateEarningLineFields {
     constructor({
         ID,
         EmployeeID,
