@@ -2878,12 +2878,12 @@ Template.employeescard.onRendered(function () {
     templateObject.getTLeaveTypes = async () => {
         try{
             let dataObj = await getVS1Data('TLeavetypes');
-            console.log('TLeavetypes', dataObj )
+            // console.log('TLeavetypes', dataObj )
         } catch(err) {  
-            console.log( 'roor', err.message )
+            // console.log( 'roor', err.message )
             let employeePayrollService = new EmployeePayrollService();
             let data = await employeePayrollService.getAllTLeaveTypes('All', 0)
-            console.log('TLeavetypes', data )
+            // console.log('TLeavetypes', data )
             await templateObject.leaveTypesDrpDown.set(data.tleavetypes);
         }        
     }
@@ -2901,7 +2901,7 @@ Template.employeescard.onRendered(function () {
             };
             if(dataObj.length > 0) {
                 let data = JSON.parse(dataObj[0].data);
-                console.log( 'TBankAccounts', data )
+                // console.log( 'TBankAccounts', data )
                 let index = 1;
                 for(let i = 0; i < data.length; i ++) {
                     if( parseInt( data[i].fields.EmployeeID ) == parseInt( employeeID ) ) {
@@ -2919,7 +2919,7 @@ Template.employeescard.onRendered(function () {
                     }
                 }
             }
-            console.log('newData', newData)
+            // console.log('newData', newData)
             templateObject.bankAccList.set(newData);
 
         }).catch(function (err) {
@@ -3890,7 +3890,7 @@ Template.employeescard.events({
         if( Array.isArray( payEarningLinesTempExist ) ){
             payEarningLinesTemp = payEarningLinesTempExist
         }
-        console.log('payEarningLinesTemp', payEarningLinesTemp)
+        // console.log('payEarningLinesTemp', payEarningLinesTemp)
         payEarningLinesTemp.push(        
             new PayTemplateEarningLine({
                 type: 'TPayTemplateEarningLine',
@@ -3902,7 +3902,7 @@ Template.employeescard.events({
                 })
             })
         )
-        console.log('useData', payEarningLinesTemp)
+        // console.log('useData', payEarningLinesTemp)
         templateObject.payTemplateEarningLineInfo.set(payEarningLinesTemp);
         $('#earningRateSelect').val('Allowances exempt from tax withholding and super');
         $('input[name=calculationType]:checked').attr('checked', false);
@@ -3922,7 +3922,7 @@ Template.employeescard.events({
         if( Array.isArray( payDeductionLinesTempExist ) ){
             payDeductionLinesTemp = payDeductionLinesTempExist
         }
-        console.log('payDeductionLinesTemp', payDeductionLinesTemp)
+        // console.log('payDeductionLinesTemp', payDeductionLinesTemp)
         payDeductionLinesTemp.push(        
             new PayTemplateDeductionLine({
                 type: 'TPayTemplateDeductionLine',
@@ -3934,7 +3934,7 @@ Template.employeescard.events({
                 })
             })
         )
-        console.log('useData', payDeductionLinesTemp)
+        // console.log('useData', payDeductionLinesTemp)
         templateObject.payTemplateDeductionLineInfo.set(payDeductionLinesTemp);
         $('#deductionTypeSelect').val('FBT');
         $('input[name=calculationTypeDeduction]:checked').attr('checked', false);
@@ -3977,7 +3977,7 @@ Template.employeescard.events({
                 })
             })
         )
-        console.log('useData', payLinesTemp)
+        // console.log('useData', payLinesTemp)
         templateObject.payTemplateSuperannuationLineInfo.set(payLinesTemp);
         $('#superannuationFund').val('');
         $('#superannuationTypeSelect').val('Superannuation Guarantee Contribution (SGC)');
@@ -4031,7 +4031,7 @@ Template.employeescard.events({
                 })
             })
         )
-        console.log('useData', payLinesTemp)
+        // console.log('useData', payLinesTemp)
         templateObject.payTemplateReiumbursementLineInfo.set(payLinesTemp);
         $('#reimbursementTypeSelect').val('');
         $('#reiumbursementDescription').val('');
@@ -4343,7 +4343,7 @@ Template.employeescard.events({
                 });
             }
 
-            console.log( 'saving bankaccount', data )
+            // console.log( 'saving bankaccount', data )
 
             $('.fullScreenSpin').css('display', 'inline-block');
 
