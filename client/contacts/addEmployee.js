@@ -13,6 +13,7 @@ import { AppointmentService } from '../appointments/appointment-service';
 import '../lib/global/indexdbstorage.js';
 import EmployeePaySettings from "../js/Api/Model/EmployeePaySettings";
 import EmployeePaySettingFields from "../js/Api/Model/EmployeePaySettingFields";
+import 'jquery-editable-select';
 import AssignLeaveType from "../js/Api/Model/AssignLeaveType";
 import AssignLeaveTypeFields from "../js/Api/Model/AssignLeaveTypeFields";
 import PayTemplateEarningLine from "../js/Api/Model/PayTemplateEarningLine";
@@ -26,6 +27,8 @@ import PayTemplateReiumbursementLineFields from "../js/Api/Model/PayTemplateReiu
 import ApiService from "../js/Api/Module/ApiService";
 import LeaveRequest from "../js/Api/Model/LeaveRequest";
 import LeaveRequestFields from "../js/Api/Model/LeaveRequestFields";
+import PayNotes from "../js/Api/Model/PayNotes";
+import PayNotesFields from "../js/Api/Model/PayNotesFields";
 let sideBarService = new SideBarService();
 let utilityService = new UtilityService();
 let edtProductSelect = "";
@@ -36,10 +39,12 @@ Template.employeescard.onCreated(function () {
     templateObject.payTemplateDeductionLineInfo = new ReactiveVar();
     templateObject.payTemplateSuperannuationLineInfo = new ReactiveVar();
     templateObject.payTemplateReiumbursementLineInfo = new ReactiveVar();    
+    templateObject.currentDrpDownID = new ReactiveVar();    
     templateObject.employeePayInfos = new ReactiveVar();
     templateObject.employeePaySettings = new ReactiveVar();
     templateObject.leaveTypesDrpDown = new ReactiveVar();
     templateObject.assignLeaveTypeInfos = new ReactiveVar();
+    templateObject.payNotesInfos = new ReactiveVar();    
     templateObject.leaveRequestInfos = new ReactiveVar();
     templateObject.bankAccList = new ReactiveVar();
     templateObject.countryData = new ReactiveVar();
@@ -108,7 +113,7 @@ Template.employeescard.onRendered(function () {
 
     let salestaxcode = '';
     let totAmount = 0;
-    let totAmountOverDue = 0;
+    let totAmountOverDue = 0;  
 
     setTimeout(function() {
         $('#tblLeaveRequests').DataTable({
@@ -2435,6 +2440,7 @@ Template.employeescard.onRendered(function () {
                         //FlowRouter.go('/productview?prodname=' + $(event.target).text());
                         let lineExtaSellItems = [];
                         let lineExtaSellObj = {};
+                        console.log('step-2')
                         $('.fullScreenSpin').css('display', 'inline-block');
                         getVS1Data('TProductWeb').then(function (dataObject) {
                             if (dataObject.length == 0) {
@@ -2786,6 +2792,23 @@ Template.employeescard.onRendered(function () {
     };
     templateObject.getLeaveRequests();
 
+    templateObject.getPayNotesTypes = async () => {
+        let TPayNotes = await getVS1Data('TPayNotes');
+        if( TPayNotes.length ){
+            let TPayNotesData = JSON.parse(TPayNotes[0].data);
+            let useData = PayNotes.fromList(
+                TPayNotesData.tpaynotes
+            ).filter((item) => {
+                if ( parseInt( item.fields.EmployeeID ) == parseInt( employeeID ) ) {
+                    return item;
+                }
+            });
+            console.log('useData', useData)
+            templateObject.payNotesInfos.set(useData);
+        }  
+    };
+    templateObject.getPayNotesTypes(); 
+
     templateObject.getAssignLeaveTypes = async () => {
         let TAssignLeaveTypes = await getVS1Data('TAssignLeaveType');
         if( TAssignLeaveTypes.length ){
@@ -2929,9 +2952,389 @@ Template.employeescard.onRendered(function () {
         });
     }
     templateObject.getTBankAccounts();
+    // Standard drop down
+    $(document).ready(function () {
+        setTimeout(function () {
+            $('#leaveTypeSelect').editableSelect();
+            $('#leaveTypeSelect').editableSelect()
+                .on('click.editable-select', function (e, li) {
+                    let $search = $(this);
+                    let offset = $search.offset();
+                    let currencyDataName = e.target.value || '';
+                    console.log( currencyDataName )
+                    if (e.pageX > offset.left + $search.width() - 8) { // X button 16px wide?
+                        $('#leaveTypeSettingsModal').modal('show');
+                    } else {
+                        if (currencyDataName.replace(/\s/g, '') != '') {
+                            console.log('step 2')
+                        }
+                    }
+                });
+            $('#earningRateSelect').editableSelect();
+            $('#earningRateSelect').editableSelect()
+                .on('click.editable-select', function (e, li) {
+                    let $search = $(this);
+                    let offset = $search.offset();
+                    let dropDownID = $search.attr('id')
+                    templateObject.currentDrpDownID.set(dropDownID);
+                    let currencyDataName = e.target.value || '';
+                    if (e.pageX > offset.left + $search.width() - 8) { // X button 16px wide?
+                        $('#earningRateSettingsModal').modal('show');
+                    } else {
+                        if (currencyDataName.replace(/\s/g, '') != '') {
+                            // console.log('step 2')
+                        }
+                    }
+                });
+            $('#deductionTypeSelect').editableSelect();
+            $('#deductionTypeSelect').editableSelect()
+                .on('click.editable-select', function (e, li) {
+                    let $search = $(this);
+                    let offset = $search.offset();
+                    let dropDownID = $search.attr('id')
+                    templateObject.currentDrpDownID.set(dropDownID);
+                    let currencyDataName = e.target.value || '';
+                    if (e.pageX > offset.left + $search.width() - 8) { // X button 16px wide?
+                        $('#deductionSettingsModal').modal('show');
+                    } else {
+                        if (currencyDataName.replace(/\s/g, '') != '') {
+                            // console.log('step 2')
+                        }
+                    }
+                });
+            $('#superannuationFund').editableSelect();
+            $('#superannuationFund').editableSelect()
+                .on('click.editable-select', function (e, li) {
+                    let $search = $(this);
+                    let dropDownID = $search.attr('id')
+                    templateObject.currentDrpDownID.set(dropDownID);
+                    let offset = $search.offset();
+                    let currencyDataName = e.target.value || '';
+                    if (e.pageX > offset.left + $search.width() - 8) { // X button 16px wide?
+                        $('#superannuationSettingsModal').modal('show');
+                    } else {
+                        if (currencyDataName.replace(/\s/g, '') != '') {
+                            // console.log('step 2')
+                        }
+                    }
+                });
+                $('#reimbursementTypeSelect').editableSelect();
+                $('#reimbursementTypeSelect').editableSelect()
+                    .on('click.editable-select', function (e, li) {
+                        let $search = $(this);
+                        let dropDownID = $search.attr('id')
+                        templateObject.currentDrpDownID.set(dropDownID);
+                        let offset = $search.offset();
+                        let currencyDataName = e.target.value || '';
+                        if (e.pageX > offset.left + $search.width() - 8) { // X button 16px wide?
+                            $('#reimbursementSettingsModal').modal('show');
+                        } else {
+                            if (currencyDataName.replace(/\s/g, '') != '') {
+                                // console.log('step 2')
+                            }
+                        }
+                    });
 
+                $('#obEarningsRate').editableSelect();
+                $('#obEarningsRate').editableSelect()
+                    .on('click.editable-select', function (e, li) {
+                        let $search = $(this);
+                        let dropDownID = $search.attr('id')
+                        templateObject.currentDrpDownID.set(dropDownID);
+                        let offset = $search.offset();
+                        let currencyDataName = e.target.value || '';
+                        if (e.pageX > offset.left + $search.width() - 8) { // X button 16px wide?
+                            $('#earningRateSettingsModal').modal('show');
+                        } else {
+                            if (currencyDataName.replace(/\s/g, '') != '') {
+                                // console.log('step 2')
+                            }
+                        }
+                    });
+
+                $('#obDeductionType').editableSelect();
+                $('#obDeductionType').editableSelect()
+                    .on('click.editable-select', function (e, li) {
+                        let $search = $(this);
+                        let dropDownID = $search.attr('id')
+                        templateObject.currentDrpDownID.set(dropDownID);
+                        let offset = $search.offset();
+                        let currencyDataName = e.target.value || '';
+                        if (e.pageX > offset.left + $search.width() - 8) { // X button 16px wide?
+                            $('#deductionSettingsModal').modal('show');
+                        } else {
+                            if (currencyDataName.replace(/\s/g, '') != '') {
+                                // console.log('step 2')
+                            }
+                        }
+                    });
+
+                $('#obSuperannuationFund').editableSelect();
+                $('#obSuperannuationFund').editableSelect()
+                    .on('click.editable-select', function (e, li) {
+                        let $search = $(this);
+                        let dropDownID = $search.attr('id')
+                        templateObject.currentDrpDownID.set(dropDownID);
+                        let offset = $search.offset();
+                        let currencyDataName = e.target.value || '';
+                        if (e.pageX > offset.left + $search.width() - 8) { // X button 16px wide?
+                            $('#superannuationSettingsModal').modal('show');
+                        } else {
+                            if (currencyDataName.replace(/\s/g, '') != '') {
+                                // console.log('step 2')
+                            }
+                        }
+                    });
+                    
+                $('#obReimbursementType').editableSelect();
+                $('#obReimbursementType').editableSelect()
+                    .on('click.editable-select', function (e, li) {
+                        let $search = $(this);
+                        let dropDownID = $search.attr('id')
+                        templateObject.currentDrpDownID.set(dropDownID);
+                        let offset = $search.offset();
+                        let currencyDataName = e.target.value || '';
+                        if (e.pageX > offset.left + $search.width() - 8) { // X button 16px wide?
+                            $('#reimbursementSettingsModal').modal('show');
+                        } else {
+                            if (currencyDataName.replace(/\s/g, '') != '') {
+                                // console.log('step 2')
+                            }
+                        }
+                    });
+                $('#edtRateType').editableSelect();
+                $('#edtRateType').editableSelect().on('click.editable-select', function (e, li) {
+       
+                    var $earch = $(this);
+                    var offset = $earch.offset();
+                    const ratetypelist = [];
+                     var  Description = e.target.value ||'';
+            
+                    if (e.pageX > offset.left + $earch.width() - 8) { // X button 16px wide?
+                      $('#selectRateLineID').val('edtRateType');
+                      $('#rateTypeListModel').modal();
+                      $('#tblratetypelist_filter .form-control-sm').focus();
+                      $('#tblratetypelist_filter .form-control-sm').val();
+                      $('#tblratetypelist_filter .form-control-sm').trigger("input");
+                      setTimeout(function () {
+                         var datatable = $('#tblratetypelist').DataTable();
+                         datatable.draw();   
+                         $('#tblratetypelist_filter .form-control-sm').trigger("input");       
+                      }, 500);
+                     }else{
+                        let ratetypeService = new RateTypeService();
+                       if(Description.replace(/\s/g, '') != ''){
+                         getVS1Data('TRateTypes').then(function (dataObject) {
+                          if (dataObject.length == 0) {
+                                 ratetypeService.getOneRateTypeByName(Description).then(function (data) {
+                                 let lineItems = [];
+                                 let lineItemObj = {};
+                                 let fullDescriptionname = '';
+                                  $('#add-rateype-title').text('Edit Rate Type Details');
+                        
+                                 if (ratetypelist) {
+                                     for (var h = 0; h < ratetypelist.length; h++) {
+              
+                                         if (data.tpayratetype[0].fields.Description === ratetypelist[h].description) {
+              
+                                            fullDescriptionname = ratetypelist[h].description || '';
+              
+                                         }
+                                     }
+              
+                                 }
+              
+                                  var ratetypeid = data.tpayratetype[0].fields.ID || '';
+                                  var description = fullDescriptionname || data.tpayratetype[0].fields.Description;
+                               
+                        
+                                  $('#edtRateID').val(ratetypeid);
+                                  $('#edtRateDescription').val(description);
+                           
+                                  
+                                  setTimeout(function () {
+                                      $('#addRateModel').modal('show');
+                                  }, 500);
+              
+                               }).catch(function (err) {
+                                   $('.fullScreenSpin').css('display','none');
+                               });
+                             } else {
+                                 let data = JSON.parse(dataObject[0].data);
+                                 let useData = data.tpayratetype;
+                                 var added=false;
+                                 let lineItems = [];
+                                 let lineItemObj = {};
+                                 let fullDescriptionname = '';
+                              
+                                 $('#add-rateype-title').text('Edit Rate Type Details');
+                                 $('#edtRateID').attr('readonly', true);
+                                 $('#edtRateDescription').attr('readonly', true);
+                        
+                                 for (let a = 0; a < data.tpayratetype.length; a++) {
+              
+                                   if((data.tpayratetype[a].fields.Description) === Description){
+                                     added = true;
+                                     if (ratetypelist) {
+                                         for (var h = 0; h < ratetypelist.length; h++) {
+              
+                                             if (data.tpayratetype[a].fields.Description === ratetypelist[h].Description) {
+              
+                                                fullDescriptionname = ratetypelist[h].Description || '';
+            
+                                                 console.log('Description '+fullDescriptionname);
+              
+                                             }
+                                         }
+              
+                                     }
+              
+              
+              
+                              var ratetypeid = data.tpayratetype[a].fields.ID || '';
+                              var ratetypedescription = fullDescriptionname || data.tpayratetype[a].fields.Description;
+                         
+                              $('#edtRateID').val(ratetypeid);
+                              $('#edtRateDescription').val(ratetypedescription);
+                              
+                              setTimeout(function () {
+                                  $('#addRateModel').modal('show');
+                                   }, 500); } }
+            
+                                 if(!added) {
+                                    ratetypeService.getOneRateTypeByName(Description).then(function (data) {
+                                     let lineItems = [];
+                                     let lineItemObj = {};
+                                     let fullAccountTypeName = '';
+                                  
+                                     $('#add-rateype-title').text('Edit Rate Type Details');                  
+                                     $('#edtRateID').attr('readonly', true);
+                                     $('#edtRateDescription').attr('readonly', true);
+                                     if (ratetypelist) {
+                                         for (var h = 0; h < ratetypelist.length; h++) {
+              
+                                             if (data.tpayratetype[0].fields.Description === ratetypelist[h].Description) {
+              
+                                                 fullAccountTypeName = ratetypelist[h].description || '';
+              
+                                             }
+                                         }
+              
+                                     }
+            
+                                      var ratetypeid = data.tpayratetype[0].fields.ID || '';
+                                      var ratetypedescription = fullAccountTypeName || data.tpayratetype[0].fields.Description;
+                                     
+                                      $('#edtRateID').val(ratetypeid);
+                                      $('#edtRateDescription').val(ratetypedescription);
+            
+                                      setTimeout(function () {
+                                          $('#addRateModel').modal('show');
+                                      }, 500);
+              
+                                   }).catch(function (err) {
+                                       $('.fullScreenSpin').css('display','none');
+                                   });
+                                 }
+              
+                             }
+                         }).catch(function (err) {
+                            ratetypeService.getOneRateTypeByName(Description).then(function (data) {
+                             let lineItems = [];
+                             let lineItemObj = {};
+                             let fullAccountTypeName = '';
+                          
+                             $('#add-rateype-title').text('Edit Rate Type Details');                  
+                             $('#edtRateID').attr('readonly', true);
+                             $('#edtRateDescription').attr('readonly', true);
+            
+                             if (ratetypelist) {
+                                for (var h = 0; h < ratetypelist.length; h++) {
+            
+                                    if (data.tpayratetype[a].fields.Description === ratetypelist[h].Description) {
+                                        fullDescriptionname = ratetypelist[h].Description || '';
+                                        console.log('Description '+fullDescriptionname);
+                                    }
+                                }
+            
+                            }
+              
+                             var ratetypeid = data.tpayratetype[0].fields.ID || '';
+                             var ratetypedescription = fullAccountTypeName || data.tpayratetype[0].fields.Description;
+                                     
+                                      $('#edtRateID').val(ratetypeid);
+                                      $('#edtRateDescription').val(ratetypedescription);
+            
+                                      setTimeout(function () {
+                                          $('#addRateModel').modal('show');
+                                      }, 500);
+              
+              
+                           }).catch(function (err) {
+                               $('.fullScreenSpin').css('display','none');
+                           });
+              
+                           });
+                           $('#addRateModel').modal('toggle');
+                       }else{
+                         $('#selectRateLineID').val('edtRateType');
+                         $('#rateTypeListModel').modal();
+                         setTimeout(function () {
+                              var datatable = $('#tblratetypelist').DataTable();
+                             datatable.draw();
+                           
+                         }, 500);
+                       }
+                     }
+              
+                  });
+        }, 1000);
+        //On Click Earnings List
+        $(document).on("click", "#tblEarnings tbody tr", function (e) {
+            var table = $(this);
+            let earningsName = table.find(".colEarningsNames").text()||'';
+            let earningsID = table.find(".colEarningsID").text()||'';
+            let searchFilterID = templateObject.currentDrpDownID.get()
+            $('#' + searchFilterID).val(earningsName);
+            $('#' + searchFilterID + 'ID').val(earningsID);
+            $('#earningRateSettingsModal').modal('toggle');
+        });
+        //On Click Deduction List
+        $(document).on("click", "#tblDeductions tbody tr", function (e) {
+            var table = $(this);
+            let deductionName = table.find(".colDeductionsNames").text()||'';
+            let deductionID = table.find(".colDeductionsID").text()||'';
+            let searchFilterID = templateObject.currentDrpDownID.get()
+            $('#' + searchFilterID).val(deductionName);
+            $('#' + searchFilterID + 'ID').val(deductionID);
+            $('#deductionSettingsModal').modal('toggle');
+        });
+        //On Click Superannuation List
+        $(document).on("click", "#tblSuperannuation tbody tr", function (e) {
+            var table = $(this);
+            let name = table.find(".colSuperannuationName").text()||'';
+            let ID = table.find(".colSuperannuationID").text()||'';
+            let searchFilterID = templateObject.currentDrpDownID.get()
+            $('#' + searchFilterID).val(name);
+            $('#' + searchFilterID + 'ID').val(ID);
+            $('#superannuationSettingsModal').modal('toggle');
+        });
+        //On Click Superannuation List
+        $(document).on("click", "#tblReimbursements tbody tr", function (e) {
+            var table = $(this);
+            let name = table.find(".colReimbursementName").text()||'';
+            let ID = table.find(".colReimbursementID").text()||'';
+            let searchFilterID = templateObject.currentDrpDownID.get()
+            $('#' + searchFilterID).val(name);
+            $('#' + searchFilterID + 'ID').val(ID);
+            $('#reimbursementSettingsModal').modal('toggle');
+        });
+    });
 });
 Template.employeescard.events({
+    'click .closeModel': function(e){
+        $('.modal').modal('hide');
+    },
     'click #customerShipping-1': function (event) {
         if ($(event.target).is(':checked')) {
             $('.customerShipping-2').css('display', 'none');
@@ -3876,9 +4279,45 @@ Template.employeescard.events({
         $('.fullScreenSpin').css('display', 'none');
     },
 
+    // TO DO
+    'click #savePayRollNotes': async function(){    
+        $('.fullScreenSpin').css('display', 'block');    
+        let templateObject = Template.instance();
+        let currentId = FlowRouter.current().queryParams;
+        let employeeID = ( !isNaN(currentId.id) )? currentId.id : 0;
+        let Notes = $('#payRollNotes').val();
+        const paynotes = [];
+        let TPayNotes = await getVS1Data('TPayNotes');
+        if( TPayNotes.length ){
+            let TPayNotesData = JSON.parse(TPayNotes[0].data);
+            paynotes = PayNotes.fromList(
+                TPayNotesData.tpaynotes
+            );
+        }          
+        paynotes.push(
+            new PayNotes({
+                type: "TPayNotes",
+                fields: new PayNotesFields({
+                    EmployeeID: employeeID,
+                    Notes: Notes,
+                    Date: moment().format('DD/MM/YYYY'),
+                    UserID: Session.get("mySessionEmployeeLoggedID"),
+                    UserName: Session.get('mySessionEmployee') || '',
+                }),
+            })
+        );
+        // console.log('paynotes', paynotes)
+        let updatedNotes = {
+            tpaynotes: paynotes,
+        }
+        await addVS1Data('TPayNotes', JSON.stringify(updatedNotes));            
+        templateObject.getPayNotesTypes();         
+        $('#newNoteModal').modal('hide');   
+        $('.fullScreenSpin').css('display', 'none');
+    },
+
     // Pay Template Tab
-    'click #addEarningsLine': function(){
-        // TO DO
+    'click #addEarningsLine': function(){        
         let templateObject = Template.instance();
         let currentId = FlowRouter.current().queryParams;
         let employeeID = ( !isNaN(currentId.id) )? currentId.id : 0;
@@ -5932,6 +6371,9 @@ Template.employeescard.helpers({
     assignLeaveTypeInfo: () => {
         return Template.instance().assignLeaveTypeInfos.get();
     },
+    payNotesInfo: () => {
+        return Template.instance().payNotesInfos.get();
+    },    
     leaveRequestInfo: () => {
         return Template.instance().leaveRequestInfos.get();
     },    
