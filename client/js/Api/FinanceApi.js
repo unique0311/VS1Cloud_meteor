@@ -11,12 +11,29 @@ export default class FinanceApi {
      * 
      * @param {String} from 
      * @param {String} to 
+     * @param {Integer} amount
      * @returns {String}
      */
-    async get(from, to) {
+    async get(from = "AUD", to = "USD", amount = 1) {
       try {
-        const response = await fetch("API_URL", {
-            method: "GET"
+        var from = "GBP",
+        to = "EUR",
+        value = "19999.95";
+     
+        let url = "https://api.apilayer.com/exchangerates_data/convert?to=:TO&from=:FROM&amount=:AMOUNT";
+        url.replace(':TO', to);
+        url.replace(':FROM', from);
+        url.replace(':AMOUNT', amount);
+        console.log(url);
+
+
+
+        const response = await fetch('https://openexchangerates.org/api/convert/' + value + '/' + from + '/' + to, {
+            method: 'GET',
+            headers: {
+                "apikey": "iht40kF3G5NEe5qgypCwRpmDRngb4EnY"
+            },
+            redirect: 'follow',
         });
 
         if(response.ok) {
@@ -25,6 +42,7 @@ export default class FinanceApi {
             
         }
       } catch(err) {
+          console.log(err);
           
       }
 
