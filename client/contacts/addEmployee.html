@@ -111,7 +111,7 @@
                             <div class="modal-footer" style="padding: 6px;"><button class="btn btn-light" data-dismiss="modal" type="button">Close</button></div>
                         </div>
                     </div>
-                </div>
+                </div>                
 
                 <div class="row">
                     <div class="col-12 col-md-4 col-lg-2 displayList" id="displayList">
@@ -1245,6 +1245,12 @@
                                                         </div>
                                                     </div>
                                                 </div>
+                                                <!-- Set Payroll Templates -->
+                                                {{> earningRateSettings}}
+                                                {{> deductionSettings}}
+                                                {{> superannuationSettings }}
+                                                {{> reimbursementSettings}}                                                
+                                                <!-- END Payroll Templates -->
                                                 <div class="col-12 col-md-3" style="padding: 8px; margin: 0px;">
                                                     <div class="card shadow">
                                                         <div class="card-body">
@@ -1736,12 +1742,14 @@
                                                                             Leave Type</button>
                                                                     </div>
                                                                 </div>
-
-                                                                <div class="modal fade" id="assignLeaveTypeModal" tabindex="-1" role="dialog" aria-labelledby="newPayCalendarLabel" aria-hidden="true">
+                                                                <div class="modal fade" role="dialog" tabindex="-1" id="leaveTypeSettingsModal" style="z-index:99999;">
+                                                                    {{> leaveTypeSettings}}
+                                                                </div>    
+                                                                <div class="modal fade" id="assignLeaveTypeModal" role="dialog" aria-labelledby="assignLeaveTypeModal" aria-hidden="true" style="z-index:9999;">
                                                                     <div class="modal-dialog modal-dialog-centered" role="document">
                                                                         <div class="modal-content">
                                                                             <div class="modal-header">
-                                                                                <h5 class="modal-title" id="newPayCalendarLabel">Assign Leave Type</h5>
+                                                                                <h5 class="modal-title">Assign Leave Type</h5>
                                                                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                                                                     <span aria-hidden="true">&times;</span>
                                                                                 </button>
@@ -1751,6 +1759,7 @@
                                                                                     <div class="col-12">
                                                                                         <div class="form-group">
                                                                                             <label>Leave</label>
+                                                                                            <input type="search" class="form-control" style="background-color:rgb(255, 255, 255); cursor: pointer;" id="leaveTypeSelect" name="leaveTypeSelect">
                                                                                             <!-- <input type="text" class="form-control" id="leaveTypeSelect" list="leaveTypeSelectOptions">
                                                                                             <datalist id="leaveTypeSelectOptions">
                                                                                                 <option value="Carer's Leave (unpaid)"></option>
@@ -1761,13 +1770,13 @@
                                                                                                 <option value="Other Unpaid Leave"></option>
                                                                                                 <option value="Parental Leave (unpaid)"></option>
                                                                                             </datalist> -->
-                                                                                            <select class="form-control" id="leaveTypeSelect" name="leaveTypeSelect" style="cursor: pointer;">
+                                                                                            <!-- <select class="form-control" id="leaveTypeSelect" name="leaveTypeSelect" style="cursor: pointer;">
                                                                                                 {{#if leaveTypeInfo}}
                                                                                                     {{#each item in leaveTypeInfo}}
                                                                                                         <option value="{{item.fields.LeaveType}}">{{item.fields.LeaveType}}</option>
                                                                                                     {{/each}}
                                                                                                 {{/if}}    
-                                                                                            </select>
+                                                                                            </select> -->
                                                                                         </div>
                                                                                     </div>
                                                                                     <div class="col-12">
@@ -1857,7 +1866,7 @@
                                                                                 <div class="card-body">
                                                                                     <h3>{{ item.fields.LeaveType }}</h3>
                                                                                     <p class="annualLeave" style="color: #00a3de; font-size: 20px; margin-bottom: 0px; margin-top: 16px;">
-                                                                                        {{ item.fields.HoursLeave }} Hours
+                                                                                        {{ item.fields.OpeningBalance }} Hours
                                                                                     </p>
                                                                                 </div>
                                                                             </div>
@@ -1945,6 +1954,18 @@
                                                                                 </div>
                                                                             </div>
                                                                             <div class="modal-footer">
+                                                                                <div class="col-6">
+                                                                                    <div class="dropdown float-left">
+                                                                                        <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                                                            Status
+                                                                                        </button>
+                                                                                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
+                                                                                            <a class="dropdown-item pointer noneModal" data-toggle="modal" >Awaiting</a>
+                                                                                            <a class="dropdown-item pointer workplaceGivingModal" data-toggle="modal" >Approved</a>
+                                                                                            <a class="dropdown-item pointer unionAssociationFeesModal" data-toggle="modal" >Denied</a>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
                                                                                 <button type="button" id="btnSaveLeaveRequest" class="btn btn-success"><i class="fa fa-save" style="margin-right: 5px;"></i>Save</button>
                                                                                 <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="fa fa-close" style="margin-right: 5px;"></i>Close</button>
                                                                             </div>
@@ -2394,6 +2415,7 @@
                                                                 </style>
                                                                 <div class="row mb-3">
                                                                     <div class="col-12">
+                                                                        <!-- Earning rate setting -->
                                                                         <div class="card shadow" style="padding: 8px 16px;">
                                                                             {{#if payTemplateEarningLines}}
                                                                                 {{#each item in payTemplateEarningLines}}
@@ -2520,14 +2542,15 @@
                                                                                                         <div class="col-12">
                                                                                                             <div class="form-group">
                                                                                                                 <label>Earnings Rate</label>
-                                                                                                                <!-- <input type="text" class="form-control" id=""> -->
-                                                                                                                <select class="form-control" id="earningRateSelect" style="cursor: pointer;">
+                                                                                                                <input type="search" class="form-control" id="earningRateSelect">
+                                                                                                                <input type="hidden" id="earningRateSelectID" value="0">
+                                                                                                                <!-- <select class="form-control" id="earningRateSelect" style="cursor: pointer;">
                                                                                                                     <option value="Allowances exempt from tax withholding and super">Allowances exempt from tax withholding and super</option>
                                                                                                                     <option value="Allowances subject to tax withholding and super">Allowances subject to tax withholding and super</option>
                                                                                                                     <option value="JobKeeper Payment top up">JobKeeper Payment top up</option>
                                                                                                                     <option value="Ordinary Hours">Ordinary Hours</option>
                                                                                                                     <option value="Overtime Hours (exempt from super)">Overtime Hours (exempt from super)</option>
-                                                                                                                </select>
+                                                                                                                </select> -->
                                                                                                             </div>
                                                                                                         </div>
                                                                                                         <div class="col-12">
@@ -2568,7 +2591,7 @@
                                                                     </div>
                                                                 </div>
                                                                 <div class="row mb-3">
-                                                                    <div class="col-12">
+                                                                    <div class="col-12">                                                                        
                                                                         <div class="card shadow" style="padding: 8px 16px;">
                                                                             {{#if payTemplateDeductionLines}}
                                                                                 {{#each item in payTemplateDeductionLines}}
@@ -2622,13 +2645,15 @@
                                                                                                             <div class="col-12">
                                                                                                                 <div class="form-group">
                                                                                                                     <label>Deduction Type</label>
-                                                                                                                    <select class="form-control" id="deductionTypeSelect" style="cursor: pointer;">
+                                                                                                                    <input type="search" class="form-control" id="deductionTypeSelect">
+                                                                                                                    <input type="hidden" id="deductionTypeSelectID" value="0">
+                                                                                                                    <!-- <select class="form-control" id="deductionTypeSelect" style="cursor: pointer;">
                                                                                                                         <option value="FBT">FBT</option>
                                                                                                                         <option value="Lease Payments">Lease Payments</option>
                                                                                                                         <option value="Other Post-Tax Deductions">Other Post-Tax Deductions</option>
                                                                                                                         <option value="Other Pre-Tax Deductions">Other Pre-Tax Deductions</option>
                                                                                                                         <option value="Union Fees/Subscriptions">Union Fees/Subscriptions</option>
-                                                                                                                    </select>
+                                                                                                                    </select> -->
                                                                                                                 </div>
                                                                                                             </div>
                                                                                                             <div class="col-12">
@@ -2669,7 +2694,7 @@
                                                                     </div>
                                                                 </div>
                                                                 <div class="row mb-3">
-                                                                    <div class="col-12">
+                                                                    <div class="col-12">                                                                        
                                                                         <div class="card shadow" style="padding: 8px 16px;">
                                                                             {{#if payTemplateSuperannuationLines}}
                                                                                 {{#each item in payTemplateSuperannuationLines}}
@@ -2722,7 +2747,8 @@
                                                                                                         <div class="col-12">
                                                                                                             <div class="form-group">
                                                                                                                 <label>Superannuation Fund</label>
-                                                                                                                <input type="text" class="form-control" id="superannuationFund">
+                                                                                                                <input type="hidden" id="superannuationFundID" value="0">
+                                                                                                                <input type="search" class="form-control" id="superannuationFund">
                                                                                                             </div>
                                                                                                         </div>
                                                                                                         <div class="col-12">
@@ -2814,7 +2840,7 @@
                                                                     </div>
                                                                 </div>
                                                                 <div class="row mb-2">    
-                                                                    <div class="col-12">
+                                                                    <div class="col-12">                                                                        
                                                                         <div class="card shadow" style="padding: 8px 16px;">
                                                                             {{#if payTemplateReiumbursementLines}}
                                                                                 {{#each item in payTemplateReiumbursementLines}}
@@ -2858,10 +2884,12 @@
                                                                                                         <div class="col-12">
                                                                                                             <div class="form-group">
                                                                                                                 <label>Reiumbursement Type</label>
-                                                                                                                <select class="form-control" id="reimbursementTypeSelect" style="cursor: pointer;">
+                                                                                                                <input type="search" class="form-control" id="reimbursementTypeSelect">
+                                                                                                                <input type="hidden" id="reimbursementTypeSelectID" value="0">
+                                                                                                                <!-- <select class="form-control" id="reimbursementTypeSelect" style="cursor: pointer;">
                                                                                                                     <option value="Other Reimbursable Costs">Other Reimbursable Costs</option>
                                                                                                                     <option value="Travel National Costs">Travel National Costs</option>
-                                                                                                                </select>
+                                                                                                                </select> -->
                                                                                                             </div>
                                                                                                         </div>
                                                                                                         <div class="col-12">
@@ -2942,7 +2970,8 @@
                                                                                                         <div class="col-12">
                                                                                                             <div class="form-group">
                                                                                                                 <label>Earnings Rate</label>
-                                                                                                                <input type="text" class="form-control" id="">
+                                                                                                                <input type="search" class="form-control" id="obEarningsRate">
+                                                                                                                <input type="hidden" id="obEarningsRateID" value="0">
                                                                                                             </div>
                                                                                                         </div>
                                                                                                     </div>
@@ -2982,7 +3011,8 @@
                                                                                             <div class="col-12">
                                                                                                 <div class="form-group">
                                                                                                     <label>Deduction Type</label>
-                                                                                                    <input type="text" class="form-control" id="">
+                                                                                                    <input type="text" class="form-control" id="obDeductionType">
+                                                                                                    <input type="hidden" id="obDeductionTypeID" value="0">
                                                                                                 </div>
                                                                                             </div>
                                                                                         </div>
@@ -3037,7 +3067,8 @@
                                                                                             <div class="col-12">
                                                                                                 <div class="form-group">
                                                                                                     <label>Superannuation Fund</label>
-                                                                                                    <input type="text" class="form-control" id="">
+                                                                                                    <input type="text" class="form-control" id="obSuperannuationFund">
+                                                                                                    <input type="hidden" id="obSuperannuationFundID" value="0">
                                                                                                 </div>
                                                                                             </div>
                                                                                             <div class="col-12">
@@ -3073,7 +3104,8 @@
                                                                                             <div class="col-12">
                                                                                                 <div class="form-group">
                                                                                                     <label>Reimbursement Type</label>
-                                                                                                    <input type="text" class="form-control" id="">
+                                                                                                    <input type="text" class="form-control" id="obReimbursementType">
+                                                                                                    <input type="hidden" id="obReimbursementTypeID" value="0">
                                                                                                 </div>
                                                                                             </div>
                                                                                         </div>
@@ -3116,13 +3148,13 @@
                                                                                             <div class="col-12">
                                                                                                 <div class="form-group">
                                                                                                     <label>Note</label>
-                                                                                                    <textarea class="form-control" id="" rows="6"></textarea>
+                                                                                                    <textarea class="form-control" id="payRollNotes" rows="6"></textarea>
                                                                                                 </div>
                                                                                             </div>
                                                                                         </div>
                                                                                     </div>
                                                                                     <div class="modal-footer">
-                                                                                        <button type="button" class="btn btn-success"><i class="fa fa-save" style="margin-right: 5px;"></i>Save</button>
+                                                                                        <button type="button" class="btn btn-success" id="savePayRollNotes"><i class="fa fa-save" style="margin-right: 5px;"></i>Save</button>
                                                                                         <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="fa fa-close" style="margin-right: 5px;"></i>Close</button>
                                                                                     </div>
                                                                                 </div>
@@ -3153,11 +3185,15 @@
                                                                                     </tr>
                                                                                 </thead>
                                                                                 <tbody>
-                                                                                    <tr class="dnd-moved" id="{{item.id}}" style="cursor: pointer;">
-                                                                                        <td contenteditable="false" class="colPayrollNotesDate"></td>
-                                                                                        <td contenteditable="false" class="colPayrollNotesUser"></td>
-                                                                                        <td contenteditable="false" class="colPayrollNotes"></td>
-                                                                                    </tr>
+                                                                                    {{#if payNotesInfo}}
+                                                                                        {{#each item in payNotesInfo}}
+                                                                                        <tr class="dnd-moved" id="{{item.fields.id}}" style="cursor: pointer;">
+                                                                                            <td contenteditable="false" class="colPayrollNotesDate">{{ item.fields.Date }}</td>
+                                                                                            <td contenteditable="false" class="colPayrollNotesUser">{{ item.fields.UserName }}</td>
+                                                                                            <td contenteditable="false" class="colPayrollNotes">{{ item.fields.Notes }}</td>
+                                                                                        </tr>
+                                                                                        {{/each}}
+                                                                                    {{/if}}                                                                                    
                                                                                 </tbody>
 
                                                                             </table>
@@ -3404,6 +3440,11 @@
     <div class="modal fade" role="dialog" tabindex="-1" id="productListModal">
         {{> employeeproductlistpop}}
     </div>
+
+    <div class="modal fade" role="dialog" tabindex="-1" id="rateTypeListModel">
+        {{> ratetypelistpop}}
+    </div>
+
     <div class="modal fade" role="dialog" tabindex="-1" id="newProductModal">
         {{> newproductpop}}
     </div>
@@ -3507,7 +3548,6 @@
         </div>
     </div>
     <!-- End Upgrade POP -->
-
     <div class="modal fade" role="dialog" tabindex="-1" id="deleteServiceModal">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
