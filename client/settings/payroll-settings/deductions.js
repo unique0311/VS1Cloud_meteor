@@ -1,6 +1,6 @@
-import '../lib/global/indexdbstorage.js';
-import {SideBarService} from '../js/sidebar-service';
-import { UtilityService } from "../utility-service";
+import '../../lib/global/indexdbstorage.js';
+import {SideBarService} from '../../js/sidebar-service';
+import { UtilityService } from "../../utility-service";
 
 let sideBarService = new SideBarService();
 let utilityService = new UtilityService();
@@ -23,7 +23,7 @@ Template.deductionSettings.onRendered(function() {
 
   templateObject.getAllDeductions = function() {
     getVS1Data('TDeduction').then(function(dataObject) {
-        console.log('err-dataObject', dataObject)
+        // console.log('err-dataObject', dataObject)
         if (dataObject.length == 0) {
           sideBarService.getDeduction(initialBaseDataLoad, 0).then(function (data) {
               addVS1Data('TDeduction', JSON.stringify(data));
@@ -468,7 +468,7 @@ Template.deductionSettings.onRendered(function() {
 
         }
     }).catch(function(err) {
-        console.log('err-Deduction', err)
+        // console.log('err-Deduction', err)
       sideBarService.getDeduction(initialBaseDataLoad, 0).then(function (data) {
           addVS1Data('TDeduction', JSON.stringify(data));
           let lineItems = [];
